@@ -8,11 +8,8 @@ C:\Users\jrozon\Desktop\Genmed\genmed-api\bin\Debug\netcoreapp3.1\genmed-api.run
 C:\Users\jrozon\Desktop\Genmed\genmed-api\bin\Debug\netcoreapp3.1\genmed-api.dll
 C:\Users\jrozon\Desktop\Genmed\genmed-api\bin\Debug\netcoreapp3.1\genmed-api.pdb
 C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Debug\netcoreapp3.1\genmed-api.csprojAssemblyReference.cache
-C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Debug\netcoreapp3.1\genmed-api.AssemblyInfoInputs.cache
-C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Debug\netcoreapp3.1\genmed-api.AssemblyInfo.cs
 C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Debug\netcoreapp3.1\genmed-api.csproj.CoreCompileInputs.cache
 C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Debug\netcoreapp3.1\genmed-api.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Debug\netcoreapp3.1\genmed-api.RazorTargetAssemblyInfo.cache
 C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Debug\netcoreapp3.1\staticwebassets\genmed-api.StaticWebAssets.Manifest.cache
 C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Debug\netcoreapp3.1\staticwebassets\genmed-api.StaticWebAssets.xml
 C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Debug\netcoreapp3.1\genmed-api.dll
