@@ -37,7 +37,7 @@ namespace genmed_api
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -45,14 +45,9 @@ namespace genmed_api
 
             app.UseAuthorization();
 
-            app.UseDefaultFiles();
-
-            app.UseStaticFiles();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }

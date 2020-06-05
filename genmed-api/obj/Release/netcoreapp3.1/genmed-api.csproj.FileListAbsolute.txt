@@ -1,0 +1,17 @@
+C:\Users\jrozon\Desktop\Genmed\genmed-api\bin\Release\netcoreapp3.1\appsettings.Development.json
+C:\Users\jrozon\Desktop\Genmed\genmed-api\bin\Release\netcoreapp3.1\appsettings.json
+C:\Users\jrozon\Desktop\Genmed\genmed-api\bin\Release\netcoreapp3.1\Properties\launchSettings.json
+C:\Users\jrozon\Desktop\Genmed\genmed-api\bin\Release\netcoreapp3.1\genmed-api.exe
+C:\Users\jrozon\Desktop\Genmed\genmed-api\bin\Release\netcoreapp3.1\genmed-api.deps.json
+C:\Users\jrozon\Desktop\Genmed\genmed-api\bin\Release\netcoreapp3.1\genmed-api.runtimeconfig.json
+C:\Users\jrozon\Desktop\Genmed\genmed-api\bin\Release\netcoreapp3.1\genmed-api.runtimeconfig.dev.json
+C:\Users\jrozon\Desktop\Genmed\genmed-api\bin\Release\netcoreapp3.1\genmed-api.dll
+C:\Users\jrozon\Desktop\Genmed\genmed-api\bin\Release\netcoreapp3.1\genmed-api.pdb
+C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Release\netcoreapp3.1\genmed-api.csprojAssemblyReference.cache
+C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Release\netcoreapp3.1\genmed-api.csproj.CoreCompileInputs.cache
+C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Release\netcoreapp3.1\genmed-api.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Release\netcoreapp3.1\staticwebassets\genmed-api.StaticWebAssets.Manifest.cache
+C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Release\netcoreapp3.1\staticwebassets\genmed-api.StaticWebAssets.xml
+C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Release\netcoreapp3.1\genmed-api.dll
+C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Release\netcoreapp3.1\genmed-api.pdb
+C:\Users\jrozon\Desktop\Genmed\genmed-api\obj\Release\netcoreapp3.1\genmed-api.genruntimeconfig.cache
