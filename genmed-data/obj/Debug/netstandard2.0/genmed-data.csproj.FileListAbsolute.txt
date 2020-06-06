@@ -1,0 +1,9 @@
+C:\Users\jrozon\Desktop\Genmed\genmed-data\bin\Debug\netstandard2.0\genmed-data.deps.json
+C:\Users\jrozon\Desktop\Genmed\genmed-data\bin\Debug\netstandard2.0\genmed-data.dll
+C:\Users\jrozon\Desktop\Genmed\genmed-data\bin\Debug\netstandard2.0\genmed-data.pdb
+C:\Users\jrozon\Desktop\Genmed\genmed-data\obj\Debug\netstandard2.0\genmed-data.csprojAssemblyReference.cache
+C:\Users\jrozon\Desktop\Genmed\genmed-data\obj\Debug\netstandard2.0\genmed-data.AssemblyInfoInputs.cache
+C:\Users\jrozon\Desktop\Genmed\genmed-data\obj\Debug\netstandard2.0\genmed-data.AssemblyInfo.cs
+C:\Users\jrozon\Desktop\Genmed\genmed-data\obj\Debug\netstandard2.0\genmed-data.csproj.CoreCompileInputs.cache
+C:\Users\jrozon\Desktop\Genmed\genmed-data\obj\Debug\netstandard2.0\genmed-data.dll
+C:\Users\jrozon\Desktop\Genmed\genmed-data\obj\Debug\netstandard2.0\genmed-data.pdb

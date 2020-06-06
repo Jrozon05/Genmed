@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "7xRlwpYYPynoSKddGwulm+B0f0Ksmv9OMPQna+sO70UItpVklJp50saDz6HjQC8xa7OM8AIXUvRRF6yDyP9cHA==",
+  "dgSpecHash": "4Qi5c4OozQ9E6yr8vAlAsCEBi5+wSPGCn6AjTqfBZeIfHxIjqxuvfA03aIB3t9shjcVv16pGlsLbh7gxqiPDHg==",
   "success": true,
   "projectFilePath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
   "expectedPackageFiles": [
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\jrozon\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
   ],
   "logs": []
 }
