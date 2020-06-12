@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Reumed.DataAccess.BusinessObjects;
+using Reumed.Data.BusinessObjects;
 
 namespace genmed_data.Services
 {
@@ -9,6 +9,10 @@ namespace genmed_data.Services
         #region Usuario
 
         Task<List<Usuario>> GetUsuarioAsync();
+
+        Task<Usuario> Login(string nombreUsuario, string clave);
+
+        Task<Usuario> CreateUpdateUsuario(Usuario usuario, string clave);
 
         #endregion
     }

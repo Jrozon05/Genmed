@@ -5,7 +5,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Reumed.DataAccess.BusinessObjects
+namespace Reumed.Data.BusinessObjects
 {
     public abstract class RecordBase<T>
     {

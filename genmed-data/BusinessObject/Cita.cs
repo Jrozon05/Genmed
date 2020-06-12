@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reumed.DataAccess.BusinessObjects
+namespace Reumed.Data.BusinessObjects
 {
     public class Cita : RecordBase<Cita>
     {

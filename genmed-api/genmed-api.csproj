@@ -5,9 +5,11 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0"/>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.6.0"/>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.6.0"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\genmed-data\genmed-data.csproj" />
+    <ProjectReference Include="..\genmed-data\genmed-data.csproj"/>
   </ItemGroup>
 </Project>

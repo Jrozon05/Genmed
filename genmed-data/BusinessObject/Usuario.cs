@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reumed.DataAccess.BusinessObjects
+namespace Reumed.Data.BusinessObjects
 {
     public class Usuario : RecordBase<Usuario>
     {
@@ -21,7 +21,7 @@ namespace Reumed.DataAccess.BusinessObjects
         public int UsuarioId { get; set; }
 
         [JsonProperty("guid")]
-        public Guid Guid { get; set; }
+        public Guid Guid { get; set; } = Guid.NewGuid();
 
         [JsonProperty("nombreusuario")]
         public string NombreUsuario { get; set; }

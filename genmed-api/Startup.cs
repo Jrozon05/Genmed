@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using genmed_data.Services;
 
 namespace genmed_api
 {
@@ -28,6 +22,7 @@ namespace genmed_api
         {
             services.AddControllers();
             services.AddCors();
+            services.AddScoped<IService, ServiceManager>();
             services.AddAutoMapper(typeof(Startup));
         }
 
