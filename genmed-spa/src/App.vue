@@ -1,14 +1,9 @@
 <template>
-  <appLogin></appLogin>
+  <router-view></router-view>
 </template>
 
 <script>
-import Login from './views/Login'
-
 export default {
-  components: {
-    appLogin: Login
-  }
 }
 </script>
 

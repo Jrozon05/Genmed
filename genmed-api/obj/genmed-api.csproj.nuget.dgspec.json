@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\genmed-api.csproj": {}
+    "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\genmed-api.csproj": {}
   },
   "projects": {
-    "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\genmed-api.csproj": {
+    "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\genmed-api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\genmed-api.csproj",
+        "projectUniqueName": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\genmed-api.csproj",
         "projectName": "genmed-api",
-        "projectPath": "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\genmed-api.csproj",
+        "projectPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\genmed-api.csproj",
         "packagesPath": "C:\\Users\\jrozon\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\obj\\",
+        "outputPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -30,8 +30,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj": {
-                "projectPath": "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj"
+              "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj": {
+                "projectPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj"
               }
             }
           }
@@ -48,6 +48,10 @@
             "AutoMapper.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[3.1.5, )"
             },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
@@ -80,14 +84,14 @@
         }
       }
     },
-    "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj": {
+    "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
+        "projectUniqueName": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
         "projectName": "genmed-data",
-        "projectPath": "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
+        "projectPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
         "packagesPath": "C:\\Users\\jrozon\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\obj\\",
+        "outputPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

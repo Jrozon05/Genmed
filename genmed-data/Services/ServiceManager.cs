@@ -17,9 +17,14 @@ namespace genmed_data.Services
             return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuarios(); });
         }
 
-        public Task<Usuario> Login(string nombreUsuario, string clave)
+        public async Task<Usuario> Login(string nombreUsuario, string clave)
         {
-            return null;
+            var usuario = await GetUsuarioByGuidOrNombreUsuario(null, nombreUsuario);
+
+            if (usuario == null || !VerificarClaveHash(clave, usuario.ClaveHash, usuario.ClaveSalt))
+                return null;
+
+            return usuario;
         }
 
         public async Task<Usuario> CreateUpdateUsuario(Usuario usuario, string clave)
@@ -46,6 +51,11 @@ namespace genmed_data.Services
             }
 
             return await Task.Factory.StartNew(() => { return usuario; });
+        }
+
+        public async Task<Usuario> GetUsuarioByGuidOrNombreUsuario(Guid? guid = null, string nombreUsuario = null)
+        {
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuario(guid, nombreUsuario); });
         }
 
         #endregion

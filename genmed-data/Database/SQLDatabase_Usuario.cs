@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text;
 using Newtonsoft.Json;
 using Reumed.Data.BusinessObjects;
 
@@ -8,6 +9,60 @@ namespace genmed_data.Database
 {
     internal partial class SQLDatabase
     {
+        public Usuario GetUsuario(Guid? guid = null, string nombreUsuario = null)
+        {
+            var usuario = new Usuario();
+
+            try
+            {
+                using (IDbConnection connection = GetConfigurationConnection())
+                {
+                    connection.Open();
+
+                    using (IDbCommand cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "usp_GetUsuarioByGuidOrNombreUsuario";
+
+                        IDbDataParameter p = cmd.CreateParameter();
+                        p.DbType = DbType.Guid;
+                        p.ParameterName = "Guid";
+                        p.Value = guid;
+                        cmd.Parameters.Add(p);
+
+                        p = cmd.CreateParameter();
+                        p.DbType = DbType.String;
+                        p.ParameterName = "NombreUsuario";
+                        p.Value = nombreUsuario;
+                        cmd.Parameters.Add(p);
+
+                        using (IDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                usuario.Guid = dr.GetGuid(dr.GetOrdinal("guid"));
+                                usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
+                                usuario.Clave = dr.GetString(dr.GetOrdinal("clave"));
+                                usuario.ClaveHash = (byte[])dr["clavehash"];
+                                usuario.ClaveSalt = (byte[])dr["clavesalt"];
+                                usuario.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
+                            }
+
+                            dr.Close();
+                        }
+                    }
+
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return usuario;
+        }
+
         public List<Usuario> GetUsuarios()
         {
             var resultados = new List<Usuario>();
@@ -104,7 +159,7 @@ namespace genmed_data.Database
                     connection.Close();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -112,6 +167,6 @@ namespace genmed_data.Database
             return usuario;
         }
 
-        
+
     }
 }
