@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using genmed_data.BusinessObject;
 using Reumed.Data.BusinessObjects;
 
 namespace genmed_data.Database
@@ -8,14 +9,22 @@ namespace genmed_data.Database
     public interface IDatabase
     {
         #region Usuario
-        Usuario Login(string nombreUsuario, string clave);
-
         Usuario GetUsuario(Guid? guid = null, string nombreUsuario = null);
 
         List<Usuario> GetUsuarios();
 
-        Usuario CreateUpdateUsuario(Usuario usuario, string clave);
+        Usuario CreateUpdateUsuario(Usuario usuario, string clave, int doctorId, int rolId);
 
+        #endregion
+
+        #region Doctor
+
+        List<Doctor> GetDoctores();
+
+        #endregion
+
+        #region Posicion
+        List<Posicion> GetPosiciones();
         #endregion
     }
 }

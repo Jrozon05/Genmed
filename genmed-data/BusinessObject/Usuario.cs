@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,6 +26,9 @@ namespace Reumed.Data.BusinessObjects
         [JsonProperty("nombreusuario")]
         public string NombreUsuario { get; set; }
 
+        [JsonProperty("email")]
+        public string Email { get; set; }
+
         [JsonProperty("clave")]
         public string Clave { get; set; }
 
@@ -38,7 +41,8 @@ namespace Reumed.Data.BusinessObjects
         [JsonProperty("doctor")]
         public List<Doctor> Doctor { get; set; }
 
-        public List<Rol> Rol { get; set; }
+        [JsonProperty("rol")]
+        public Rol Rol { get; set; }
 
         [JsonProperty("utlimaactividad")]
         public DateTime UltimaActividad { get; set; }

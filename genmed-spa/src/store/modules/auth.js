@@ -1,4 +1,4 @@
-import AuthService from '../services/auth-service'
+import AuthService from '../../services/auth-service'
 
 const usuario = JSON.parse(localStorage.getItem('usuario'))
 const initState = usuario ? { status: { loggedIn: true }, usuario } : { status: { loggedIn: false }, usuario: null }
@@ -14,11 +14,14 @@ export const auth = {
                     return Promise.resolve(usuario)
                 },
                 error => {
-                    console.log(error)
                     commit('loginFailure')
                     return Promise.reject(error)
                 }
             )
+        },
+        logout ({ commit }) {
+          AuthService.logout()
+          commit('logout')
         }
     },
     mutations: {
@@ -29,6 +32,10 @@ export const auth = {
         loginFailure (state) {
             state.status.loggedIn = false
             state.usuario = null
+        },
+        logout (state) {
+          state.status.loggedIn = false
+          state.user = null
         }
     }
 }

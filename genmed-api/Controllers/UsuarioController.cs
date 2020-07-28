@@ -35,33 +35,69 @@ namespace genmed_api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsuarios()
         {
+            string errMsg = $"{nameof(GetUsuarios)} un error se ha producido mientras se genera la lista de usuarios";
+
             var values = await _service.GetUsuarioAsync();
 
+            if (values == null)
+            {
+                return BadRequest(new
+                {
+                    error = errMsg
+                });
+            }
+
             return Ok(values);
+        }
+
+        [Authorize]
+        [HttpGet("{guid}")]
+        public async Task<IActionResult> GetUsuarioByGuid(Guid guid)
+        {
+            string errMsg = $"{nameof(GetUsuarioByGuid)} un error se ha producido mientras se busca informaciones del usuario";
+
+            var usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null);
+
+            if (usuario == null)
+                return NotFound();
+
+            return Ok(usuario);
         }
 
         [HttpPost("registrar")]
         public async Task<IActionResult> CreateUsuario(UsuarioRegistrarDto usuarioRegistrarDto)
         {
             string errMsg = $"{nameof(CreateUsuario)} un error producido mientras la creacion de un nuevo usuario";
+            Usuario usuarioCreated = new Usuario();
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    Usuario usuario = new Usuario();
                     usuarioRegistrarDto.NombreUsuario = usuarioRegistrarDto.NombreUsuario.ToLower();
-
                     string claveEncrypt = usuarioRegistrarDto.Clave.Encrypt();
-                    var nuevoUsuario = _mapper.Map<Usuario>(usuarioRegistrarDto);
-                    await _service.CreateUpdateUsuario(nuevoUsuario, claveEncrypt);
+                    usuario = _mapper.Map<Usuario>(usuarioRegistrarDto);
+
+                    var usuarioExiste = await _service.GetUsuarioByGuidOrNombreUsuario(null, usuarioRegistrarDto.NombreUsuario);
+
+                    if (usuarioExiste.NombreUsuario != null)
+                    {
+                        return Ok(new { Error = "El nombre usuario: " + usuario.NombreUsuario + " actualmente existe." });
+                    }
+
+                    usuarioCreated = await _service.CreateUpdateUsuario(usuario, claveEncrypt, usuarioRegistrarDto.DoctorId, usuarioRegistrarDto.RolId);
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(errMsg + ex);
+                    return BadRequest(new
+                    {
+                        error = errMsg + ex
+                    });
                 }
             }
 
-            return Ok();
+            return Ok(usuarioCreated);
         }
 
         [HttpPost("login")]
@@ -73,10 +109,11 @@ namespace genmed_api.Controllers
             usuario = await _service.Login(usuarioLoginDto.NombreUsuario, claveEncrypt.Encrypt());
 
             if (usuario == null)
-                return Unauthorized(new {
+                return Unauthorized(new
+                {
                     error = "El nombre de usuario o la clave esta incorrecta"
                 });
-
+                
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.Guid.ToString()),

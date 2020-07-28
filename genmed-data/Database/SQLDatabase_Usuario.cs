@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 using Newtonsoft.Json;
 using Reumed.Data.BusinessObjects;
@@ -12,6 +13,7 @@ namespace genmed_data.Database
         public Usuario GetUsuario(Guid? guid = null, string nombreUsuario = null)
         {
             var usuario = new Usuario();
+            usuario.Doctor = new List<Doctor>();
 
             try
             {
@@ -40,12 +42,24 @@ namespace genmed_data.Database
                         {
                             while (dr.Read())
                             {
+                                usuario.Rol = new Rol();
+
                                 usuario.Guid = dr.GetGuid(dr.GetOrdinal("guid"));
                                 usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
+                                usuario.Email = dr.GetString(dr.GetOrdinal("email"));
                                 usuario.Clave = dr.GetString(dr.GetOrdinal("clave"));
                                 usuario.ClaveHash = (byte[])dr["clavehash"];
                                 usuario.ClaveSalt = (byte[])dr["clavesalt"];
+                                usuario.Doctor.Add(new Doctor()
+                                {
+                                    DoctorId = dr.GetInt32(dr.GetOrdinal("doctorid")),
+                                    Nombre = dr.GetString(dr.GetOrdinal("nombre")),
+                                    Apellido = dr.GetString(dr.GetOrdinal("apellido")),
+                                    Posicion = dr.GetString(dr.GetOrdinal("posicion"))
+                                });
                                 usuario.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
+                                usuario.Rol.RolId = dr.GetInt32(dr.GetOrdinal("rolid"));
+                                usuario.Rol.Nombre = dr.GetString(dr.GetOrdinal("nombrerol"));
                             }
 
                             dr.Close();
@@ -65,8 +79,7 @@ namespace genmed_data.Database
 
         public List<Usuario> GetUsuarios()
         {
-            var resultados = new List<Usuario>();
-
+            var usuarios = new List<Usuario>();
             try
             {
                 using (IDbConnection connection = GetConfigurationConnection())
@@ -83,10 +96,24 @@ namespace genmed_data.Database
                             while (dr.Read())
                             {
                                 var usuario = new Usuario();
+                                usuario.Doctor = new List<Doctor>();
+                                usuario.Rol = new Rol();
+
+                                usuario.UsuarioId = dr.GetInt32(dr.GetOrdinal("usuarioid"));
                                 usuario.Guid = dr.GetGuid(dr.GetOrdinal("guid"));
                                 usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
-                                usuario.Clave = dr.GetString(dr.GetOrdinal("clave"));
-                                resultados.Add(usuario);
+                                usuario.Email = dr.GetString(dr.GetOrdinal("email"));
+                                usuario.Doctor.Add(new Doctor()
+                                {
+                                    DoctorId = dr.GetInt32(dr.GetOrdinal("doctorid")),
+                                    Nombre = dr.GetString(dr.GetOrdinal("nombre")),
+                                    Apellido = dr.GetString(dr.GetOrdinal("apellido")),
+                                    Posicion = dr.GetString(dr.GetOrdinal("posicion"))
+                                });
+                                usuario.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
+                                usuario.Rol.RolId = dr.GetInt32(dr.GetOrdinal("rolid"));
+                                usuario.Rol.Nombre = dr.GetString(dr.GetOrdinal("nombrerol"));
+                                usuarios.Add(usuario);
                             }
 
                             dr.Close();
@@ -102,15 +129,10 @@ namespace genmed_data.Database
                 throw ex;
             }
 
-            return resultados;
+            return usuarios;
         }
 
-        public Usuario Login(string nombreUsuario, string clave)
-        {
-            return null;
-        }
-
-        public Usuario CreateUpdateUsuario(Usuario usuario, string clave)
+        public Usuario CreateUpdateUsuario(Usuario usuario, string clave, int doctorId, int rolId)
         {
             try
             {
@@ -123,6 +145,13 @@ namespace genmed_data.Database
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.CommandText = "usp_CreateUpdateUsuario";
 
+                        IDbDataParameter outputId = cmd.CreateParameter();
+                        outputId.DbType = DbType.Int32;
+                        outputId.Direction = ParameterDirection.Output;
+                        outputId.ParameterName = "UsuarioId";
+                        outputId.Value = usuario.UsuarioId;
+                        cmd.Parameters.Add(outputId);
+
                         IDbDataParameter p = cmd.CreateParameter();
                         p.DbType = DbType.Guid;
                         p.ParameterName = "Guid";
@@ -133,6 +162,12 @@ namespace genmed_data.Database
                         p.DbType = DbType.String;
                         p.ParameterName = "NombreUsuario";
                         p.Value = usuario.NombreUsuario;
+                        cmd.Parameters.Add(p);
+
+                        p = cmd.CreateParameter();
+                        p.DbType = DbType.String;
+                        p.ParameterName = "Email";
+                        p.Value = usuario.Email;
                         cmd.Parameters.Add(p);
 
                         p = cmd.CreateParameter();
@@ -153,7 +188,20 @@ namespace genmed_data.Database
                         p.Value = usuario.ClaveSalt;
                         cmd.Parameters.Add(p);
 
+                        p = cmd.CreateParameter();
+                        p.DbType = DbType.Int32;
+                        p.ParameterName = "DoctorId";
+                        p.Value = doctorId;
+                        cmd.Parameters.Add(p);
+
+                        p = cmd.CreateParameter();
+                        p.DbType = DbType.Int32;
+                        p.ParameterName = "RolId";
+                        p.Value = rolId;
+                        cmd.Parameters.Add(p);
+
                         cmd.ExecuteScalar();
+                        usuario.UsuarioId = Convert.ToInt32(outputId.Value);
                     }
 
                     connection.Close();
@@ -166,7 +214,5 @@ namespace genmed_data.Database
 
             return usuario;
         }
-
-
     }
 }

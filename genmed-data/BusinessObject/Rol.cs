@@ -19,7 +19,7 @@ namespace Reumed.Data.BusinessObjects
         [JsonProperty("rolid")]
         public int RolId { get; set; }
 
-        [JsonProperty("nombre")]
+        [JsonProperty("nombrerol")]
         public string Nombre { get; set; }
         #endregion
     }

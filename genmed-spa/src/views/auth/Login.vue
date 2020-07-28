@@ -9,21 +9,30 @@
                 <h1>Login</h1>
                 <p class="text-muted">Iniciar sesión en su cuenta</p>
                 <CAlert color="danger" closeButton :show.sync="alert" class="alert-dismissible" v-if="message">
-                {{ message.error }}
-              </CAlert>
-                <CInput placeholder="Nombre Usuario" autocomplete="nombreusuario" v-model="usuario.nombreUsuario" invalid-feedback="'El nombre usuario es un campo requerido">
+                  {{ message.error }}
+                </CAlert>
+                <CInput placeholder="Nombre Usuario"
+                  autocomplete="nombreusuario"
+                  v-model="usuario.nombreUsuario"
+                  @input="$v.usuario.nombreUsuario.$touch()"
+                  :is-valid="!$v.usuario.nombreUsuario.$error ? null : false"
+                  invalid-feedback="El nombre usuario es un campo requerido">
                   <template #prepend-content>
                     <CIcon name="cil-user" />
                   </template>
+                  {{$v.usuario.nombreUsuario}}
                 </CInput>
-                <CInput placeholder="Contraseña" type="password" autocomplete="curent-password" v-model="usuario.clave" invalid-feedback="La clave es un campo requerido">
+                <CInput placeholder="Contraseña" type="password"
+                  autocomplete="curent-password"
+                  v-model="usuario.clave"
+                  :is-valid="!$v.usuario.clave.$error ? null : false"
+                  invalid-feedback="La clave es un campo requerido">
                   <template #prepend-content>
                     <CIcon name="cil-lock-locked" />
                   </template>
                 </CInput>
                 <CRow>
                   <CCol col="6" class="text-left">
-                    <!-- <CButton color="primary" class="px-4" @click="Login" :disabled="$v.$invalid">Login</CButton> -->
                     <CButton color="primary" class="px-4" @click.prevent="Login">Login</CButton>
                   </CCol>
                   <CCol col="6" class="text-right">
@@ -41,7 +50,7 @@
 </template>
 
 <script>
-import Usuario from '../models/usuario'
+import Usuario from '../../models/usuario'
 import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
@@ -55,21 +64,25 @@ export default {
     }
   },
   validations: {
-    nombreUsuario: {
-      required
-    },
-    clave: {
-      required,
-      minLength: minLength(5)
+    usuario: {
+      nombreUsuario: {
+        required
+      },
+      clave: {
+        required,
+        minLength: minLength(5)
+      }
     }
   },
   methods: {
     Login () {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+          return
+      }
       if (this.usuario.nombreUsuario && this.usuario.clave) {
-        console.log(this.usuario.nombreUsuario)
-        console.log(this.usuario.clave)
         this.$store.dispatch('auth/login', this.usuario).then(() => {
-           this.$router.push('/about')
+           this.$router.push('/dashboard')
           }, error => {
             this.alert = true
             this.message = (error.response && error.response.data) || error.message || error.toString()
