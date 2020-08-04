@@ -10,6 +10,16 @@ export default [
             },
             {
               _name: 'CSidebarNavTitle',
+              _children: ['General']
+            },
+            {
+              _name: 'CSidebarNavItem',
+              name: 'Pacientes',
+              to: '/paciente',
+              icon: 'cil-people'
+            },
+            {
+              _name: 'CSidebarNavTitle',
               _children: ['Configuración']
             },
             {
@@ -22,7 +32,7 @@ export default [
               _name: 'CSidebarNavItem',
               name: 'Posiciones',
               to: '/posicion',
-              icon: 'cil-people'
+              icon: 'cil-list'
             }
         ]
     }

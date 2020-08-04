@@ -6,6 +6,8 @@ const TheContainer = () => import('@/containers/TheContainer')
 const Dashboard = () => import('@/views/Dashboard')
 const Usuario = () => import('@/views/usuario/Usuario')
 const UpdateUsuario = () => import('@/views/usuario/UpdateUsuario')
+const Paciente = () => import('@/views/paciente/Pacientes')
+const NuevoPaciente = () => import('@/views/paciente/CreatePaciente')
 const Posicion = () => import('@/views/posicion/Posicion')
 
 Vue.use(VueRouter)
@@ -29,6 +31,16 @@ const routes = [{
         path: '/dashboard',
         name: 'Dashboard',
         component: Dashboard
+      },
+      {
+        path: '/paciente',
+        name: 'Paciente',
+        component: Paciente
+      },
+      {
+        path: '/nuevopaciente',
+        name: 'Paciente / Create Paciente',
+        component: NuevoPaciente
       },
       {
         path: '/usuario',

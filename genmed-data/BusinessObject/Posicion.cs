@@ -10,5 +10,8 @@ namespace genmed_data.BusinessObject
 
         [JsonProperty("descripcion")]
         public string Descripcion { get; set; }
+
+        [JsonProperty("nombrecorto")]
+        public string NombreCorto { get; set; }
     }
 }

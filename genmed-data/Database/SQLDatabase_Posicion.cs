@@ -29,6 +29,7 @@ namespace genmed_data.Database
                                 var posicion = new Posicion();
                                 posicion.PosicionId = dr.GetInt32(dr.GetOrdinal("posicionid"));
                                 posicion.Descripcion = dr.GetString(dr.GetOrdinal("descripcion"));
+                                posicion.NombreCorto = dr.GetString(dr.GetOrdinal("nombrecorto"));
                                 posicion.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
                                 posiciones.Add(posicion);
                             }

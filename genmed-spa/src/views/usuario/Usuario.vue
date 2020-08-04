@@ -93,7 +93,7 @@
                     </CRow>
                 </CCardBody>
                     <CCardFooter>
-                        <CButton type="submit" color="primary" @click.prevent="CreateUsuario">Guardar</CButton>
+                        <CButton type="submit" color="primary" @click="CreateUsuario">Guardar</CButton>
                 </CCardFooter>
                 </CCard>
             </CCol>

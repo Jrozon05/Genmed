@@ -6,7 +6,11 @@ import store from './store'
 import axios from 'axios'
 
 import Vuelidate from 'vuelidate'
+import VueFormWizard from 'vue-form-wizard'
+import Editor from '@morioh/v-quill-editor'
 
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import '@morioh/v-quill-editor/dist/editor.css'
 import CoreuiVue from '@coreui/vue'
 import { iconsSet as icons } from './assets/icons/icons.js'
 
@@ -14,6 +18,8 @@ axios.defaults.baseURL = 'http://localhost:5000/api'
 
 Vue.use(CoreuiVue)
 Vue.use(Vuelidate)
+Vue.use(VueFormWizard)
+Vue.use(Editor)
 Vue.config.productionTip = false
 
 new Vue({
