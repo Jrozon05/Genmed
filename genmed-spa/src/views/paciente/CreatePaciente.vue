@@ -10,9 +10,9 @@
                         <form-wizard color="#636f83" title="" subtitle="">
                             <hr />
                             <tab-content title="Datos Generales" :before-change="() => validateStep('RegistroGenerales')">
-                                <RegistroGenerales ref="RegistroGenerales" @on-validate="mergePartialModels"></RegistroGenerales>
+                                <RegistroGenerales ref="RegistroGenerales"></RegistroGenerales>
                             </tab-content>
-                            <tab-content title="Motivo de Consulta">
+                            <tab-content title="Motivo de Consulta" :before-change="() => validateStep('MotivoConsulta')">
                                 <MotivoConsulta ref="MotivoConsulta"></MotivoConsulta>
                             </tab-content>
                             <tab-content title="Historia Clinica">
@@ -26,7 +26,6 @@
                             </tab-content>
                             <tab-content title="Indicaciones / Medicamentos">
                                 <Indicaciones></Indicaciones>
-                                <pre>{{finalModel}}</pre>
                             </tab-content>
                             <CButton type="submit" variant="outline" color="primary" slot="prev">Atras</CButton>
                             <CButton type="submit" variant="outline" color="primary" slot="next">Siguiente</CButton>
@@ -57,61 +56,18 @@
       Diagnostico,
       Indicaciones
     },
-    data () {
-      return {
-          finalModel: {},
-          paciente: {
-              nombre: '',
-              apellido: '',
-              fechaNacimiento: new Date(),
-              edad: 0,
-              sexo: 1,
-              estadoCivil: 0,
-              cedula: '',
-              email: '',
-              phone: '',
-              phoneAlternativo: ''
-          },
-          direccion: {
-              direccionActual: '',
-              lugarNacimiento: '',
-              pais: 1,
-              ciudad: '',
-              provincia: '',
-              sector: ''
-          },
-          ciudades: [
-            {
-                countryCode: '1',
-                countryName: 'Santiago'
-            },
-            {
-                countryCode: '2',
-                countryName: 'Distrito Nacional'
-            }
-        ]
-      }
-    },
-    computed: {
-        edad () {
-            const today = new Date()
-            const fechaNacimiento = new Date(this.paciente.fechaNacimiento)
-            const age = today.getFullYear() - fechaNacimiento.getFullYear()
-            return age
-        }
-    },
     methods: {
         validateStep (name) {
             var refToValidate = this.$refs[name]
-            console.log(name, refToValidate)
             return refToValidate.validate()
-        },
-        mergePartialModels (model, isValid) {
-            if (isValid) {
-            // merging each step model into the final model
-                this.finalModel = Object.assign({}, this.finalModel, model)
-            }
         }
+        // ,
+        // mergePartialModels (model, isValid) {
+        //     if (isValid) {
+        //     // merging each step model into the final model
+        //         this.finalModel = Object.assign({}, this.finalModel, model)
+        //     }
+        // }
     }
   }
 </script>

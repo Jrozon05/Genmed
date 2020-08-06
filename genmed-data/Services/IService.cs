@@ -29,5 +29,13 @@ namespace genmed_data.Services
         #region Posicion
         Task<List<Posicion>> GetPosiciones();
         #endregion
+
+        #region Direccion
+        Task<List<Provincia>> GetProvincias();
+
+        Task<List<Ciudad>> GetCiudadesByProvincia(int provinciaId);
+
+        Task<List<Sector>> GetSectoresByCiudad();
+        #endregion
     }
 }

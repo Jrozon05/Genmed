@@ -86,6 +86,24 @@ namespace genmed_data.Services
         }
         #endregion
 
+        #region Direccion
+        
+        public async Task<List<Provincia>> GetProvincias()
+        {
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetProvincias(); });
+        }
+
+        public async Task<List<Ciudad>> GetCiudadesByProvincia(int provinciaId)
+        {
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetCiudades(provinciaId); });
+        }
+
+        public async Task<List<Sector>> GetSectoresByCiudad()
+        {
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetSectores(); });
+        }
+        #endregion
+
         #region Extensiones
         private void CreateClaveHash(string clave, out byte[] claveHash, out byte[] claveSalt)
         {

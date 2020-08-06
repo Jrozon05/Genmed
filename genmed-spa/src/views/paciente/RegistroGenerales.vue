@@ -172,65 +172,75 @@
 </template>
 
 <script>
-  import MaskedInput from 'vue-text-mask'
-  import vSelect from 'vue-select'
-  import 'vue-select/dist/vue-select.css'
-  import { required } from 'vuelidate/lib/validators'
+import MaskedInput from 'vue-text-mask'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css'
+import { required } from 'vuelidate/lib/validators'
 
-  export default {
-    name: 'name',
-    components: {
-      MaskedInput,
-      vSelect
-    },
-    data () {
-      return {
-          paciente: {
-              nombre: '',
-              apellido: '',
-              fechaNacimiento: '',
-              edad: 0,
-              sexo: '',
-              estadoCivil: 0,
-              cedula: '',
-              email: '',
-              phone: '',
-              phoneAlternativo: ''
-          },
-          direccion: {
-              direccionActual: '',
-              lugarNacimiento: '',
-              pais: '',
-              ciudad: '',
-              provincia: '',
-              sector: ''
-          },
-          ciudades: [
-            {
-                countryCode: '1',
-                countryName: 'Santiago'
-            },
-            {
-                countryCode: '2',
-                countryName: 'Distrito Nacional'
-            }
-        ]
-      }
-    },
-    validations: {
+export default {
+name: 'name',
+components: {
+    MaskedInput,
+    vSelect
+},
+data () {
+    return {
         paciente: {
-            nombre: {
-                required
-            }
+            nombre: '',
+            apellido: '',
+            fechaNacimiento: '',
+            edad: 0,
+            sexo: 1,
+            estadoCivil: 0,
+            cedula: '',
+            email: '',
+            phone: '',
+            phoneAlternativo: ''
+        },
+        direccion: {
+            direccionActual: '',
+            lugarNacimiento: '',
+            pais: 1,
+            ciudad: '',
+            provincia: '',
+            sector: ''
+        },
+        ciudades: [
+        {
+            countryCode: '1',
+            countryName: 'Santiago'
+        },
+        {
+            countryCode: '2',
+            countryName: 'Distrito Nacional'
         }
-    },
-    methods: {
-        validate () {
-            this.$v.$touch()
-            var isValid = !this.$v.$invalid
-            this.$emit('on-validate', this.$data, isValid)
-            return isValid
+    ]
+    }
+},
+computed: {
+    edad () {
+        const today = new Date()
+        const fechaNacimiento = new Date(this.paciente.fechaNacimiento)
+        const age = today.getFullYear() - fechaNacimiento.getFullYear()
+        return age
+    }
+},
+validations: {
+    paciente: {
+        nombre: {
+            required
         }
     }
-  }
+},
+methods: {
+    validate () {
+        this.$v.$touch()
+        var isValid = !this.$v.$invalid
+        if (isValid) {
+            this.$store.dispatch('paciente/setRegistroGenerales', this.$data)
+        }
+        return isValid
+    }
+}
+}
 </script>

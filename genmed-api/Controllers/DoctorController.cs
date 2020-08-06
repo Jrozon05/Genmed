@@ -8,6 +8,7 @@ namespace genmed_api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class DoctorController : ControllerBase
     {
         private readonly IService _service;
@@ -17,7 +18,6 @@ namespace genmed_api.Controllers
             _service = Factory.GetService();
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetDoctores() 
         {

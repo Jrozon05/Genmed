@@ -26,5 +26,13 @@ namespace genmed_data.Database
         #region Posicion
         List<Posicion> GetPosiciones();
         #endregion
+
+        #region Direccion
+        List<Ciudad> GetCiudades(int provinciaId);
+
+        List<Provincia> GetProvincias();
+
+        List<Sector> GetSectores();
+        #endregion
     }
 }
