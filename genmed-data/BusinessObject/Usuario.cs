@@ -37,7 +37,8 @@ namespace Reumed.Data.BusinessObjects
 
         [JsonProperty("clavesalt")]
         public byte[] ClaveSalt { get; set; }
-
+        
+        //TODO: Remover campo
         [JsonProperty("doctor")]
         public List<Doctor> Doctor { get; set; }
 

@@ -1,4 +1,5 @@
 using AutoMapper;
+using genmed_api.Dtos.Doctor;
 using genmed_api.Dtos.Usuario;
 using Reumed.Data.BusinessObjects;
 
@@ -9,6 +10,7 @@ namespace genmed_api.Utils.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<UsuarioRegistrarDto, Usuario>();
+            CreateMap<DoctorRegistrarDto, Doctor>();
         }
     }
 }

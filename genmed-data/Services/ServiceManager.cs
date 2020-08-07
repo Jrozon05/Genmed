@@ -76,6 +76,32 @@ namespace genmed_data.Services
             return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetDoctores(); });
         }
 
+        public async Task<Doctor> GetDoctorByGuid(Guid? guid = null)
+        {
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetDoctor(guid); });
+        }
+
+        public async Task<Doctor> CreateUpdateDoctor(Doctor doctor, int usuarioId)
+        {
+            string errMsg = $"{nameof(CreateUpdateDoctor)} - Error en salvar o actualizar las informaciones del doctor";
+            try {
+            var doctorCreated = await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateDoctor(doctor, usuarioId));
+
+                if (doctor == null || doctorCreated == null)
+                    return null;
+
+                doctor = await GetDoctorByGuid(doctorCreated.Guid);
+            }
+            catch (Exception ex)
+            {
+                if (Debugger.IsAttached)
+                    Debugger.Break();
+
+                throw new Exception(errMsg, ex);
+            }
+            return doctor;
+        }
+
         #endregion
 
 

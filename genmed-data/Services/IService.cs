@@ -24,6 +24,10 @@ namespace genmed_data.Services
 
         Task<List<Doctor>> GetDoctoresAsync();
 
+        Task<Doctor> GetDoctorByGuid(Guid? guid = null);
+
+        Task<Doctor> CreateUpdateDoctor(Doctor doctor, int usuarioId);
+
         #endregion
 
         #region Posicion
