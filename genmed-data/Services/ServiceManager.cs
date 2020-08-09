@@ -31,7 +31,7 @@ namespace genmed_data.Services
             return usuario;
         }
 
-        public async Task<Usuario> CreateUpdateUsuario(Usuario usuario, string clave, int doctorId, int rolId)
+        public async Task<Usuario> CreateUpdateUsuario(Usuario usuario, string clave, int rolId)
         {
             string errMsg = $"{nameof(CreateUpdateUsuario)} - Error en salvar o actualizar las informaciones del usuario";
             try
@@ -44,7 +44,7 @@ namespace genmed_data.Services
                 usuario.ClaveHash = claveHash;
                 usuario.ClaveSalt = claveSalt;
 
-                var usuarioCreated = await Task.Factory.StartNew(() => { return Factory.GetDatabase().CreateUpdateUsuario(usuario, clave, doctorId, rolId); });
+                var usuarioCreated = await Task.Factory.StartNew(() => { return Factory.GetDatabase().CreateUpdateUsuario(usuario, clave, rolId); });
 
                 if (usuario == null || usuarioCreated == null)
                     return null;
@@ -74,6 +74,32 @@ namespace genmed_data.Services
         public async Task<List<Doctor>> GetDoctoresAsync()
         {
             return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetDoctores(); });
+        }
+
+        public async Task<Doctor> GetDoctorByGuid(Guid? guid = null)
+        {
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetDoctor(guid); });
+        }
+
+        public async Task<Doctor> CreateUpdateDoctor(Doctor doctor, int usuarioId)
+        {
+            string errMsg = $"{nameof(CreateUpdateDoctor)} - Error en salvar o actualizar las informaciones del doctor";
+            try {
+            var doctorCreated = await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateDoctor(doctor, usuarioId));
+
+                if (doctor == null || doctorCreated == null)
+                    return null;
+
+                doctor = await GetDoctorByGuid(doctorCreated.Guid);
+            }
+            catch (Exception ex)
+            {
+                if (Debugger.IsAttached)
+                    Debugger.Break();
+
+                throw new Exception(errMsg, ex);
+            }
+            return doctor;
         }
 
         #endregion

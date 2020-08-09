@@ -896,11 +896,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
+      "projectUniqueName": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
       "projectName": "genmed-data",
-      "projectPath": "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
+      "projectPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
       "packagesPath": "C:\\Users\\jrozon\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\obj\\",
+      "outputPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

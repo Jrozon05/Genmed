@@ -67,18 +67,6 @@
                     <CRow>
                     <CCol sm="12">
                         <div class="form-group">
-                            <label for="">Doctores</label>
-                            <select class="form-control" v-model="usuario.doctorId" @change="checkDoctorValue($event)" :class="{ 'invalid' : !isDoctorValid && isDoctorValid != null }">
-                                <option value="0" selected>Seleccionar Doctor</option>
-                                <option v-for="doctor in doctores" :key="doctor.id" :value="doctor.doctorId">{{doctor.nombreCompleto}}</option>
-                            </select>
-                            <p v-if="!isDoctorValid && isDoctorValid != null" :class="{'invalid-label' : !isDoctorValid}">Debe asignar un doctor</p>
-                        </div>
-                    </CCol>
-                    </CRow>
-                    <CRow>
-                    <CCol sm="12">
-                        <div class="form-group">
                             <label for="">Roles</label>
                             <select class="form-control" v-model="usuario.rolId" @change="checkRolValue($event)" :class="{ 'invalid' : !isRolValid && isRolValid != null }">
                                 <option value="0" selected>Seleccionar Rol</option>
@@ -93,7 +81,7 @@
                     </CRow>
                 </CCardBody>
                     <CCardFooter>
-                        <CButton type="submit" color="primary" @click="CreateUsuario">Guardar</CButton>
+                        <CButton type="submit" color="primary" @click.prevent="createUsuario">Guardar</CButton>
                 </CCardFooter>
                 </CCard>
             </CCol>
@@ -136,14 +124,12 @@
 
 <script>
 import UsuarioService from '../../services/usuario-service'
-import DoctorService from '../../services/doctor-service'
 import { required, email, minLength, sameAs, requiredUnless } from 'vuelidate/lib/validators'
 
 const fields = [
-    { key: 'nombreCompleto', label: 'Doctor', _style: 'width:15%' },
     { key: 'nombreUsuario', _style: 'width:15%' },
     { key: 'email', _style: 'width:20%' },
-    { key: 'posicion', label: 'Posición' },
+    { key: 'guid', label: 'Guid' },
     { key: 'rol' },
     { key: 'editarUsuario', label: 'Editar', _style: 'width:1%', sorter: false, filter: false }
 ]
@@ -153,19 +139,16 @@ export default {
   data () {
       return {
           usuarios: [],
-          doctores: [],
           usuario: {
               nombreUsuario: '',
               email: '',
               clave: '',
               confirmarClave: '',
-              doctorId: 0,
               rolId: 0
           },
           message: '',
           alert: false,
           fields,
-          isDoctorValid: null,
           isRolValid: null
       }
   },
@@ -184,11 +167,6 @@ export default {
               required,
               sameAsClave: sameAs('clave')
           },
-          doctorId: {
-              required: requiredUnless(vm => {
-                  return vm.doctorId.$model === 0
-              })
-          },
           rolId: {
               required: requiredUnless(vm => {
                   return vm.rolId.$model === 0
@@ -198,41 +176,23 @@ export default {
   },
   mounted () {
       this.getUsuarios()
-      this.getDoctores()
   },
   methods: {
-    getUsuarios () {
+      getUsuarios () {
         UsuarioService.getUsuarios().then(
             response => {
                 const data = response.data
                 for (const key in data) {
                     const usuario = data[key]
                     usuario.id = key
-                    usuario.nombreCompleto = usuario.doctor[0].nombreCompleto
-                    usuario.posicion = usuario.doctor[0].posicion
                     usuario.rol = usuario.rol.nombre
                     this.usuarios.push(usuario)
                 }
             }
         )
     },
-    getDoctores () {
-        DoctorService.getDoctores().then(
-        response => {
-            const data = response.data
-            for (const key in data) {
-                const usuario = data[key]
-                usuario.id = key
-                this.doctores.push(usuario)
-            }
-        }
-    )
-    },
-    CreateUsuario () {
+    createUsuario () {
         this.$v.$touch()
-        if (this.$v.usuario.doctorId.$model === 0) {
-            this.isDoctorValid = false
-        }
         if (this.$v.usuario.rolId.$model === 0) {
             this.isRolValid = false
         }
@@ -244,7 +204,6 @@ export default {
             email: this.usuario.email,
             clave: this.usuario.clave,
             confirmarClave: this.usuario.confirmarClave,
-            doctorId: this.usuario.doctorId,
             rolId: parseInt(this.usuario.rolId)
         }
 
@@ -260,8 +219,6 @@ export default {
             const usuario = data
             usuario.usuarioId = data.usuarioId
             usuario.email = data.email
-            usuario.nombreCompleto = usuario.doctor[0].nombreCompleto
-            usuario.posicion = usuario.doctor[0].posicion
             usuario.rol = usuario.rol.nombre
 
             if (usuario != null) {
@@ -277,13 +234,6 @@ export default {
             }
         )
     },
-    checkDoctorValue (event) {
-        if (event.target.value === '0') {
-            this.isDoctorValid = false
-        } else {
-            this.isDoctorValid = true
-        }
-    },
     checkRolValue (event) {
         if (event.target.value === '0') {
             this.isRolValid = false
@@ -296,7 +246,6 @@ export default {
         this.usuario.email = ''
         this.usuario.clave = ''
         this.usuario.confirmarClave = ''
-        this.usuario.doctorId = 0
         this.usuario.rolId = 0
     }
   }

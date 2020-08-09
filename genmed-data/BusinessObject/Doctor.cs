@@ -21,12 +21,12 @@ namespace Reumed.Data.BusinessObjects
         public int DoctorId { get; set; }
 
         [JsonProperty("guid")]
-        public Guid Guid { get; set; }
+        public Guid Guid { get; set; } = Guid.NewGuid();
 
         [JsonProperty("nombre")]
         public string Nombre { get; set; }
 
-        [JsonProperty("Apellido")]
+        [JsonProperty("apellido")]
         public string Apellido { get; set; }
 
         [JsonProperty("posicion")]

@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Reumed.Data.BusinessObjects;
 
+//Remover Entidad
 namespace genmed_data.BusinessObject
 {
     public class Posicion : RecordBase<Posicion>
