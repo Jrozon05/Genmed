@@ -22,15 +22,9 @@ namespace genmed_api.Dtos.Usuario
         [Compare("Clave", ErrorMessage = "Tanto la contraseña como la contraseña de confirmacion deben ser la mismas.")]
         public string ConfirmarClave { get; set; }
 
-<<<<<<< HEAD
-=======
-        //TODO: remover Doctor
-        public List<SelectListItem> Doctor { get; set; } = new List<SelectListItem>();
-
         [Required(ErrorMessage = "El doctor es un campo requerido.", AllowEmptyStrings = false)]
         public int DoctorId { get; set; }
 
->>>>>>> 663bd06380540a50d117b0e18bf1ece72c906539
         public List<SelectListItem> Rol { get; set; }
 
         [Required(ErrorMessage = "El rol es un campo requerido.", AllowEmptyStrings = false)]
