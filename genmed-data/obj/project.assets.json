@@ -890,23 +890,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jrozon\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Diego Sanchez\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
       "projectName": "genmed-data",
       "projectPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
       "packagesPath": "C:\\Users\\jrozon\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-data\\genmed-data.csproj",
+      "projectName": "genmed-data",
+      "projectPath": "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-data\\genmed-data.csproj",
+      "packagesPath": "C:\\Users\\Diego Sanchez\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-data\\obj\\",
+>>>>>>> 663bd06380540a50d117b0e18bf1ece72c906539
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\jrozon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Diego Sanchez\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
