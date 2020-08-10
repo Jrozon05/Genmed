@@ -223,6 +223,7 @@ export default {
 
             if (usuario != null) {
                 this.usuarios.push(usuario)
+                this.$v.$reset()
                 this.clear()
             }
         })

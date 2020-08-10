@@ -8,7 +8,7 @@ const Usuario = () => import('@/views/usuario/Usuario')
 const UpdateUsuario = () => import('@/views/usuario/UpdateUsuario')
 const Paciente = () => import('@/views/paciente/Pacientes')
 const NuevoPaciente = () => import('@/views/paciente/CreatePaciente')
-const Posicion = () => import('@/views/posicion/Posicion')
+const Doctor = () => import('@/views/doctor/Doctor')
 
 Vue.use(VueRouter)
 
@@ -53,9 +53,9 @@ const routes = [{
         component: UpdateUsuario
       },
       {
-        path: '/posicion',
-        name: 'Posiciones',
-        component: Posicion
+        path: '/doctor',
+        name: 'Doctor',
+        component: Doctor
       }
     ]
   },
