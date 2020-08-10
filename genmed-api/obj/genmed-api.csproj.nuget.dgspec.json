@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\genmed-api.csproj": {}
+    "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-api\\genmed-api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\genmed-api.csproj": {
+    "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-api\\genmed-api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\genmed-api.csproj",
+        "projectUniqueName": "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-api\\genmed-api.csproj",
         "projectName": "genmed-api",
-        "projectPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\genmed-api.csproj",
-        "packagesPath": "C:\\Users\\jrozon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-api\\obj\\",
+        "projectPath": "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-api\\genmed-api.csproj",
+        "packagesPath": "C:\\Users\\Diego Sanchez\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-api\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\jrozon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Diego Sanchez\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -30,8 +27,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj": {
-                "projectPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj"
+              "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-data\\genmed-data.csproj": {
+                "projectPath": "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-data\\genmed-data.csproj"
               }
             }
           }
@@ -72,6 +69,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.2, 3.1.2]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -84,20 +87,17 @@
         }
       }
     },
-    "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj": {
+    "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-data\\genmed-data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
+        "projectUniqueName": "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-data\\genmed-data.csproj",
         "projectName": "genmed-data",
-        "projectPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\genmed-data.csproj",
-        "packagesPath": "C:\\Users\\jrozon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jrozon\\Desktop\\Genmed\\genmed-data\\obj\\",
+        "projectPath": "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-data\\genmed-data.csproj",
+        "packagesPath": "C:\\Users\\Diego Sanchez\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Diego Sanchez\\Documents\\Projects\\Genmed\\genmed-data\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\jrozon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Diego Sanchez\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
