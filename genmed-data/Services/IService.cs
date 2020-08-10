@@ -16,7 +16,7 @@ namespace genmed_data.Services
 
         Task<Usuario> Login(string nombreUsuario, string clave);
 
-        Task<Usuario> CreateUpdateUsuario(Usuario usuario, string clave, int doctorId, int rolId);
+        Task<Usuario> CreateUpdateUsuario(Usuario usuario, string clave, int rolId);
 
         #endregion
 

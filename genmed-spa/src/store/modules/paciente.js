@@ -9,6 +9,9 @@ export const paciente = {
         },
         setMotivoConsulta ({ commit }, paciente) {
             commit('motivoConsulta', paciente)
+        },
+        setHistoriaClinico ({ commit }, paciente) {
+            commit('historiaClinico', paciente)
         }
     },
     mutations: {
@@ -16,6 +19,9 @@ export const paciente = {
             state.paciente = Object.assign(state.paciente, paciente)
         },
         motivoConsulta (state, paciente) {
+            state.paciente = Object.assign(state.paciente, paciente)
+        },
+        historiaClinico (state, paciente) {
             state.paciente = Object.assign(state.paciente, paciente)
         }
     }

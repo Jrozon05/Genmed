@@ -13,7 +13,7 @@ namespace genmed_data.Database
 
         List<Usuario> GetUsuarios();
 
-        Usuario CreateUpdateUsuario(Usuario usuario, string clave, int doctorId, int rolId);
+        Usuario CreateUpdateUsuario(Usuario usuario, string clave, int rolId);
 
         #endregion
 

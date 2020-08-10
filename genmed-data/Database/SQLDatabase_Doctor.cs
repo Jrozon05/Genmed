@@ -27,11 +27,13 @@ namespace genmed_data.Database
                             while (dr.Read())
                             {
                                 var doctor = new Doctor();
+                                doctor.Usuario = new Usuario();
                                 doctor.DoctorId = dr.GetInt32(dr.GetOrdinal("doctorid"));
                                 doctor.Guid = dr.GetGuid(dr.GetOrdinal("guid"));
                                 doctor.Nombre = dr.GetString(dr.GetOrdinal("nombre"));
                                 doctor.Apellido = dr.GetString(dr.GetOrdinal("apellido"));
                                 doctor.Posicion = dr.GetString(dr.GetOrdinal("posicion"));
+                                doctor.Usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
                                 resultados.Add(doctor);
                             }
 
@@ -75,8 +77,13 @@ namespace genmed_data.Database
                         {
                             while (dr.Read())
                             {
-
+                                doctor.Usuario = new Usuario();
                                 doctor.Guid = dr.GetGuid(dr.GetOrdinal("guid"));
+                                doctor.Nombre = dr.GetString(dr.GetOrdinal("nombre"));
+                                doctor.Apellido = dr.GetString(dr.GetOrdinal("apellido"));
+                                doctor.Posicion = dr.GetString(dr.GetOrdinal("posicion"));
+                                doctor.Usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
+
                             }
 
                             dr.Close();

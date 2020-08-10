@@ -41,8 +41,13 @@ export default {
                 }
             },
             validate () {
+                if (this.isConsultaValid == null) {
+                    this.isConsultaValid = false
+                }
                  var isValid = this.isConsultaValid
+
                  if (isValid) {
+                     console.log(isValid)
                     this.$store.dispatch('paciente/setMotivoConsulta', this.$data)
                  }
                  return isValid

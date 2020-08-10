@@ -30,9 +30,9 @@ export default [
             },
             {
               _name: 'CSidebarNavItem',
-              name: 'Posiciones',
-              to: '/posicion',
-              icon: 'cil-list'
+              name: 'Doctores',
+              to: '/doctor',
+              icon: 'cil-hospital'
             }
         ]
     }

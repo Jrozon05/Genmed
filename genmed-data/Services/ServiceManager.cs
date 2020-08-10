@@ -31,7 +31,7 @@ namespace genmed_data.Services
             return usuario;
         }
 
-        public async Task<Usuario> CreateUpdateUsuario(Usuario usuario, string clave, int doctorId, int rolId)
+        public async Task<Usuario> CreateUpdateUsuario(Usuario usuario, string clave, int rolId)
         {
             string errMsg = $"{nameof(CreateUpdateUsuario)} - Error en salvar o actualizar las informaciones del usuario";
             try
@@ -44,7 +44,7 @@ namespace genmed_data.Services
                 usuario.ClaveHash = claveHash;
                 usuario.ClaveSalt = claveSalt;
 
-                var usuarioCreated = await Task.Factory.StartNew(() => { return Factory.GetDatabase().CreateUpdateUsuario(usuario, clave, doctorId, rolId); });
+                var usuarioCreated = await Task.Factory.StartNew(() => { return Factory.GetDatabase().CreateUpdateUsuario(usuario, clave, rolId); });
 
                 if (usuario == null || usuarioCreated == null)
                     return null;

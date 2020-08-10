@@ -86,7 +86,7 @@ namespace genmed_api.Controllers
                         return Ok(new { Error = "El nombre usuario: " + usuario.NombreUsuario + " actualmente existe." });
                     }
 
-                    usuarioCreated = await _service.CreateUpdateUsuario(usuario, claveEncrypt, usuarioRegistrarDto.DoctorId, usuarioRegistrarDto.RolId);
+                    usuarioCreated = await _service.CreateUpdateUsuario(usuario, claveEncrypt, usuarioRegistrarDto.RolId);
                 }
                 catch (Exception ex)
                 {

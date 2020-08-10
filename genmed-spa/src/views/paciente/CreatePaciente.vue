@@ -15,8 +15,8 @@
                             <tab-content title="Motivo de Consulta" :before-change="() => validateStep('MotivoConsulta')">
                                 <MotivoConsulta ref="MotivoConsulta"></MotivoConsulta>
                             </tab-content>
-                            <tab-content title="Historia Clinica">
-                                <HistoriaClinico></HistoriaClinico>
+                            <tab-content title="Historia Clinica" :before-change="() => validateStep('HistoriaClinico')">
+                                <HistoriaClinico ref="HistoriaClinico"></HistoriaClinico>
                             </tab-content>
                             <tab-content title="Exploración Fisica">
                                 <ExploracionFisica></ExploracionFisica>
@@ -61,13 +61,6 @@
             var refToValidate = this.$refs[name]
             return refToValidate.validate()
         }
-        // ,
-        // mergePartialModels (model, isValid) {
-        //     if (isValid) {
-        //     // merging each step model into the final model
-        //         this.finalModel = Object.assign({}, this.finalModel, model)
-        //     }
-        // }
     }
   }
 </script>
