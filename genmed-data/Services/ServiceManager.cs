@@ -102,14 +102,20 @@ namespace genmed_data.Services
             return doctor;
         }
 
-        #endregion
-
-
-        #region Posicion
-        public async Task<List<Posicion>> GetPosiciones()
+        public async Task<Doctor> ActivateDoctor(Doctor doctor)
         {
-            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetPosiciones(); });
+            doctor.Activo = true;
+            var doctorDeactivated = await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateDoctor(doctor, doctor.Usuario.UsuarioId));
+            return doctor;
         }
+
+        public async Task<Doctor> DeactivateDoctor(Doctor doctor)
+        {
+            doctor.Activo = false;
+            var doctorDeactivated = await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateDoctor(doctor, doctor.Usuario.UsuarioId));
+            return doctor;
+        }
+
         #endregion
 
         #region Direccion

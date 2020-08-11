@@ -53,7 +53,6 @@ namespace genmed_data.Database
             return resultados;
         }
 
-
         public Doctor GetDoctor(Guid? guid = null) {
             Doctor doctor = new Doctor();
             try
@@ -82,6 +81,7 @@ namespace genmed_data.Database
                                 doctor.Nombre = dr.GetString(dr.GetOrdinal("nombre"));
                                 doctor.Apellido = dr.GetString(dr.GetOrdinal("apellido"));
                                 doctor.Posicion = dr.GetString(dr.GetOrdinal("posicion"));
+                                doctor.Usuario.UsuarioId = dr.GetInt32(dr.GetOrdinal("usuarioid"));
                                 doctor.Usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
 
                             }
@@ -149,6 +149,12 @@ namespace genmed_data.Database
                         p.DbType = DbType.Int32;
                         p.ParameterName = "UsuarioId";
                         p.Value = usuarioID;
+                        cmd.Parameters.Add(p);
+
+                        p = cmd.CreateParameter();
+                        p.DbType = DbType.Boolean;
+                        p.ParameterName = "Activo";
+                        p.Value = doctor.Activo;
                         cmd.Parameters.Add(p);
 
                         cmd.ExecuteScalar();

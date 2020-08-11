@@ -70,7 +70,7 @@ namespace genmed_api.Controllers
                     Doctor doctor = new Doctor();
                     doctor = _mapper.Map<Doctor>(doctorRegistrarDto);
 
-                    doctorCreated = await _service.CreateUpdateDoctor(doctor, doctorRegistrarDto.usuarioId);
+                    doctorCreated = await _service.CreateUpdateDoctor(doctor, doctorRegistrarDto.UsuarioId);
 
                 }
                 catch (Exception ex) 
@@ -82,6 +82,52 @@ namespace genmed_api.Controllers
                 }
             }
             return Ok(doctorCreated);
+        }
+
+        [HttpPost("activar/{guid}")]
+        public async Task<IActionResult> ActivateDoctor(Guid guid) {
+            string errMsg = $"{nameof(ActivateDoctor)} un error se ha producido mientras se busca informaciones del doctor";
+
+            Doctor doctorActivated = new Doctor();
+            try {
+                doctorActivated = await _service.GetDoctorByGuid(guid);
+
+                if (doctorActivated != null)
+                {
+                    doctorActivated = await _service.ActivateDoctor(doctorActivated);
+                }
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest( new
+                {
+                    error  = errMsg + ex
+                });
+            }
+            return Ok(doctorActivated);
+        }
+
+        [HttpPost("desactivar/{guid}")]
+        public async Task<IActionResult> DeactivateDoctor(Guid guid) {
+            string errMsg = $"{nameof(DeactivateDoctor)} un error se ha producido mientras se busca informaciones del doctor";
+
+            Doctor doctorDeactivated = new Doctor();
+            try {
+                doctorDeactivated = await _service.GetDoctorByGuid(guid);
+
+                if (doctorDeactivated != null)
+                {
+                    doctorDeactivated = await _service.DeactivateDoctor(doctorDeactivated);
+                }
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest( new
+                {
+                    error  = errMsg + ex
+                });
+            }
+            return Ok(doctorDeactivated);
         }
     }
 }

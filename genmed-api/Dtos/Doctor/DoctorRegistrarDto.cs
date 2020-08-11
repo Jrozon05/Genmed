@@ -18,7 +18,9 @@ namespace genmed_api.Dtos.Doctor
         public string Posicion {get; set;}
 
         [Required(ErrorMessage = "El usuario es necesario")]
-        public int usuarioId {get; set;}
+        public int UsuarioId {get; set;}
+
+        public bool Activo {get; set;}
 
     }
 }
