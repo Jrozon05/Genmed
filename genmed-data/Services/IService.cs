@@ -28,10 +28,10 @@ namespace genmed_data.Services
 
         Task<Doctor> CreateUpdateDoctor(Doctor doctor, int usuarioId);
 
-        #endregion
+        Task<Doctor> ActivateDoctor(Doctor doctor);
 
-        #region Posicion
-        Task<List<Posicion>> GetPosiciones();
+        Task<Doctor> DeactivateDoctor(Doctor doctor);
+
         #endregion
 
         #region Direccion

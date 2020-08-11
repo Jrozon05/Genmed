@@ -20,14 +20,11 @@ namespace genmed_data.Database
         #region Doctor
 
         List<Doctor> GetDoctores();
-
+        
         Doctor GetDoctor(Guid? guid = null);
+
         Doctor CreateUpdateDoctor(Doctor doctor, int usuarioId);
 
-        #endregion
-
-        #region Posicion
-        List<Posicion> GetPosiciones();
         #endregion
 
         #region Direccion

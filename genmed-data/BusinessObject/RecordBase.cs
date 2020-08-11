@@ -24,7 +24,7 @@ namespace Reumed.Data.BusinessObjects
         public DateTime ModifiedDate { get; set; } = DateTime.Now;
 
         [JsonProperty("activo")]
-        public bool Activo { get; set; }
+        public bool Activo { get; set; } = true;
 
         [JsonIgnore()]
         public bool HasChanges
