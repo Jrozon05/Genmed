@@ -84,8 +84,36 @@ namespace genmed_api.Controllers
             return Ok(doctorCreated);
         }
 
+        [HttpPost("actualizar")]
+        public async Task<IActionResult> UpdateDoctor(DoctorActualizarDto doctorActualizarDto)
+        {
+            string errMsg =  $"{nameof(UpdateDoctor)} un error producido mientras se actualiza el doctor";
+            Doctor doctorUpdated = new Doctor();
+
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    Doctor doctor = new Doctor();
+                    doctor = _mapper.Map<Doctor>(doctorActualizarDto);
+
+                    doctorUpdated = await _service.CreateUpdateDoctor(doctor, doctorActualizarDto.UsuarioId);
+
+                }
+                catch (Exception ex) 
+                {
+                    return BadRequest( new
+                    {
+                        error  = errMsg + ex
+                    });
+                }
+            }
+            return Ok(doctorUpdated);
+        } 
+
         [HttpPost("activar/{guid}")]
-        public async Task<IActionResult> ActivateDoctor(Guid guid) {
+        public async Task<IActionResult> ActivateDoctor(Guid guid) 
+        {
             string errMsg = $"{nameof(ActivateDoctor)} un error se ha producido mientras se busca informaciones del doctor";
 
             Doctor doctorActivated = new Doctor();
@@ -108,7 +136,8 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("desactivar/{guid}")]
-        public async Task<IActionResult> DeactivateDoctor(Guid guid) {
+        public async Task<IActionResult> DeactivateDoctor(Guid guid) 
+        {
             string errMsg = $"{nameof(DeactivateDoctor)} un error se ha producido mientras se busca informaciones del doctor";
 
             Doctor doctorDeactivated = new Doctor();

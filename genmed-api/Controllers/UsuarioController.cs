@@ -100,6 +100,35 @@ namespace genmed_api.Controllers
             return Ok(usuarioCreated);
         }
 
+        [HttpPost("actualizar")]
+        public async Task<IActionResult> UpdateUsuario(UsuarioActualizarDto usuarioActualizarDto)
+        {
+            string errMsg =  $"{nameof(UpdateUsuario)} un error producido mientras se actualiza el usuario";
+            Usuario usuarioUpdated = new Usuario();
+
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    Usuario usuario = new Usuario();
+                    usuario = _mapper.Map<Usuario>(usuarioActualizarDto);
+                    //Variable temporal para motivos de testing
+                    string clave = "";
+                    //TODO: Remover campo de clave del metodo
+                    usuarioUpdated = await _service.CreateUpdateUsuario(usuario, clave, usuarioActualizarDto.RolId);
+
+                }
+                catch (Exception ex) 
+                {
+                    return BadRequest( new
+                    {
+                        error  = errMsg + ex
+                    });
+                }
+            }
+            return Ok(doctorUpdated);
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(UsuarioLoginDto usuarioLoginDto)
         {
