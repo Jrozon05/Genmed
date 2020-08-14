@@ -76,7 +76,6 @@ namespace genmed_api.Controllers
                 {
                     Usuario usuario = new Usuario();
                     usuarioRegistrarDto.NombreUsuario = usuarioRegistrarDto.NombreUsuario.ToLower();
-                    string claveEncrypt = usuarioRegistrarDto.Clave.Encrypt();
                     usuario = _mapper.Map<Usuario>(usuarioRegistrarDto);
 
                     var usuarioExiste = await _service.GetUsuarioByGuidOrNombreUsuario(null, usuarioRegistrarDto.NombreUsuario);
@@ -85,8 +84,12 @@ namespace genmed_api.Controllers
                     {
                         return Ok(new { Error = "El nombre usuario: " + usuario.NombreUsuario + " actualmente existe." });
                     }
-
-                    usuarioCreated = await _service.CreateUpdateUsuario(usuario, claveEncrypt, usuarioRegistrarDto.RolId);
+                    
+                    usuarioCreated = await _service.CreateUpdateUsuario(usuario, usuarioRegistrarDto.RolId);
+                    var createClave = _mapper.Map<UsuarioActualizarClaveDto>(usuarioCreated);
+                    createClave.Clave = usuarioRegistrarDto.Clave;
+                    createClave.ConfirmarClave = usuarioRegistrarDto.ConfirmarClave;
+                    await UpdateClaveUsuario(createClave);
                 }
                 catch (Exception ex)
                 {
@@ -98,6 +101,39 @@ namespace genmed_api.Controllers
             }
 
             return Ok(usuarioCreated);
+        }
+
+        [HttpPost("actualizarclave")]
+        public async Task<IActionResult> UpdateClaveUsuario(UsuarioActualizarClaveDto usuarioActualizarClaveDto)
+        {
+            string errMsg =  $"{nameof(UpdateUsuario)} un error producido mientras se actualiza la clave del usuario";
+            Usuario usuarioUpdated = new Usuario();
+
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    Usuario usuario = new Usuario();
+                    string claveEncrypt = usuarioActualizarClaveDto.Clave.Encrypt();  
+                    usuario = _mapper.Map<Usuario>(usuarioActualizarClaveDto);
+                    if(usuarioActualizarClaveDto.Clave.Equals(usuarioActualizarClaveDto.ConfirmarClave))
+                    {
+                        await _service.UpdateClaveUsuario(usuario, claveEncrypt);
+                    }
+                    else {
+                        return NotFound();
+                    }
+
+                }
+                catch (Exception ex) 
+                {
+                    return BadRequest( new
+                    {
+                        error  = errMsg + ex
+                    });
+                }
+            }
+            return Ok(usuarioUpdated);
         }
 
         [HttpPost("actualizar")]
@@ -112,10 +148,7 @@ namespace genmed_api.Controllers
                 {
                     Usuario usuario = new Usuario();
                     usuario = _mapper.Map<Usuario>(usuarioActualizarDto);
-                    //Variable temporal para motivos de testing
-                    string clave = "";
-                    //TODO: Remover campo de clave del metodo
-                    usuarioUpdated = await _service.CreateUpdateUsuario(usuario, clave, usuarioActualizarDto.RolId);
+                    usuarioUpdated = await _service.CreateUpdateUsuario(usuario, usuarioActualizarDto.RolId);
 
                 }
                 catch (Exception ex) 
@@ -126,7 +159,7 @@ namespace genmed_api.Controllers
                     });
                 }
             }
-            return Ok(doctorUpdated);
+            return Ok(usuarioUpdated);
         }
 
         [HttpPost("login")]

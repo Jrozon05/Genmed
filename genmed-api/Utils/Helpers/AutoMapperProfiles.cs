@@ -10,7 +10,9 @@ namespace genmed_api.Utils.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<UsuarioRegistrarDto, Usuario>();
-            CreateMap<UsuarioActualizarDto, Doctor>();
+            CreateMap<UsuarioActualizarDto, Usuario>();
+            CreateMap<UsuarioActualizarClaveDto, Usuario>();
+            CreateMap<Usuario, UsuarioActualizarClaveDto>();
             CreateMap<DoctorRegistrarDto, Doctor>();
             CreateMap<DoctorActualizarDto, Doctor>();
         }

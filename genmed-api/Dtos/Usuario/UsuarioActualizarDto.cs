@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace genmed_api.Dtos.Usuario
 {
-    public class UsuarioRegistrarDto
+    public class UsuarioActualizarDto
     {
+        public int UsuarioId {get; set;}
         public Guid Guid {get; set;}
 
         [Required(ErrorMessage = "El de Nombre Usuario es un campo requerido.")]
@@ -19,5 +20,7 @@ namespace genmed_api.Dtos.Usuario
 
         [Required(ErrorMessage = "El rol es un campo requerido.", AllowEmptyStrings = false)]
         public int RolId { get; set; }
+
+        public bool Activo {get; set;} = true;
     }
 }

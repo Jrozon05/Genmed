@@ -31,9 +31,10 @@ namespace genmed_data.Services
             return usuario;
         }
 
-        public async Task<Usuario> CreateUpdateUsuario(Usuario usuario, string clave, int rolId)
+        public async Task<bool> UpdateClaveUsuario(Usuario usuario, string clave)
         {
-            string errMsg = $"{nameof(CreateUpdateUsuario)} - Error en salvar o actualizar las informaciones del usuario";
+            bool updated = false;
+            string errMsg = $"{nameof(UpdateClaveUsuario)} - Error actualizando la clave del usuario";
             try
             {
                 byte[] claveHash;
@@ -44,7 +45,33 @@ namespace genmed_data.Services
                 usuario.ClaveHash = claveHash;
                 usuario.ClaveSalt = claveSalt;
 
-                var usuarioCreated = await Task.Factory.StartNew(() => { return Factory.GetDatabase().CreateUpdateUsuario(usuario, clave, rolId); });
+                var usuarioCreated = await Task.Factory.StartNew(() => { return Factory.GetDatabase().UpdateClaveUsuario(usuario, clave); });
+
+                if (usuario == null || usuarioCreated == null)
+                    return updated;
+
+                usuario = await GetUsuarioByGuidOrNombreUsuario(usuarioCreated.Guid, null);
+                if(usuario != null)
+                    updated = true;
+            }
+            catch (Exception ex)
+            {
+              if (Debugger.IsAttached)
+                    Debugger.Break();
+
+                throw new Exception(errMsg, ex);
+            }
+
+            return updated;
+        }
+
+        public async Task<Usuario> CreateUpdateUsuario(Usuario usuario, int rolId)
+        {
+            string errMsg = $"{nameof(CreateUpdateUsuario)} - Error en salvar o actualizar las informaciones del usuario";
+            try
+            {
+
+                var usuarioCreated = await Task.Factory.StartNew(() => { return Factory.GetDatabase().CreateUpdateUsuario(usuario, rolId); });
 
                 if (usuario == null || usuarioCreated == null)
                     return null;

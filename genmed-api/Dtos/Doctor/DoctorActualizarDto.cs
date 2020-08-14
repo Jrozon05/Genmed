@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace genmed_api.Dtos.Doctor 
 {
-    public class DoctorRegistrarDto {
+    public class DoctorActualizarDto {
 
+        public int DoctorId {get; set;}
         public Guid Guid {get; set;}
 
         [Required(ErrorMessage = "El Nombre es un campo requerido.")]
@@ -19,7 +20,10 @@ namespace genmed_api.Dtos.Doctor
         [Required(ErrorMessage = "La posicion es un campo requerido.")]
         public string Posicion {get; set;}
 
-        public bool Activo {get; set;}
+        [Required(ErrorMessage = "El usuario es necesario")]
+        public int UsuarioId {get; set;}
+
+        public bool Activo {get; set;} = true;
 
     }
 }

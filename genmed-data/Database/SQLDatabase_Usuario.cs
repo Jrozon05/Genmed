@@ -46,9 +46,6 @@ namespace genmed_data.Database
                                 usuario.Guid = dr.GetGuid(dr.GetOrdinal("guid"));
                                 usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
                                 usuario.Email = dr.GetString(dr.GetOrdinal("email"));
-                                usuario.Clave = dr.GetString(dr.GetOrdinal("clave"));
-                                usuario.ClaveHash = (byte[])dr["clavehash"];
-                                usuario.ClaveSalt = (byte[])dr["clavesalt"];
                                 usuario.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
                                 usuario.Rol.RolId = dr.GetInt32(dr.GetOrdinal("rolid"));
                                 usuario.Rol.Nombre = dr.GetString(dr.GetOrdinal("nombrerol"));
@@ -116,7 +113,7 @@ namespace genmed_data.Database
             return usuarios;
         }
 
-        public Usuario CreateUpdateUsuario(Usuario usuario, string clave, int rolId)
+        public Usuario CreateUpdateUsuario(Usuario usuario, int rolId)
         {
             try
             {
@@ -155,9 +152,49 @@ namespace genmed_data.Database
                         cmd.Parameters.Add(p);
 
                         p = cmd.CreateParameter();
-                        p.DbType = DbType.String;
-                        p.ParameterName = "Clave";
-                        p.Value = clave;
+                        p.DbType = DbType.Int32;
+                        p.ParameterName = "RolId";
+                        p.Value = rolId;
+                        cmd.Parameters.Add(p);
+
+                        p = cmd.CreateParameter();
+                        p.DbType = DbType.Boolean;
+                        p.ParameterName = "Activo";
+                        p.Value = usuario.Activo;
+                        cmd.Parameters.Add(p);
+
+                        cmd.ExecuteScalar();
+                        usuario.UsuarioId = Convert.ToInt32(outputId.Value);
+                    }
+
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return usuario;
+        }
+
+        public Usuario UpdateClaveUsuario(Usuario usuario, string clave)
+        {
+            try
+            {
+                using (IDbConnection connection = GetConfigurationConnection())
+                {
+                    connection.Open();
+
+                    using (IDbCommand cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "usp_UpdateClaveUsuario";
+
+                        IDbDataParameter p = cmd.CreateParameter();
+                        p.DbType = DbType.Guid;
+                        p.ParameterName = "Guid";
+                        p.Value = usuario.Guid;
                         cmd.Parameters.Add(p);
 
                         p = cmd.CreateParameter();
@@ -173,13 +210,12 @@ namespace genmed_data.Database
                         cmd.Parameters.Add(p);
 
                         p = cmd.CreateParameter();
-                        p.DbType = DbType.Int32;
-                        p.ParameterName = "RolId";
-                        p.Value = rolId;
+                        p.DbType = DbType.String;
+                        p.ParameterName = "Clave";
+                        p.Value = clave;
                         cmd.Parameters.Add(p);
 
                         cmd.ExecuteScalar();
-                        usuario.UsuarioId = Convert.ToInt32(outputId.Value);
                     }
 
                     connection.Close();
