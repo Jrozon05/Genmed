@@ -47,7 +47,7 @@ namespace genmed_api.Controllers
                 });
             }
 
-            return Ok(values);
+            return Ok(JsonConvert.SerializeObject(values, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
 
         [Authorize]
@@ -61,7 +61,7 @@ namespace genmed_api.Controllers
             if (usuario == null)
                 return NotFound();
 
-            return Ok(usuario);
+            return Ok(JsonConvert.SerializeObject(usuario, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
 
         [HttpPost("registrar")]
@@ -100,7 +100,7 @@ namespace genmed_api.Controllers
                 }
             }
 
-            return Ok(usuarioCreated);
+            return Ok(JsonConvert.SerializeObject(usuarioCreated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
 
         [HttpPut("actualizarclave")]
@@ -133,7 +133,7 @@ namespace genmed_api.Controllers
                     });
                 }
             }
-            return Ok(usuarioUpdated);
+            return Ok(JsonConvert.SerializeObject(usuarioUpdated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
 
         [HttpPut("actualizar")]
@@ -159,7 +159,7 @@ namespace genmed_api.Controllers
                     });
                 }
             }
-            return Ok(usuarioUpdated);
+            return Ok(JsonConvert.SerializeObject(usuarioUpdated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
 
         [HttpPost("login")]
@@ -197,11 +197,11 @@ namespace genmed_api.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new
+            return Ok(JsonConvert.SerializeObject(new
             {
                 token = tokenHandler.WriteToken(token),
                 usuario
-            });
+            }), Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
         }
     }
 }

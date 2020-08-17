@@ -128,18 +128,18 @@ namespace genmed_data.Services
             return doctor;
         }
 
-        public async Task<Doctor> ActivateDoctor(Doctor doctor)
+        public async Task<bool> ActivateDoctor(Doctor doctor)
         {
             doctor.Activo = true;
-            var doctorDeactivated = await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateDoctor(doctor, doctor.Usuario.UsuarioId));
-            return doctor;
+            await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateDoctor(doctor, doctor.Usuario.UsuarioId));
+            return doctor.Activo;
         }
 
-        public async Task<Doctor> DeactivateDoctor(Doctor doctor)
+        public async Task<bool> DeactivateDoctor(Doctor doctor)
         {
             doctor.Activo = false;
-            var doctorDeactivated = await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateDoctor(doctor, doctor.Usuario.UsuarioId));
-            return doctor;
+            await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateDoctor(doctor, doctor.Usuario.UsuarioId));
+            return doctor.Activo;
         }
 
         #endregion
