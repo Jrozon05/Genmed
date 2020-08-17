@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using genmed_data.Database;
 using genmed_data.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace genmed_api.Controllers
 {

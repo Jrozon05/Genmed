@@ -49,7 +49,7 @@ namespace genmed_data.Database
                                 usuario.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
                                 usuario.Rol.RolId = dr.GetInt32(dr.GetOrdinal("rolid"));
                                 usuario.Rol.Nombre = dr.GetString(dr.GetOrdinal("nombrerol"));
-                                usuario.Clave = dr.IsDBNull(dr.GetOrdinal("clave")) ? null : dr.GetString(dr.GetOrdinal("clave"));
+                                usuario.Clave = dr.GetString(dr.GetOrdinal("clave"));
                                 usuario.ClaveHash = (byte[])dr["clavehash"];
                                 usuario.ClaveSalt = (byte[])dr["clavesalt"];
                             }

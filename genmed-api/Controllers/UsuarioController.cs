@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Reumed.Data.BusinessObjects;
 
 namespace genmed_api.Controllers
@@ -201,7 +202,7 @@ namespace genmed_api.Controllers
             {
                 token = tokenHandler.WriteToken(token),
                 usuario
-            }), Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            }, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
     }
 }

@@ -7,6 +7,7 @@ using genmed_data.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Reumed.Data.BusinessObjects;
 
 namespace genmed_api.Controllers

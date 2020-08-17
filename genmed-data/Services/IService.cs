@@ -30,9 +30,9 @@ namespace genmed_data.Services
 
         Task<Doctor> CreateUpdateDoctor(Doctor doctor, int usuarioId);
 
-        Task<Doctor> ActivateDoctor(Doctor doctor);
+        Task<bool> ActivateDoctor(Doctor doctor);
 
-        Task<Doctor> DeactivateDoctor(Doctor doctor);
+        Task<bool> DeactivateDoctor(Doctor doctor);
 
         #endregion
 
