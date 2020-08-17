@@ -1,36 +1,13 @@
 <template>
     <div>
         <CRow>
-            <CCol sm="4">
-                <CCard>
-                    <CCardHeader>
-                        <strong>Detalle Usuario </strong>
-                    </CCardHeader>
-                    <CCardBody>
-                        <CRow>
-                        <CCol sm="12">
-                            <picture-input
-                                ref="pictureInput"
-                                width="200"
-                                height="150"
-                                margin="16"
-                                accept="image/jpeg,image/png"
-                                size="10"
-                                :removable="true"
-                                :customStrings="{
-                                    upload: '<h1>Bummer!</h1>',
-                                    drag: 'Arrastra o busca una 😺'
-                                }">
-                            </picture-input>
-                            <br />
-                            <div style="text-align: center;">
-                                <h2>{{usuario.nombreCompleto}}</h2>
-                                <h5>{{usuario.posicion.toUpperCase()}}</h5>
-                            </div>
-                            <hr/>
-                        </CCol>
-                        </CRow>
-                        <CRow>
+            <CCol sm="5">
+            <CCard>
+                <CCardHeader>
+                    <strong>Editar Usuario </strong>
+                </CCardHeader>
+                <CCardBody>
+                    <CRow>
                         <CCol sm="12">
                             <CInput
                             label="Identificación:"
@@ -39,133 +16,108 @@
                             v-model="usuario.guid"
                             />
                         </CCol>
-                        </CRow>
-                    </CCardBody>
-                </CCard>
-            </CCol>
-                        <CCol sm="8">
-                <CCard>
-                    <CCardHeader>
-                        <strong>Editar Usuario </strong>
-                    </CCardHeader>
-                    <CCardBody>
-                        <CRow>
-                            <CCol sm="12">
-                                <CAlert color="danger" closeButton :show.sync="alert" class="alert-dismissible" v-if="message">
-                                    {{ message }}
-                                </CAlert>
-                            </CCol>
-                        </CRow>
-                        <CRow>
-                        <CCol sm="12">
-                            <CInput
-                            label="Nombre Usuario"
-                            placeholder="Introduzca su nombre de usuario"
-                            disabled
-                            v-model="usuario.nombreUsuario"
-                            />
-                        </CCol>
-                        </CRow>
-                        <CRow>
-                        <CCol sm="12">
-                            <CInput
-                            label="Contraseña"
-                            placeholder="Introduzca su constraseña"
-                            type="password"
-                            v-model="usuario.clave"
-                            />
-                        </CCol>
-                        </CRow>
-                        <CRow>
-                        <CCol sm="12">
-                            <CInput
-                            label="Confirmar Contraseña"
-                            placeholder="Confirmar su constraseña"
-                            type="password"
-                            v-model="usuario.confirmarClave"
-                            />
-                        </CCol>
-                        </CRow>
-                        <CRow>
-                        <CCol sm="12">
-                            <div class="form-group">
-                                <label for="">Doctores</label>
-                                <select class="form-control" v-model="usuario.doctorId">
-                                    <option v-for="doctor in doctores" :key="doctor.id" :value="doctor.doctorId">{{doctor.nombreCompleto}}</option>
-                                </select>
-                            </div>
-                        </CCol>
-                        </CRow>
-                        <CRow>
-                        <CCol sm="12">
-                            <div class="form-group">
-                                <label for="">Roles</label>
-                                <select class="form-control" v-model="usuario.rolId">
-                                    <option value="1">Super Admin</option>
-                                    <option value="2">Admin</option>
-                                    <option value="3">Usuario</option>
-                                    <option value="4">Solo Lectura</option>
-                                </select>
-                            </div>
-                        </CCol>
-                        </CRow>
-                    </CCardBody>
-                        <CCardFooter>
-                            <CButton type="submit" color="success" @click.prevent="UpdateUsuario">Salvar</CButton>&nbsp;
-                            <CButton type="submit" variant="outline" color="dark" @click.prevent="CancelarForm">Cancelar</CButton>
-                            <CButton type="submit" color="danger" @click.prevent="DeleteUsuario" class="btnFloat">Borrar</CButton>
-                    </CCardFooter>
-                </CCard>
-            </CCol>
+                    </CRow>
+                    <CRow>
+                    <CCol sm="12">
+                        <CInput
+                        label="Nombre Usuario"
+                        placeholder="Introduzca su nombre de usuario"
+                        @input="$v.usuario.nombreUsuario.$touch()"
+                        v-model="usuario.nombreUsuario"
+                        invalid-feedback="El nombre de usuario es un campo requerido"
+                        :is-valid="!$v.usuario.nombreUsuario.$error ? null : false"
+                        />
+                    </CCol>
+                    </CRow>
+                    <CRow>
+                    <CCol sm="12">
+                        <CInput
+                        label="Correo Electronico"
+                        @input="$v.usuario.email.$touch()"
+                        v-model="usuario.email"
+                        :invalid-feedback="!$v.usuario.email.email ? 'No tiene un formato de correo electronico' : 'El correo electronico es un campo requerido'"
+                        :is-valid="!$v.usuario.email.$error ? null : false"
+                        />
+                    </CCol>
+                    </CRow>
+                    <CRow>
+                    <CCol sm="12">
+                        <div class="form-group">
+                            <label for="">Roles</label>
+                            <select class="form-control" v-model="usuario.rolId" @change="checkRolValue($event)" :class="{ 'invalid' : !isRolValid && isRolValid != null }">
+                                <option value="1">Super Admin</option>
+                                <option value="2">Admin</option>
+                                <option value="3">Usuario</option>
+                                <option value="4">Solo Lectura</option>
+                            </select>
+                            <p v-if="!isRolValid && isRolValid != null" :class="{'invalid-label' : !isRolValid}">Debe asignar un rol</p>
+                        </div>
+                    </CCol>
+                    </CRow>
+                </CCardBody>
+                <CCardFooter>
+                        <CButton type="submit" color="success" @click.prevent="UpdateUsuario">Salvar</CButton>&nbsp;
+                        <CButton type="submit" variant="outline" color="dark" @click.prevent="CancelarForm">Cancelar</CButton>
+                        <CButton type="submit" color="danger" @click.prevent="DeleteUsuario" class="btnFloat">Borrar</CButton>
+                </CCardFooter>
+            </CCard>
+        </CCol>
+        <CCol sm="6">
+            <UpdateClave></UpdateClave>
+        </CCol>
         </CRow>
     </div>
 </template>
 
 <script>
 import UsuarioService from '../../services/usuario-service'
-import DoctorService from '../../services/doctor-service'
-import PictureInput from 'vue-picture-input'
-
-const fields = [
-    { key: 'nombreCompleto', label: 'Doctor', _style: 'width:15%' },
-    { key: 'nombreUsuario', _style: 'width:20%' },
-    { key: 'guid', _style: 'width:30%' },
-    { key: 'posicion', label: 'Posición' },
-    { key: 'rol' },
-    { key: 'editar', label: 'Editar', _style: 'width:1%', sorter: false, filter: false }
-]
+import { required, email, requiredUnless } from 'vuelidate/lib/validators'
+import UpdateClave from './UpdateClave'
 
 export default {
   name: 'Table',
   data () {
       return {
-          fields,
           usuarios: [],
           doctores: [],
           usuario: {
               guid: '',
               nombreUsuario: '',
-              clave: '',
-              confirmarClave: '',
-              doctorId: 0,
-              rolId: '',
-              posicion: '',
-              nombreCompleto: ''
+              email: '',
+              rolId: 0
           },
           message: '',
-          alert: false
+          alert: false,
+          isRolValid: null
       }
   },
   components: {
-    PictureInput
+      UpdateClave
+  },
+  validations: {
+      usuario: {
+          nombreUsuario: { required },
+          email: {
+              required,
+              email
+          },
+          rolId: {
+              required: requiredUnless(vm => {
+                  return vm.rolId.$model === 0
+              })
+          }
+      }
   },
   computed: {
       guidToEdit () {
-         return this.$store.getters['usuario/getGuidToEdit']
+         // return this.$store.getters['usuario/getGuidToEdit']
+         return this.$route.params.guid
       }
   },
+  created () {
+      this.changeUsuarioInfo(this.$route.params.guid)
+  },
   mounted () {
-      this.getDoctores()
       this.changeUsuarioInfo(this.guidToEdit)
   },
   watch: {
@@ -174,40 +126,66 @@ export default {
       }
   },
   methods: {
-    getDoctores () {
-        DoctorService.getDoctores().then(
-            response => {
-                const data = response.data
-                for (const key in data) {
-                    const usuario = data[key]
-                    usuario.id = key
-                    this.doctores.push(usuario)
-                }
-            }
-        )
-    },
     changeUsuarioInfo (item) {
         UsuarioService.getUsuarioByGuid(item).then(
             response => {
                 const data = response.data
                 const usuario = data
                 this.usuario.nombreUsuario = usuario.nombreUsuario
-                this.usuario.doctorId = usuario.doctor[0].doctorId
+                this.usuario.email = usuario.email
                 this.usuario.rolId = usuario.rol.rolId
-                this.usuario.posicion = usuario.doctor[0].posicion
-                this.usuario.nombreCompleto = usuario.doctor[0].nombreCompleto
                 this.usuario.guid = usuario.guid
             }
         )
     },
-    onChanged () {
-        console.log('New picture loaded')
+    UpdateUsuario () {
+        this.$v.$touch()
+        if (this.$v.usuario.rolId.$model === 0) {
+            this.isRolValid = false
+        }
+        if (this.$v.$invalid) {
+            return
+        }
+        const usuarioData = {
+            guid: this.usuario.guid,
+            nombreUsuario: this.usuario.nombreUsuario,
+            email: this.usuario.email,
+            rolId: parseInt(this.usuario.rolId)
+        }
+
+        UsuarioService.UpdateUsuario(usuarioData).then(
+            response => {
+                const data = response.data
+                if (data.error) {
+                    this.alert = true
+                    this.message = data.error
+                    return this.message
+                }
+
+                this.alert = false
+                const usuario = data
+                usuario.usuarioId = data.usuarioId
+                usuario.email = data.email
+                usuario.rol = usuario.rol.nombre
+
+                if (usuario != null) {
+                    this.$alertify.success('Usuario Salvado...')
+                }
+            }
+        )
     },
-    onRemoved () {
-        this.image = ''
+    checkRolValue () {
+        if (event.target.value === '0') {
+            this.isRolValid = false
+        } else {
+            this.isRolValid = true
+        }
     },
     CancelarForm () {
-        this.$router.push('/usuario')
+        this.$router.push({ name: 'Usuario' })
+    },
+    success () {
+        this.$alertify.success('success')
     }
   }
 }

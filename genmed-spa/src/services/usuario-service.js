@@ -21,10 +21,15 @@ class UsuarioService {
 
   UpdateUsuario (usuarioToUpdate) {
     var data = JSON.stringify(usuarioToUpdate)
-    return axios.put('/usuario/update', data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    return axios.put('/usuario/actualizar', data, {
+      headers: authHeader()
+    })
+  }
+
+  UpdateClave (claveToUpdate) {
+    var data = JSON.stringify(claveToUpdate)
+    return axios.put('/usuario/actualizarclave', data, {
+      headers: authHeader()
     })
   }
 }

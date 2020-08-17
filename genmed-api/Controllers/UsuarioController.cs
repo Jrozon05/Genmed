@@ -103,7 +103,7 @@ namespace genmed_api.Controllers
             return Ok(usuarioCreated);
         }
 
-        [HttpPost("actualizarclave")]
+        [HttpPut("actualizarclave")]
         public async Task<IActionResult> UpdateClaveUsuario(UsuarioActualizarClaveDto usuarioActualizarClaveDto)
         {
             string errMsg =  $"{nameof(UpdateUsuario)} un error producido mientras se actualiza la clave del usuario";
@@ -136,7 +136,7 @@ namespace genmed_api.Controllers
             return Ok(usuarioUpdated);
         }
 
-        [HttpPost("actualizar")]
+        [HttpPut("actualizar")]
         public async Task<IActionResult> UpdateUsuario(UsuarioActualizarDto usuarioActualizarDto)
         {
             string errMsg =  $"{nameof(UpdateUsuario)} un error producido mientras se actualiza el usuario";

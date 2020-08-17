@@ -9,18 +9,18 @@ namespace genmed_api.Dtos.Doctor
     public class DoctorRegistrarDto {
 
         [Required(ErrorMessage = "El Nombre es un campo requerido.")]
-        public string Nombre {get; set;}
+        public string Nombre { get; set; }
 
         [Required(ErrorMessage = "El Apellido es un campo requerido.")]
-        public string Apellido {get; set;}
+        public string Apellido { get; set; }
 
         [Required(ErrorMessage = "La posicion es un campo requerido.")]
-        public string Posicion {get; set;}
+        public string Posicion { get; set; }
 
         [Required(ErrorMessage = "El usuario es necesario")]
-        public int UsuarioId {get; set;}
+        public int UsuarioId { get; set; }
 
-        public bool Activo {get; set;}
+        // public bool Activo { get; set; } = true;
 
     }
 }

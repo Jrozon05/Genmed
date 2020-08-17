@@ -44,7 +44,6 @@ namespace genmed_data.Services
 
                 usuario.ClaveHash = claveHash;
                 usuario.ClaveSalt = claveSalt;
-
                 var usuarioCreated = await Task.Factory.StartNew(() => { return Factory.GetDatabase().UpdateClaveUsuario(usuario, clave); });
 
                 if (usuario == null || usuarioCreated == null)
