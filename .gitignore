@@ -1,4 +1,4 @@
-genmed-api/bin/*
-genmed-api/obj/*
-genmed-data/bin/*
-genmed-data/obj/*
+genmed-api/bin/
+genmed-api/obj/
+genmed-data/bin/
+genmed-data/obj/
