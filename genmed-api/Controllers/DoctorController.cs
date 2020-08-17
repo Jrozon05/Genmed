@@ -41,7 +41,7 @@ namespace genmed_api.Controllers
                 });
             }
 
-            return Ok(doctores);
+            return Ok(JsonConvert.SerializeObject(doctores, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
 
         [HttpGet("{guid}")]
@@ -54,7 +54,7 @@ namespace genmed_api.Controllers
             if (doctor == null)
                 return NotFound();
 
-            return Ok(doctor);
+            return Ok(JsonConvert.SerializeObject(doctor, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
 
         [HttpPost("registrar")]
@@ -81,7 +81,7 @@ namespace genmed_api.Controllers
                     });
                 }
             }
-            return Ok(doctorCreated);
+            return Ok(JsonConvert.SerializeObject(doctorCreated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
 
         [HttpPost("actualizar")]
@@ -108,7 +108,7 @@ namespace genmed_api.Controllers
                     });
                 }
             }
-            return Ok(doctorUpdated);
+            return Ok(JsonConvert.SerializeObject(doctorUpdated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         } 
 
         [HttpPost("activar/{guid}")]
@@ -116,13 +116,14 @@ namespace genmed_api.Controllers
         {
             string errMsg = $"{nameof(ActivateDoctor)} un error se ha producido mientras se busca informaciones del doctor";
 
-            Doctor doctorActivated = new Doctor();
+            Doctor doctor = new Doctor();
+            bool doctorActivated = false;
             try {
-                doctorActivated = await _service.GetDoctorByGuid(guid);
+                doctor = await _service.GetDoctorByGuid(guid);
 
-                if (doctorActivated != null)
+                if (doctor != null)
                 {
-                    doctorActivated = await _service.ActivateDoctor(doctorActivated);
+                    doctorActivated = await _service.ActivateDoctor(doctor);
                 }
             }
             catch (Exception ex) 
@@ -132,7 +133,7 @@ namespace genmed_api.Controllers
                     error  = errMsg + ex
                 });
             }
-            return Ok(doctorActivated);
+            return Ok(JsonConvert.SerializeObject(doctorActivated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
 
         [HttpPost("desactivar/{guid}")]
@@ -140,13 +141,14 @@ namespace genmed_api.Controllers
         {
             string errMsg = $"{nameof(DeactivateDoctor)} un error se ha producido mientras se busca informaciones del doctor";
 
-            Doctor doctorDeactivated = new Doctor();
+            Doctor doctor = new Doctor();
+            bool doctorDeactivated = true;
             try {
-                doctorDeactivated = await _service.GetDoctorByGuid(guid);
+                doctor = await _service.GetDoctorByGuid(guid);
 
-                if (doctorDeactivated != null)
+                if (doctor != null)
                 {
-                    doctorDeactivated = await _service.DeactivateDoctor(doctorDeactivated);
+                    doctorDeactivated = await _service.DeactivateDoctor(doctor);
                 }
             }
             catch (Exception ex) 
@@ -156,7 +158,7 @@ namespace genmed_api.Controllers
                     error  = errMsg + ex
                 });
             }
-            return Ok(doctorDeactivated);
+            return Ok(JsonConvert.SerializeObject(doctorDeactivated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
     }
 }

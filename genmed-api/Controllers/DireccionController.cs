@@ -31,7 +31,7 @@ namespace genmed_api.Controllers
                 });
             }
 
-            return Ok(provincias);
+            return Ok(JsonConvert.SerializeObject(provincias, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
 
         [HttpGet("ciudades/{provinciaid}")]
@@ -49,7 +49,7 @@ namespace genmed_api.Controllers
                 });
             }
 
-            return Ok(ciudades);
+            return Ok(JsonConvert.SerializeObject(ciudades, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
 
         [HttpGet("sectores")]
@@ -67,7 +67,7 @@ namespace genmed_api.Controllers
                 });
             }
 
-            return Ok(sectores);
+            return Ok(JsonConvert.SerializeObject(sectores, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
     }
 }
