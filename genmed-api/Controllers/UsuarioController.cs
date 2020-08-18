@@ -110,6 +110,8 @@ namespace genmed_api.Controllers
             string errMsg =  $"{nameof(UpdateUsuario)} un error producido mientras se actualiza la clave del usuario";
             Usuario usuarioUpdated = new Usuario();
 
+            var result = false;
+
             if(ModelState.IsValid)
             {
                 try
@@ -119,7 +121,7 @@ namespace genmed_api.Controllers
                     usuario = _mapper.Map<Usuario>(usuarioActualizarClaveDto);
                     if(usuarioActualizarClaveDto.Clave.Equals(usuarioActualizarClaveDto.ConfirmarClave))
                     {
-                        await _service.UpdateClaveUsuario(usuario, claveEncrypt);
+                       result = await _service.UpdateClaveUsuario(usuario, claveEncrypt);
                     }
                     else {
                         return NotFound();
@@ -134,7 +136,9 @@ namespace genmed_api.Controllers
                     });
                 }
             }
-            return Ok(usuarioUpdated);
+            return Ok(new {
+                flag = result
+            });
         }
 
         [HttpPut("actualizar")]

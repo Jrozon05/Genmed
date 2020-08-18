@@ -90,7 +90,11 @@ export default {
         UsuarioService.UpdateClave(usuarioData).then(
             response => {
                 const data = response.data
-                console.log(data)
+                if (data.flag) {
+                    this.$alertify.success('Clave Salvado...')
+                } else {
+                    this.$alertify.warning('Error en salvar clave')
+                }
             }
         )
     },
@@ -99,6 +103,9 @@ export default {
     },
     success () {
         this.$alertify.success('success')
+    },
+    warning () {
+        this.$alertify.warning('warning')
     }
   }
 }

@@ -110,7 +110,6 @@ export default {
   },
   computed: {
       guidToEdit () {
-         // return this.$store.getters['usuario/getGuidToEdit']
          return this.$route.params.guid
       }
   },
@@ -169,6 +168,8 @@ export default {
 
                 if (usuario != null) {
                     this.$alertify.success('Usuario Salvado...')
+                } else {
+                    this.$alertify.warning('Error en salvar el usuario')
                 }
             }
         )
@@ -185,6 +186,9 @@ export default {
     },
     success () {
         this.$alertify.success('success')
+    },
+    warning () {
+        this.$alertify.warning('warning')
     }
   }
 }

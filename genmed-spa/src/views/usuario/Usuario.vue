@@ -182,7 +182,6 @@ export default {
         UsuarioService.getUsuarios().then(
             response => {
                 const data = response.data
-                console.log(data)
                 for (const key in data) {
                     const usuario = data[key]
                     usuario.id = key

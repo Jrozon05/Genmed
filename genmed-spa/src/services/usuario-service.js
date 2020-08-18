@@ -32,6 +32,9 @@ class UsuarioService {
       headers: authHeader()
     })
   }
+
+  DeactivateUsuario () {
+  }
 }
 
 export default new UsuarioService()
