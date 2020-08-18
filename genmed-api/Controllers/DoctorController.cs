@@ -42,7 +42,7 @@ namespace genmed_api.Controllers
                 });
             }
 
-            return Ok(JsonConvert.SerializeObject(doctores, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            return Ok(doctores);
         }
 
         [HttpGet("{guid}")]
@@ -55,7 +55,7 @@ namespace genmed_api.Controllers
             if (doctor == null)
                 return NotFound();
 
-            return Ok(JsonConvert.SerializeObject(doctor, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            return Ok(doctor);
         }
 
         [HttpPost("registrar")]
@@ -82,7 +82,7 @@ namespace genmed_api.Controllers
                     });
                 }
             }
-            return Ok(JsonConvert.SerializeObject(doctorCreated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            return Ok(doctorCreated);
         }
 
         [HttpPost("actualizar")]
@@ -109,7 +109,7 @@ namespace genmed_api.Controllers
                     });
                 }
             }
-            return Ok(JsonConvert.SerializeObject(doctorUpdated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            return Ok(doctorUpdated);
         } 
 
         [HttpPost("activar/{guid}")]
@@ -134,7 +134,7 @@ namespace genmed_api.Controllers
                     error  = errMsg + ex
                 });
             }
-            return Ok(JsonConvert.SerializeObject(doctorActivated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            return Ok(doctorActivated);
         }
 
         [HttpPost("desactivar/{guid}")]
@@ -159,7 +159,7 @@ namespace genmed_api.Controllers
                     error  = errMsg + ex
                 });
             }
-            return Ok(JsonConvert.SerializeObject(doctorDeactivated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            return Ok(doctorDeactivated);
         }
     }
 }

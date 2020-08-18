@@ -182,6 +182,7 @@ export default {
         UsuarioService.getUsuarios().then(
             response => {
                 const data = response.data
+                console.log(data)
                 for (const key in data) {
                     const usuario = data[key]
                     usuario.id = key
@@ -200,7 +201,7 @@ export default {
             return
         }
         const usuarioData = {
-            nombreUsuario: this.usuario.nombreUsuario,
+            nombreusuario: this.usuario.nombreUsuario,
             email: this.usuario.email,
             clave: this.usuario.clave,
             confirmarClave: this.usuario.confirmarClave,
@@ -214,7 +215,6 @@ export default {
                 this.message = data.error
                 return this.message
             }
-
             this.alert = false
             const usuario = data
             usuario.usuarioId = data.usuarioId

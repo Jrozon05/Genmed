@@ -101,7 +101,7 @@ namespace genmed_api.Controllers
                 }
             }
 
-            return Ok(JsonConvert.SerializeObject(usuarioCreated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            return Ok(usuarioCreated);
         }
 
         [HttpPut("actualizarclave")]
@@ -134,7 +134,7 @@ namespace genmed_api.Controllers
                     });
                 }
             }
-            return Ok(JsonConvert.SerializeObject(usuarioUpdated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            return Ok(usuarioUpdated);
         }
 
         [HttpPut("actualizar")]
@@ -160,7 +160,7 @@ namespace genmed_api.Controllers
                     });
                 }
             }
-            return Ok(JsonConvert.SerializeObject(usuarioUpdated, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            return Ok(usuarioUpdated);
         }
 
         [HttpPost("login")]
@@ -198,11 +198,11 @@ namespace genmed_api.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(JsonConvert.SerializeObject(new
+            return Ok(new
             {
                 token = tokenHandler.WriteToken(token),
                 usuario
-            }, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            });
         }
     }
 }
