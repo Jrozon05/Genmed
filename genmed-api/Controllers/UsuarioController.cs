@@ -208,5 +208,55 @@ namespace genmed_api.Controllers
                 usuario
             });
         }
+
+        [HttpPost("activar/{guid}")]
+        public async Task<IActionResult> ActivateUsuario(Guid guid) 
+        {
+            string errMsg = $"{nameof(ActivateUsuario)} un error se ha producido mientras se busca informaciones del usuario";
+
+            Usuario usuario = new Usuario();
+            bool usuarioActivated = false;
+            try {
+                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null);
+
+                if (usuario != null)
+                {
+                    usuarioActivated = await _service.ActivateUsuario(usuario);
+                }
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest( new
+                {
+                    error  = errMsg + ex
+                });
+            }
+            return Ok(usuarioActivated);
+        }
+
+        [HttpPost("desactivar/{guid}")]
+        public async Task<IActionResult> DeactivateUsuario(Guid guid) 
+        {
+            string errMsg = $"{nameof(DeactivateUsuario)} un error se ha producido mientras se busca informaciones del usuario";
+
+            Usuario usuario = new Usuario();
+            bool usuarioDeactivated = true;
+            try {
+                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null);
+
+                if (usuario != null)
+                {
+                    usuarioDeactivated = await _service.DeactivateUsuario(usuario);
+                }
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest( new
+                {
+                    error  = errMsg + ex
+                });
+            }
+            return Ok(usuarioDeactivated);
+        }
     }
 }

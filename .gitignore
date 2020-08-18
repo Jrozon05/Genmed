@@ -2,3 +2,11 @@ genmed-api/bin/
 genmed-api/obj/
 genmed-data/bin/
 genmed-data/obj/
+
+*.dll
+*.cache
+genmed-api/bin/Debug/netcoreapp3.1/genmed-api.dll
+genmed-api/bin/Debug/netcoreapp3.1/genmed-data.dll
+genmed-data/obj/Debug/netstandard2.0/genmed-data.csproj.CoreCompileInputs.cache
+genmed-api/bin/Debug/netcoreapp3.1/genmed-api.dll
+genmed-api/bin/Debug/netcoreapp3.1/genmed-data.dll
