@@ -20,9 +20,9 @@ namespace genmed_data.Services
 
         Task<bool> UpdateClaveUsuario(Usuario usuario, string clave);
 
-        Task<bool> ActivateUsuario(Guid guid);
+        Task<bool> ActivateUsuario(Usuario usuario);
 
-        Task<bool> DeactivateUsuario(Guid guid);
+        Task<bool> DeactivateUsuario(Usuario usuario);
 
         #endregion
 

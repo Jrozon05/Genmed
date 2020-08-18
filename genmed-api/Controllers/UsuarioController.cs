@@ -217,7 +217,7 @@ namespace genmed_api.Controllers
 
                 if (usuario != null)
                 {
-                    usuarioActivated = await _service.ActivateUsuario(guid);
+                    usuarioActivated = await _service.ActivateUsuario(usuario);
                 }
             }
             catch (Exception ex) 
@@ -242,7 +242,7 @@ namespace genmed_api.Controllers
 
                 if (usuario != null)
                 {
-                    usuarioDeactivated = await _service.DeactivateUsuario(guid);
+                    usuarioDeactivated = await _service.DeactivateUsuario(usuario);
                 }
             }
             catch (Exception ex) 

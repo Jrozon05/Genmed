@@ -8,3 +8,5 @@ genmed-data/obj/
 genmed-api/bin/Debug/netcoreapp3.1/genmed-api.dll
 genmed-api/bin/Debug/netcoreapp3.1/genmed-data.dll
 genmed-data/obj/Debug/netstandard2.0/genmed-data.csproj.CoreCompileInputs.cache
+genmed-api/bin/Debug/netcoreapp3.1/genmed-api.dll
+genmed-api/bin/Debug/netcoreapp3.1/genmed-data.dll
