@@ -20,6 +20,10 @@ namespace genmed_data.Services
 
         Task<bool> UpdateClaveUsuario(Usuario usuario, string clave);
 
+        Task<bool> ActivateUsuario(Guid guid);
+
+        Task<bool> DeactivateUsuario(Guid guid);
+
         #endregion
 
         #region Doctor
