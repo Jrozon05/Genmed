@@ -48,7 +48,7 @@ namespace genmed_api.Controllers
                 });
             }
 
-            return Ok(JsonConvert.SerializeObject(values, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            return Ok(values);
         }
 
         [Authorize]

@@ -41,7 +41,7 @@ namespace Reumed.Data.BusinessObjects
         [JsonProperty("rol")]
         public Rol Rol { get; set; }
 
-        [JsonProperty("utlimaactividad")]
+        [JsonProperty("utlimaactividad", NullValueHandling = NullValueHandling.Ignore)]
         public DateTime UltimaActividad { get; set; }
 
         #endregion

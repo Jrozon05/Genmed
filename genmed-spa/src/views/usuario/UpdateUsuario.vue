@@ -131,9 +131,9 @@ export default {
             response => {
                 const data = response.data
                 const usuario = data
-                this.usuario.nombreUsuario = usuario.nombreUsuario
+                this.usuario.nombreUsuario = usuario.nombreusuario
                 this.usuario.email = usuario.email
-                this.usuario.rolId = usuario.rol.rolId
+                this.usuario.rolId = usuario.rol.rolid
                 this.usuario.guid = usuario.guid
             }
         )
@@ -161,7 +161,6 @@ export default {
                     this.message = data.error
                     return this.message
                 }
-
                 this.alert = false
                 const usuario = data
                 usuario.usuarioId = data.usuarioId

@@ -11,10 +11,10 @@ namespace Reumed.Data.BusinessObjects
     {
         string _Orgvalue = string.Empty;
 
-        [JsonIgnore()]
+        [JsonProperty("createdby", NullValueHandling = NullValueHandling.Ignore)]
         public string CreatedBy { get; set; }
 
-        [JsonIgnore()]
+        [JsonProperty("modifiedby", NullValueHandling = NullValueHandling.Ignore)]
         public string ModifiedBy { get; set; }
 
         [JsonIgnore()]
@@ -23,7 +23,7 @@ namespace Reumed.Data.BusinessObjects
         [JsonIgnore()]
         public DateTime ModifiedDate { get; set; } = DateTime.Now;
 
-        [JsonProperty("activo")]
+        [JsonProperty("activo", NullValueHandling = NullValueHandling.Ignore)]
         public bool Activo { get; set; } = true;
 
         [JsonIgnore()]

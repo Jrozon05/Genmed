@@ -130,7 +130,7 @@ const fields = [
     { key: 'nombreUsuario', _style: 'width:15%' },
     { key: 'email', _style: 'width:20%' },
     { key: 'guid', label: 'Guid' },
-    { key: 'rol' },
+    { key: 'rol', label: 'Rol' },
     { key: 'editarUsuario', label: 'Editar', _style: 'width:1%', sorter: false, filter: false }
 ]
 
