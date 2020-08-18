@@ -72,7 +72,8 @@ namespace genmed_api.Controllers
                     doctor = _mapper.Map<Doctor>(doctorRegistrarDto);
 
                     doctorCreated = await _service.CreateUpdateDoctor(doctor, doctorRegistrarDto.UsuarioId);
-
+                    Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorRegistrarDto.UsuarioId);
+                    await _service.AsignarUsuario(usuario);
                 }
                 catch (Exception ex) 
                 {
@@ -90,6 +91,14 @@ namespace genmed_api.Controllers
         {
             string errMsg =  $"{nameof(UpdateDoctor)} un error producido mientras se actualiza el doctor";
             Doctor doctorUpdated = new Doctor();
+            
+            var doctorTemp = await _service.GetDoctorByGuid(doctorActualizarDto.Guid);
+            Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorTemp.Usuario.UsuarioId);
+            
+            if(doctorTemp == null || usuario == null) 
+                return NotFound();
+
+            await _service.DesasignarUsuario(usuario);
 
             if(ModelState.IsValid)
             {
@@ -99,7 +108,8 @@ namespace genmed_api.Controllers
                     doctor = _mapper.Map<Doctor>(doctorActualizarDto);
 
                     doctorUpdated = await _service.CreateUpdateDoctor(doctor, doctorActualizarDto.UsuarioId);
-
+                    usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorActualizarDto.UsuarioId);
+                    await _service.AsignarUsuario(usuario);
                 }
                 catch (Exception ex) 
                 {

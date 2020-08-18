@@ -10,7 +10,7 @@ namespace genmed_data.Services
     {
         #region Usuario
 
-        Task<Usuario> GetUsuarioByGuidOrNombreUsuario(Guid? guid = null, string nombreUsuario = null);
+        Task<Usuario> GetUsuarioByGuidOrNombreUsuario(Guid? guid = null, string nombreUsuario = null, int? usuarioId = null);
 
         Task<List<Usuario>> GetUsuarioAsync();
 
@@ -23,6 +23,10 @@ namespace genmed_data.Services
         Task<bool> ActivateUsuario(Usuario usuario);
 
         Task<bool> DeactivateUsuario(Usuario usuario);
+
+        Task<bool> AsignarUsuario(Usuario usuario);
+
+        Task<bool> DesasignarUsuario(Usuario usuario);
 
         #endregion
 

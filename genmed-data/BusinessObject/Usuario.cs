@@ -44,6 +44,9 @@ namespace Reumed.Data.BusinessObjects
         [JsonProperty("utlimaactividad", NullValueHandling = NullValueHandling.Ignore)]
         public DateTime UltimaActividad { get; set; }
 
+        [JsonProperty("asignado")]
+        public bool Asignado {get; set;} = false;
+
         #endregion
     }
 }

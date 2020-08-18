@@ -209,7 +209,7 @@ namespace genmed_api.Controllers
             });
         }
 
-        [HttpPost("activar/{guid}")]
+        [HttpPut("activar/{guid}")]
         public async Task<IActionResult> ActivateUsuario(Guid guid) 
         {
             string errMsg = $"{nameof(ActivateUsuario)} un error se ha producido mientras se busca informaciones del usuario";
@@ -234,7 +234,7 @@ namespace genmed_api.Controllers
             return Ok(usuarioActivated);
         }
 
-        [HttpPost("desactivar/{guid}")]
+        [HttpPut("desactivar/{guid}")]
         public async Task<IActionResult> DeactivateUsuario(Guid guid) 
         {
             string errMsg = $"{nameof(DeactivateUsuario)} un error se ha producido mientras se busca informaciones del usuario";
@@ -257,6 +257,60 @@ namespace genmed_api.Controllers
                 });
             }
             return Ok(usuarioDeactivated);
+        }
+
+        [HttpPut("asignar/{guid}")]
+        public async Task<IActionResult> AsignarUsuario(Guid guid)
+        {
+            string errMsg = $"{nameof(AsignarUsuario)} un error se ha producido mientras se busca informaciones del usuario";
+
+            Usuario usuario = new Usuario();
+            bool usuarioAsignado = false;
+            try {
+                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null);
+
+                if (usuario != null)
+                {
+                    usuarioAsignado = await _service.AsignarUsuario(usuario);
+                }
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest( new
+                {
+                    error  = errMsg + ex
+                });
+            }
+            return Ok(new {
+                flag = usuarioAsignado
+            });
+        }
+        
+        [HttpPut("desasignar/{guid}")]
+        public async Task<IActionResult> DeasignarUsuario(Guid guid)
+        {
+            string errMsg = $"{nameof(AsignarUsuario)} un error se ha producido mientras se busca informaciones del usuario";
+
+            Usuario usuario = new Usuario();
+            bool usuarioAsignado = false;
+            try {
+                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null);
+
+                if (usuario != null)
+                {
+                    usuarioAsignado = await _service.DesasignarUsuario(usuario);
+                }
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest( new
+                {
+                    error  = errMsg + ex
+                });
+            }
+            return Ok(new {
+                flag = usuarioAsignado
+            });
         }
     }
 }
