@@ -88,9 +88,9 @@ namespace genmed_data.Services
             return usuario;
         }
 
-        public async Task<Usuario> GetUsuarioByGuidOrNombreUsuario(Guid? guid = null, string nombreUsuario = null)
+        public async Task<Usuario> GetUsuarioByGuidOrNombreUsuario(Guid? guid = null, string nombreUsuario = null, int? usuarioId = null)
         {
-            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuario(guid, nombreUsuario); });
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuario(guid, nombreUsuario, usuarioId); });
         }
 
         public async Task<bool> ActivateUsuario(Usuario usuario)

@@ -10,7 +10,7 @@ namespace genmed_data.Database
 {
     internal partial class SQLDatabase
     {
-        public Usuario GetUsuario(Guid? guid = null, string nombreUsuario = null)
+        public Usuario GetUsuario(Guid? guid = null, string nombreUsuario = null, int? usuarioId = null)
         {
             var usuario = new Usuario();
 
@@ -31,6 +31,11 @@ namespace genmed_data.Database
                         p.Value = guid;
                         cmd.Parameters.Add(p);
 
+                        p.DbType = DbType.Int32;
+                        p.ParameterName = "UsuarioId";
+                        p.Value = usuarioId;
+                        cmd.Parameters.Add(p);
+
                         p = cmd.CreateParameter();
                         p.DbType = DbType.String;
                         p.ParameterName = "NombreUsuario";
@@ -44,6 +49,7 @@ namespace genmed_data.Database
                                 usuario.Rol = new Rol();
 
                                 usuario.Guid = dr.GetGuid(dr.GetOrdinal("guid"));
+                                usuario.UsuarioId = dr.GetInt32(dr.GetOrdinal("usuarioid"));
                                 usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
                                 usuario.Email = dr.GetString(dr.GetOrdinal("email"));
                                 usuario.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
