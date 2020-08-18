@@ -172,6 +172,12 @@ namespace genmed_data.Database
                         p.Value = usuario.Activo;
                         cmd.Parameters.Add(p);
 
+                        p = cmd.CreateParameter();
+                        p.DbType = DbType.Boolean;
+                        p.ParameterName = "Asignado";
+                        p.Value = usuario.Asignado;
+                        cmd.Parameters.Add(p);
+
                         cmd.ExecuteScalar();
                         usuario.UsuarioId = Convert.ToInt32(outputId.Value);
                     }

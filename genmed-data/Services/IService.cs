@@ -24,6 +24,10 @@ namespace genmed_data.Services
 
         Task<bool> DeactivateUsuario(Usuario usuario);
 
+        Task<bool> AsignarUsuario(Usuario usuario);
+
+        Task<bool> DesasignarUsuario(Usuario usuario);
+
         #endregion
 
         #region Doctor

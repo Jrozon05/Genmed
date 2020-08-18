@@ -106,6 +106,20 @@ namespace genmed_data.Services
             await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateUsuario(usuario, usuario.Rol.RolId));
             return usuario.Activo;
         }
+        
+        public async Task<bool> AsignarUsuario(Usuario usuario)
+        {
+            usuario.Asignado = true;
+            await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateUsuario(usuario, usuario.Rol.RolId));
+            return usuario.Asignado;
+        }
+
+        public async Task<bool> DesasignarUsuario(Usuario usuario)
+        {
+            usuario.Asignado = false;
+            await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateUsuario(usuario, usuario.Rol.RolId));
+            return usuario.Asignado;
+        }
 
         #endregion
 
