@@ -45,10 +45,11 @@ namespace genmed_data.Database
 
                         using (IDataReader dr = cmd.ExecuteReader())
                         {
+                            usuario = null;
                             while (dr.Read())
                             {
+                                usuario = new Usuario();
                                 usuario.Rol = new Rol();
-
                                 usuario.Guid = dr.GetGuid(dr.GetOrdinal("guid"));
                                 usuario.UsuarioId = dr.GetInt32(dr.GetOrdinal("usuarioid"));
                                 usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));

@@ -49,7 +49,7 @@ namespace genmed_data.Services
                 if (usuario == null || usuarioCreated == null)
                     return updated;
 
-                usuario = await GetUsuarioByGuidOrNombreUsuario(usuarioCreated.Guid, null);
+                usuario = await GetUsuarioByGuidOrNombreUsuario(usuarioCreated.Guid, null, null);
                 if (usuario != null)
                     updated = true;
             }

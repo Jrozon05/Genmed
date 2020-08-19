@@ -254,6 +254,7 @@ namespace genmed_api.Controllers
                 if (usuario != null)
                 {
                     usuarioDeactivated = await _service.DeactivateUsuario(usuario);
+                    await _service.DeactivateUsuario(usuario);
                 }
             }
             catch (Exception ex)
