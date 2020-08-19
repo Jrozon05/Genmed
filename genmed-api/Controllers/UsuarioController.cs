@@ -85,7 +85,7 @@ namespace genmed_api.Controllers
                     {
                         return Ok(new { Error = "El nombre usuario: " + usuario.NombreUsuario + " actualmente existe." });
                     }
-                    
+
                     usuarioCreated = await _service.CreateUpdateUsuario(usuario, usuarioRegistrarDto.RolId);
                     var createClave = _mapper.Map<UsuarioActualizarClaveDto>(usuarioCreated);
                     createClave.Clave = usuarioRegistrarDto.Clave;
@@ -107,36 +107,38 @@ namespace genmed_api.Controllers
         [HttpPut("actualizarclave")]
         public async Task<IActionResult> UpdateClaveUsuario(UsuarioActualizarClaveDto usuarioActualizarClaveDto)
         {
-            string errMsg =  $"{nameof(UpdateUsuario)} un error producido mientras se actualiza la clave del usuario";
+            string errMsg = $"{nameof(UpdateUsuario)} un error producido mientras se actualiza la clave del usuario";
             Usuario usuarioUpdated = new Usuario();
 
             var result = false;
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
                     Usuario usuario = new Usuario();
-                    string claveEncrypt = usuarioActualizarClaveDto.Clave.Encrypt();  
+                    string claveEncrypt = usuarioActualizarClaveDto.Clave.Encrypt();
                     usuario = _mapper.Map<Usuario>(usuarioActualizarClaveDto);
-                    if(usuarioActualizarClaveDto.Clave.Equals(usuarioActualizarClaveDto.ConfirmarClave))
+                    if (usuarioActualizarClaveDto.Clave.Equals(usuarioActualizarClaveDto.ConfirmarClave))
                     {
-                       result = await _service.UpdateClaveUsuario(usuario, claveEncrypt);
+                        result = await _service.UpdateClaveUsuario(usuario, claveEncrypt);
                     }
-                    else {
+                    else
+                    {
                         return NotFound();
                     }
 
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
-                    return BadRequest( new
+                    return BadRequest(new
                     {
-                        error  = errMsg + ex
+                        error = errMsg + ex
                     });
                 }
             }
-            return Ok(new {
+            return Ok(new
+            {
                 flag = result
             });
         }
@@ -144,10 +146,10 @@ namespace genmed_api.Controllers
         [HttpPut("actualizar")]
         public async Task<IActionResult> UpdateUsuario(UsuarioActualizarDto usuarioActualizarDto)
         {
-            string errMsg =  $"{nameof(UpdateUsuario)} un error producido mientras se actualiza el usuario";
+            string errMsg = $"{nameof(UpdateUsuario)} un error producido mientras se actualiza el usuario";
             Usuario usuarioUpdated = new Usuario();
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -156,11 +158,11 @@ namespace genmed_api.Controllers
                     usuarioUpdated = await _service.CreateUpdateUsuario(usuario, usuarioActualizarDto.RolId);
 
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
-                    return BadRequest( new
+                    return BadRequest(new
                     {
-                        error  = errMsg + ex
+                        error = errMsg + ex
                     });
                 }
             }
@@ -180,7 +182,7 @@ namespace genmed_api.Controllers
                 {
                     error = "El nombre de usuario o la clave esta incorrecta"
                 });
-                
+
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.Guid.ToString()),
@@ -210,13 +212,14 @@ namespace genmed_api.Controllers
         }
 
         [HttpPut("activar/{guid}")]
-        public async Task<IActionResult> ActivateUsuario(Guid guid) 
+        public async Task<IActionResult> ActivateUsuario(Guid guid)
         {
             string errMsg = $"{nameof(ActivateUsuario)} un error se ha producido mientras se busca informaciones del usuario";
 
             Usuario usuario = new Usuario();
             bool usuarioActivated = false;
-            try {
+            try
+            {
                 usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null);
 
                 if (usuario != null)
@@ -224,24 +227,28 @@ namespace genmed_api.Controllers
                     usuarioActivated = await _service.ActivateUsuario(usuario);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                return BadRequest( new
+                return BadRequest(new
                 {
-                    error  = errMsg + ex
+                    error = errMsg + ex
                 });
             }
-            return Ok(usuarioActivated);
+            return Ok(new
+            {
+                flag = usuarioActivated
+            });
         }
 
         [HttpPut("desactivar/{guid}")]
-        public async Task<IActionResult> DeactivateUsuario(Guid guid) 
+        public async Task<IActionResult> DeactivateUsuario(Guid guid)
         {
             string errMsg = $"{nameof(DeactivateUsuario)} un error se ha producido mientras se busca informaciones del usuario";
 
             Usuario usuario = new Usuario();
             bool usuarioDeactivated = true;
-            try {
+            try
+            {
                 usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null);
 
                 if (usuario != null)
@@ -249,14 +256,18 @@ namespace genmed_api.Controllers
                     usuarioDeactivated = await _service.DeactivateUsuario(usuario);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                return BadRequest( new
+                return BadRequest(new
                 {
-                    error  = errMsg + ex
+                    error = errMsg + ex
                 });
             }
-            return Ok(usuarioDeactivated);
+            
+            return Ok(new
+            {
+                flag = usuarioDeactivated
+            });
         }
 
         [HttpPut("asignar/{guid}")]
@@ -266,7 +277,8 @@ namespace genmed_api.Controllers
 
             Usuario usuario = new Usuario();
             bool usuarioAsignado = false;
-            try {
+            try
+            {
                 usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null);
 
                 if (usuario != null)
@@ -274,18 +286,19 @@ namespace genmed_api.Controllers
                     usuarioAsignado = await _service.AsignarUsuario(usuario);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                return BadRequest( new
+                return BadRequest(new
                 {
-                    error  = errMsg + ex
+                    error = errMsg + ex
                 });
             }
-            return Ok(new {
+            return Ok(new
+            {
                 flag = usuarioAsignado
             });
         }
-        
+
         [HttpPut("desasignar/{guid}")]
         public async Task<IActionResult> DeasignarUsuario(Guid guid)
         {
@@ -293,7 +306,8 @@ namespace genmed_api.Controllers
 
             Usuario usuario = new Usuario();
             bool usuarioAsignado = false;
-            try {
+            try
+            {
                 usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null);
 
                 if (usuario != null)
@@ -301,14 +315,15 @@ namespace genmed_api.Controllers
                     usuarioAsignado = await _service.DesasignarUsuario(usuario);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                return BadRequest( new
+                return BadRequest(new
                 {
-                    error  = errMsg + ex
+                    error = errMsg + ex
                 });
             }
-            return Ok(new {
+            return Ok(new
+            {
                 flag = usuarioAsignado
             });
         }

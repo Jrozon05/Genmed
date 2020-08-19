@@ -58,7 +58,8 @@
                 <CCardFooter>
                         <CButton type="submit" color="success" @click.prevent="UpdateUsuario">Salvar</CButton>&nbsp;
                         <CButton type="submit" variant="outline" color="dark" @click.prevent="CancelarForm">Cancelar</CButton>
-                        <CButton type="submit" color="danger" @click.prevent="DeleteUsuario" class="btnFloat">Borrar</CButton>
+                        <CButton v-if="Boolean(!isActive)" type="submit" variant="outline" :color="Boolean(isActive) ? 'danger' : 'success'" @click="ActivarUsuario" class="btnFloat">{{Boolean(isActive) ? 'Desactivar' : 'Activar'}}</CButton>
+                        <CButton v-if="Boolean(isActive)" type="submit" variant="outline" :color="Boolean(isActive) ? 'danger' : 'success'" @click="DeleteUsuario" class="btnFloat">{{Boolean(isActive) ? 'Desactivar' : 'Activar'}}</CButton>
                 </CCardFooter>
             </CCard>
         </CCol>
@@ -88,7 +89,8 @@ export default {
           },
           message: '',
           alert: false,
-          isRolValid: null
+          isRolValid: null,
+          isActive: true
       }
   },
   components: {
@@ -116,9 +118,6 @@ export default {
   created () {
       this.changeUsuarioInfo(this.$route.params.guid)
   },
-  mounted () {
-      this.changeUsuarioInfo(this.guidToEdit)
-  },
   watch: {
       guidToEdit () {
           this.changeUsuarioInfo(this.guidToEdit)
@@ -130,6 +129,7 @@ export default {
             response => {
                 const data = response.data
                 const usuario = data
+                this.isActive = usuario.activo
                 this.usuario.nombreUsuario = usuario.nombreusuario
                 this.usuario.email = usuario.email
                 this.usuario.rolId = usuario.rol.rolid
@@ -171,6 +171,22 @@ export default {
                 } else {
                     this.$alertify.warning('Error en salvar el usuario')
                 }
+            }
+        )
+    },
+    DeleteUsuario () {
+        UsuarioService.DeactivateUsuario(this.guidToEdit).then(
+            response => {
+                const data = response.data
+                this.isActive = data.flag
+            }
+        )
+    },
+    ActivarUsuario () {
+        UsuarioService.ActivateUsuario(this.guidToEdit).then(
+            response => {
+                const data = response.data
+                this.isActive = data.flag
             }
         )
     },

@@ -101,6 +101,13 @@
                 sorter
                 pagination
                 >
+                <template #status="{item}">
+                    <td>
+                    <CBadge :color="getBadge(item.activo)">
+                        {{item.activo ? 'Activo' : 'Desactivado'}}
+                    </CBadge>
+                    </td>
+                </template>
                 <template #editarUsuario="{item}">
                     <td class="py-2">
                         <CButton
@@ -131,6 +138,7 @@ const fields = [
     { key: 'email', _style: 'width:20%' },
     { key: 'guid', label: 'Guid' },
     { key: 'rol', label: 'Rol' },
+    { key: 'status' },
     { key: 'editarUsuario', label: 'Editar', _style: 'width:1%', sorter: false, filter: false }
 ]
 
@@ -240,6 +248,13 @@ export default {
         } else {
             this.isRolValid = true
         }
+    },
+    getBadge (status) {
+      if (status) {
+          return 'success'
+      } else {
+          return 'warning'
+      }
     },
     clear () {
         this.usuario.nombreUsuario = ''
