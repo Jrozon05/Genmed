@@ -31,6 +31,7 @@ namespace genmed_data.Database
                         p.Value = guid;
                         cmd.Parameters.Add(p);
 
+                        p = cmd.CreateParameter();
                         p.DbType = DbType.Int32;
                         p.ParameterName = "UsuarioId";
                         p.Value = usuarioId;

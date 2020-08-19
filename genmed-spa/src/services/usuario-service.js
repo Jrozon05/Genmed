@@ -33,7 +33,10 @@ class UsuarioService {
     })
   }
 
-  DeactivateUsuario () {
+  DeactivateUsuario (guid) {
+    return axios.put('/usuario/desactivar', guid, {
+      headers: authHeader()
+    })
   }
 }
 

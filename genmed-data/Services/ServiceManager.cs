@@ -20,7 +20,7 @@ namespace genmed_data.Services
 
         public async Task<Usuario> Login(string nombreUsuario, string clave)
         {
-            var usuario = await GetUsuarioByGuidOrNombreUsuario(null, nombreUsuario);
+            var usuario = await GetUsuarioByGuidOrNombreUsuario(null, nombreUsuario, null);
 
             if (usuario == null || usuario.ClaveHash == null && usuario.ClaveSalt == null)
                 return null;
@@ -50,12 +50,12 @@ namespace genmed_data.Services
                     return updated;
 
                 usuario = await GetUsuarioByGuidOrNombreUsuario(usuarioCreated.Guid, null);
-                if(usuario != null)
+                if (usuario != null)
                     updated = true;
             }
             catch (Exception ex)
             {
-              if (Debugger.IsAttached)
+                if (Debugger.IsAttached)
                     Debugger.Break();
 
                 throw new Exception(errMsg, ex);
@@ -106,7 +106,7 @@ namespace genmed_data.Services
             await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateUsuario(usuario, usuario.Rol.RolId));
             return usuario.Activo;
         }
-        
+
         public async Task<bool> AsignarUsuario(Usuario usuario)
         {
             usuario.Asignado = true;
@@ -138,8 +138,9 @@ namespace genmed_data.Services
         public async Task<Doctor> CreateUpdateDoctor(Doctor doctor, int usuarioId)
         {
             string errMsg = $"{nameof(CreateUpdateDoctor)} - Error en salvar o actualizar las informaciones del doctor";
-            try {
-            var doctorCreated = await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateDoctor(doctor, usuarioId));
+            try
+            {
+                var doctorCreated = await Task.Factory.StartNew(() => Factory.GetDatabase().CreateUpdateDoctor(doctor, usuarioId));
 
                 if (doctor == null || doctorCreated == null)
                     return null;
@@ -173,7 +174,7 @@ namespace genmed_data.Services
         #endregion
 
         #region Direccion
-        
+
         public async Task<List<Provincia>> GetProvincias()
         {
             return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetProvincias(); });
