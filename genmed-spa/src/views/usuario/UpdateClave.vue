@@ -43,7 +43,7 @@
                     </CCardBody>
                     <CCardFooter>
                         <CButton type="submit" color="success" @click.prevent="UpdateClave">Salvar</CButton>&nbsp;
-                        <CButton type="submit" variant="outline" color="dark" @click.prevent="CancelarForm">Cancelar</CButton>
+                        <!-- <CButton type="submit" variant="outline" color="dark" @click.prevent="CancelarForm">Cancelar</CButton> -->
                     </CCardFooter>
                 </CCard>
                 </CCol>

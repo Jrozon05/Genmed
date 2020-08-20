@@ -9,6 +9,7 @@ const UpdateUsuario = () => import('@/views/usuario/UpdateUsuario')
 const Paciente = () => import('@/views/paciente/Pacientes')
 const NuevoPaciente = () => import('@/views/paciente/CreatePaciente')
 const Doctor = () => import('@/views/doctor/Doctor')
+const UpdateDoctor = () => import('@/views/doctor/UpdateDoctor')
 
 Vue.use(VueRouter)
 
@@ -56,6 +57,11 @@ const routes = [{
         path: '/doctor',
         name: 'Doctor',
         component: Doctor
+      },
+      {
+        path: '/doctor/:guid',
+        name: 'Doctor / Modificar Doctor',
+        component: UpdateDoctor
       }
     ]
   },

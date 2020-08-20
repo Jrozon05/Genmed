@@ -8,9 +8,30 @@ class DoctorService {
     })
   }
 
+  getDoctorByGuid (guid) {
+    return axios.get('/doctor/' + guid, { headers: authHeader() })
+  }
+
   createDoctor (doctorData) {
     const data = JSON.stringify(doctorData)
     return axios.post('/doctor/registrar', data, {
+      headers: authHeader()
+    })
+  }
+
+  updateDoctor (doctorToUpdate) {
+    var data = JSON.stringify(doctorToUpdate)
+    return axios.put('/doctor/actualizar', data, { headers: authHeader() })
+  }
+
+  deactivateDoctor (guid) {
+    return axios.put('/doctor/desactivar/' + guid, {
+      headers: authHeader()
+    })
+  }
+
+  activateDoctor (guid) {
+    return axios.put('/doctor/activar/' + guid, {
       headers: authHeader()
     })
   }

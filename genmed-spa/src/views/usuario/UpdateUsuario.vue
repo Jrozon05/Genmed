@@ -10,7 +10,7 @@
                     <CRow>
                         <CCol sm="12">
                             <CInput
-                            label="Identificación:"
+                            label="Identificación"
                             placeholder="Introduzca su nombre de usuario"
                             disabled
                             v-model="usuario.guid"

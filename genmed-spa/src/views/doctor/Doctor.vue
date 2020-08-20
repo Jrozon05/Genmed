@@ -200,7 +200,6 @@ export default {
                 posicion: this.doctor.posicion,
                 usuarioId: this.doctor.usuarioId.usuarioId
             }
-            console.log(doctorData)
             DoctorService.createDoctor(doctorData).then(
                 response => {
                     const data = response.data
@@ -221,6 +220,13 @@ export default {
                         this.$v.$reset()
                         this.clear()
                     }
+                }
+            )
+        },
+        updateDoctor (item) {
+            this.$store.dispatch('doctor/getDoctorGuid', item.guid).then(
+                () => {
+                    this.$router.push({ name: 'Doctor / Modificar Doctor', params: { guid: item.guid } })
                 }
             )
         },

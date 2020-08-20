@@ -86,7 +86,7 @@ namespace genmed_api.Controllers
             return Ok(doctorCreated);
         }
 
-        [HttpPost("actualizar")]
+        [HttpPut("actualizar")]
         public async Task<IActionResult> UpdateDoctor(DoctorActualizarDto doctorActualizarDto)
         {
             string errMsg =  $"{nameof(UpdateDoctor)} un error producido mientras se actualiza el doctor";
@@ -122,7 +122,7 @@ namespace genmed_api.Controllers
             return Ok(doctorUpdated);
         } 
 
-        [HttpPost("activar/{guid}")]
+        [HttpPut("activar/{guid}")]
         public async Task<IActionResult> ActivateDoctor(Guid guid) 
         {
             string errMsg = $"{nameof(ActivateDoctor)} un error se ha producido mientras se busca informaciones del doctor";
@@ -144,10 +144,12 @@ namespace genmed_api.Controllers
                     error  = errMsg + ex
                 });
             }
-            return Ok(doctorActivated);
+            return Ok(new {
+                flag = doctorActivated
+            });
         }
 
-        [HttpPost("desactivar/{guid}")]
+        [HttpPut("desactivar/{guid}")]
         public async Task<IActionResult> DeactivateDoctor(Guid guid) 
         {
             string errMsg = $"{nameof(DeactivateDoctor)} un error se ha producido mientras se busca informaciones del doctor";
@@ -169,7 +171,10 @@ namespace genmed_api.Controllers
                     error  = errMsg + ex
                 });
             }
-            return Ok(doctorDeactivated);
+            return Ok(new
+            {
+                flag = doctorDeactivated
+            });
         }
     }
 }

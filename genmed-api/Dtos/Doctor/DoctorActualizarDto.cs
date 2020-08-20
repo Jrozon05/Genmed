@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace genmed_api.Dtos.Doctor 
 {
-    public class DoctorActualizarDto {
-
-        public int DoctorId {get; set;}
+    public class DoctorActualizarDto 
+    {
         public Guid Guid {get; set;}
 
         [Required(ErrorMessage = "El Nombre es un campo requerido.")]

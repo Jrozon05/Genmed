@@ -81,6 +81,7 @@ namespace genmed_data.Database
                                 doctor.Nombre = dr.GetString(dr.GetOrdinal("nombre"));
                                 doctor.Apellido = dr.GetString(dr.GetOrdinal("apellido"));
                                 doctor.Posicion = dr.GetString(dr.GetOrdinal("posicion"));
+                                doctor.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
                                 doctor.Usuario.UsuarioId = dr.GetInt32(dr.GetOrdinal("usuarioid"));
                                 doctor.Usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
 
@@ -158,7 +159,9 @@ namespace genmed_data.Database
                         cmd.Parameters.Add(p);
 
                         cmd.ExecuteScalar();
-                        doctor.DoctorId = Convert.ToInt32(outputId.Value);
+                        
+                        if (!(outputId.Value is DBNull))
+                            doctor.DoctorId = Convert.ToInt32(outputId.Value);
                     }
 
                     connection.Close();
