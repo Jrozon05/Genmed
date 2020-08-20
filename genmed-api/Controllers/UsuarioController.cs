@@ -119,13 +119,19 @@ namespace genmed_api.Controllers
                     Usuario usuario = new Usuario();
                     string claveEncrypt = usuarioActualizarClaveDto.Clave.Encrypt();
                     usuario = _mapper.Map<Usuario>(usuarioActualizarClaveDto);
+                    Usuario usuarioTemporal = await _service.GetUsuarioByGuidOrNombreUsuario(usuario.Guid, null, null);
+
+                    if(usuarioTemporal.Email == null)
+                    {
+                        return BadRequest(new
+                        {
+                            error = errMsg
+                        });
+                    }
+
                     if (usuarioActualizarClaveDto.Clave.Equals(usuarioActualizarClaveDto.ConfirmarClave))
                     {
                         result = await _service.UpdateClaveUsuario(usuario, claveEncrypt);
-                    }
-                    else
-                    {
-                        return NotFound();
                     }
 
                 }
@@ -155,6 +161,17 @@ namespace genmed_api.Controllers
                 {
                     Usuario usuario = new Usuario();
                     usuario = _mapper.Map<Usuario>(usuarioActualizarDto);
+                    Usuario usuarioTemporal = (await _service.GetUsuarioByGuidOrNombreUsuario(usuario.Guid, null, null));
+                    
+                    if (usuarioTemporal.Email == null || !usuarioTemporal.Email.Equals(usuario.Email))
+                    {
+                        return BadRequest(new
+                            {
+                                error = errMsg
+                            }
+                        );
+                    }
+                    
                     usuarioUpdated = await _service.CreateUpdateUsuario(usuario, usuarioActualizarDto.RolId);
 
                 }

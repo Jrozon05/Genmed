@@ -37,6 +37,7 @@
                         v-model="usuario.email"
                         :invalid-feedback="!$v.usuario.email.email ? 'No tiene un formato de correo electronico' : 'El correo electronico es un campo requerido'"
                         :is-valid="!$v.usuario.email.$error ? null : false"
+                        disabled
                         />
                     </CCol>
                     </CRow>
