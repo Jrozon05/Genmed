@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div class="sk-plane"></div>
         <CRow>
             <CCol sm="5">
             <CCard>
@@ -232,5 +233,21 @@ export default {
 <style scoped>
     .btnFloat {
         float: right;
+    }
+
+    .vs--disabled .vs__clear, .vs--disabled .vs__dropdown-toggle, .vs--disabled .vs__open-indicator, .vs--disabled .vs__search, .vs--disabled .vs__selected {
+        cursor: auto;
+        background-color: #d8dbe0;
+    }
+
+    .invalid {
+        border: 1px solid #e55353;
+    }
+
+    .invalid-label {
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 80%;
+        color: #e55353
     }
 </style>
