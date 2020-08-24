@@ -21,17 +21,17 @@ class DoctorService {
 
   updateDoctor (doctorToUpdate) {
     var data = JSON.stringify(doctorToUpdate)
-    return axios.put('/doctor/actualizar', data, { headers: authHeader() })
+    return axios.post('/doctor/actualizar', data, { headers: authHeader() })
   }
 
   deactivateDoctor (guid) {
-    return axios.put('/doctor/desactivar/' + guid, {
+    return axios.post('/doctor/desactivar/' + guid, {
       headers: authHeader()
     })
   }
 
   activateDoctor (guid) {
-    return axios.put('/doctor/activar/' + guid, {
+    return axios.post('/doctor/activar/' + guid, {
       headers: authHeader()
     })
   }

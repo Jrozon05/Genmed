@@ -9,6 +9,7 @@ using genmed_api.Utils.Extensions;
 using genmed_data.Database;
 using genmed_data.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -107,7 +108,7 @@ namespace genmed_api.Controllers
             return Ok(usuarioCreated);
         }
 
-        [HttpPut("actualizarclave")]
+        [HttpPost("actualizarclave")]
         public async Task<IActionResult> UpdateClaveUsuario(UsuarioActualizarClaveDto usuarioActualizarClaveDto)
         {
             string errMsg = $"{nameof(UpdateUsuario)} un error producido mientras se actualiza la clave del usuario";
@@ -152,7 +153,7 @@ namespace genmed_api.Controllers
             });
         }
 
-        [HttpPut("actualizar")]
+        [HttpPost("actualizar")]
         public async Task<IActionResult> UpdateUsuario(UsuarioActualizarDto usuarioActualizarDto)
         {
             string errMsg = $"{nameof(UpdateUsuario)} un error producido mientras se actualiza el usuario";
@@ -203,6 +204,12 @@ namespace genmed_api.Controllers
                     error = "El nombre de usuario o la clave esta incorrecta"
                 });
 
+            if (!usuario.Activo)
+                return Unauthorized(new
+                {
+                    error = "El usuario ha sido desactivado"
+                });       
+
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.Guid.ToString()),
@@ -231,7 +238,7 @@ namespace genmed_api.Controllers
             });
         }
 
-        [HttpPut("activar/{guid}")]
+        [HttpPost("activar/{guid}")]
         public async Task<IActionResult> ActivateUsuario(Guid guid)
         {
             string errMsg = $"{nameof(ActivateUsuario)} un error se ha producido mientras se busca informaciones del usuario";
@@ -260,7 +267,7 @@ namespace genmed_api.Controllers
             });
         }
 
-        [HttpPut("desactivar/{guid}")]
+        [HttpPost("desactivar/{guid}")]
         public async Task<IActionResult> DeactivateUsuario(Guid guid)
         {
             string errMsg = $"{nameof(DeactivateUsuario)} un error se ha producido mientras se busca informaciones del usuario";
@@ -291,7 +298,7 @@ namespace genmed_api.Controllers
             });
         }
 
-        [HttpPut("asignar/{guid}")]
+        [HttpPost("asignar/{guid}")]
         public async Task<IActionResult> AsignarUsuario(Guid guid)
         {
             string errMsg = $"{nameof(AsignarUsuario)} un error se ha producido mientras se busca informaciones del usuario";
@@ -320,7 +327,7 @@ namespace genmed_api.Controllers
             });
         }
 
-        [HttpPut("desasignar/{guid}")]
+        [HttpPost("desasignar/{guid}")]
         public async Task<IActionResult> DeasignarUsuario(Guid guid)
         {
             string errMsg = $"{nameof(AsignarUsuario)} un error se ha producido mientras se busca informaciones del usuario";

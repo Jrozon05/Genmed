@@ -5,6 +5,7 @@ using genmed_api.Dtos.Doctor;
 using genmed_data.Database;
 using genmed_data.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -86,7 +87,7 @@ namespace genmed_api.Controllers
             return Ok(doctorCreated);
         }
 
-        [HttpPut("actualizar")]
+        [HttpPost("actualizar")]
         public async Task<IActionResult> UpdateDoctor(DoctorActualizarDto doctorActualizarDto)
         {
             string errMsg =  $"{nameof(UpdateDoctor)} un error producido mientras se actualiza el doctor";
@@ -122,7 +123,7 @@ namespace genmed_api.Controllers
             return Ok(doctorUpdated);
         } 
 
-        [HttpPut("activar/{guid}")]
+        [HttpPost("activar/{guid}")]
         public async Task<IActionResult> ActivateDoctor(Guid guid) 
         {
             string errMsg = $"{nameof(ActivateDoctor)} un error se ha producido mientras se busca informaciones del doctor";
@@ -149,7 +150,7 @@ namespace genmed_api.Controllers
             });
         }
 
-        [HttpPut("desactivar/{guid}")]
+        [HttpPost("desactivar/{guid}")]
         public async Task<IActionResult> DeactivateDoctor(Guid guid) 
         {
             string errMsg = $"{nameof(DeactivateDoctor)} un error se ha producido mientras se busca informaciones del doctor";

@@ -21,26 +21,26 @@ class UsuarioService {
 
   UpdateUsuario (usuarioToUpdate) {
     var data = JSON.stringify(usuarioToUpdate)
-    return axios.put('/usuario/actualizar', data, {
+    return axios.post('/usuario/actualizar', data, {
       headers: authHeader()
     })
   }
 
   UpdateClave (claveToUpdate) {
     var data = JSON.stringify(claveToUpdate)
-    return axios.put('/usuario/actualizarclave', data, {
+    return axios.post('/usuario/actualizarclave', data, {
       headers: authHeader()
     })
   }
 
   DeactivateUsuario (guid) {
-    return axios.put('/usuario/desactivar/' + guid, {
+    return axios.post('/usuario/desactivar/' + guid, {
       headers: authHeader()
     })
   }
 
   ActivateUsuario (guid) {
-    return axios.put('/usuario/activar/' + guid, {
+    return axios.post('/usuario/activar/' + guid, {
       headers: authHeader()
     })
   }

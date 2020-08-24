@@ -15,7 +15,8 @@ import CoreuiVue from '@coreui/vue'
 import { iconsSet as icons } from './assets/icons/icons.js'
 import VueAlertify from 'vue-alertify'
 
-axios.defaults.baseURL = 'http://localhost:5000/api'
+// axios.defaults.baseURL = 'http://localhost:5000/api'
+axios.defaults.baseURL = 'https://server.genmedrd.com/api'
 
 Vue.use(CoreuiVue)
 Vue.use(Vuelidate)
