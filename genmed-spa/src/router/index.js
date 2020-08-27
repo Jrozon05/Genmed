@@ -67,7 +67,7 @@ const routes = [{
   },
   {
     path: '*',
-    redirect: '/'
+    component: Login
   }
 ]
 

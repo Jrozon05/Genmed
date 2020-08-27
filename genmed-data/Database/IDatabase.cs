@@ -13,6 +13,8 @@ namespace genmed_data.Database
 
         List<Usuario> GetUsuarios();
 
+        List<Usuario> GetUsuariosNoAsignado();
+
         Usuario CreateUpdateUsuario(Usuario usuario, int rolId);
 
         Usuario UpdateClaveUsuario(Usuario usuario, string clave);

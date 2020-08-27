@@ -175,7 +175,7 @@ export default {
             )
         },
         getUsuarios () {
-            UsuarioService.getUsuarios().then(
+            UsuarioService.getUsuariosNoAsignado().then(
                 response => {
                     const data = response.data
                     for (const key in data) {

@@ -18,6 +18,11 @@ namespace genmed_data.Services
             return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuarios(); });
         }
 
+        public async Task<List<Usuario>> GetUsuariosNoAsignado()
+        {
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuariosNoAsignado(); });
+        }
+
         public async Task<Usuario> Login(string nombreUsuario, string clave)
         {
             var usuario = await GetUsuarioByGuidOrNombreUsuario(null, nombreUsuario, null);

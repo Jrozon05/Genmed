@@ -53,6 +53,25 @@ namespace genmed_api.Controllers
         }
 
         [Authorize]
+        [HttpGet("usuarionoasignado")]
+        public async Task<IActionResult> GetUsuariosNoAsignado()
+        {
+            string errMsg = $"{nameof(GetUsuarios)} un error se ha producido mientras se genera la lista de usuarios";
+
+            var values = await _service.GetUsuariosNoAsignado();
+
+            if (values == null)
+            {
+                return BadRequest(new
+                {
+                    error = errMsg
+                });
+            }
+
+            return Ok(values);
+        }
+
+        [Authorize]
         [HttpGet("{guid}")]
         public async Task<IActionResult> GetUsuarioByGuid(Guid guid)
         {

@@ -130,6 +130,53 @@ namespace genmed_data.Database
             return usuarios;
         }
 
+        public List<Usuario> GetUsuariosNoAsignado()
+        {
+            var usuarios = new List<Usuario>();
+            try
+            {
+                using (IDbConnection connection = GetConfigurationConnection())
+                {
+                    connection.Open();
+
+                    using (IDbCommand cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "usp_GetUsuariosNoAsignado";
+
+                        using (IDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                var usuario = new Usuario();
+                                usuario.Rol = new Rol();
+
+                                usuario.UsuarioId = dr.GetInt32(dr.GetOrdinal("usuarioid"));
+                                usuario.Guid = dr.GetGuid(dr.GetOrdinal("guid"));
+                                usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
+                                usuario.Email = dr.GetString(dr.GetOrdinal("email"));
+                                usuario.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
+                                usuario.Rol.RolId = dr.GetInt32(dr.GetOrdinal("rolid"));
+                                usuario.Rol.Nombre = dr.GetString(dr.GetOrdinal("nombrerol"));
+                                usuarios.Add(usuario);
+                            }
+
+                            dr.Close();
+                        }
+                    }
+
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log las excepciones o errores que vienen de la base de datos
+                throw ex;
+            }
+
+            return usuarios;
+        }
+
         public Usuario CreateUpdateUsuario(Usuario usuario, int rolId)
         {
             try

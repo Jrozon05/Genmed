@@ -6,6 +6,10 @@ class UsuarioService {
       return axios.get('/usuario', { headers: authHeader() })
   }
 
+  getUsuariosNoAsignado () {
+      return axios.get('/usuario/usuarionoasignado', { headers: authHeader() })
+  }
+
   getUsuarioByGuid (guid) {
     return axios.get('/usuario/' + guid, { headers: authHeader() })
   }

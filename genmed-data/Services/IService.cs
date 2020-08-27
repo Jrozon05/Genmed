@@ -14,6 +14,8 @@ namespace genmed_data.Services
 
         Task<List<Usuario>> GetUsuarioAsync();
 
+        Task<List<Usuario>> GetUsuariosNoAsignado();
+
         Task<Usuario> Login(string nombreUsuario, string clave);
 
         Task<Usuario> CreateUpdateUsuario(Usuario usuario, int rolId);
