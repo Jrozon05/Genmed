@@ -134,8 +134,10 @@ namespace genmed_api.Controllers
                 doctor = await _service.GetDoctorByGuid(guid);
 
                 if (doctor != null)
-                {
+                   {
                     doctorActivated = await _service.ActivateDoctor(doctor);
+                    Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctor.Usuario.UsuarioId);
+                    await _service.ActivateUsuario(usuario);
                 }
             }
             catch (Exception ex) 
@@ -163,6 +165,8 @@ namespace genmed_api.Controllers
                 if (doctor != null)
                 {
                     doctorDeactivated = await _service.DeactivateDoctor(doctor);
+                    Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctor.Usuario.UsuarioId);
+                    await _service.DeactivateUsuario(usuario);
                 }
             }
             catch (Exception ex) 
