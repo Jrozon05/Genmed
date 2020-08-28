@@ -77,7 +77,7 @@ namespace genmed_api.Controllers
         {
             string errMsg = $"{nameof(GetUsuarioByGuid)} un error se ha producido mientras se busca informaciones del usuario";
 
-            var usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null);
+            var usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null, null);
 
             if (usuario == null)
                 return NotFound();
@@ -99,13 +99,18 @@ namespace genmed_api.Controllers
                     usuarioRegistrarDto.NombreUsuario = usuarioRegistrarDto.NombreUsuario.ToLower();
                     usuario = _mapper.Map<Usuario>(usuarioRegistrarDto);
 
-                    var usuarioExiste = await _service.GetUsuarioByGuidOrNombreUsuario(null, usuarioRegistrarDto.NombreUsuario, null);
+                    var usuarioExiste = await _service.GetUsuarioByGuidOrNombreUsuario(null, usuarioRegistrarDto.NombreUsuario, null, usuarioRegistrarDto.Email);
 
-                    if (usuarioExiste != null)
+                    if (usuarioExiste != null) 
                     {
-                        if (usuarioExiste.NombreUsuario != null)
+                        if (usuarioExiste.NombreUsuario != null && usuarioExiste.NombreUsuario.Equals(usuarioRegistrarDto.NombreUsuario))
                         {
                             return Ok(new { Error = "El nombre usuario: " + usuario.NombreUsuario + " actualmente existe." });
+                        }
+
+                        if (usuarioExiste.Email != null && usuarioExiste.Email.Equals(usuarioRegistrarDto.Email))
+                        {
+                            return Ok(new { Error = "El correo electronico: " + usuario.Email + " actualmente existe." });
                         }
                     }
 
@@ -142,7 +147,7 @@ namespace genmed_api.Controllers
                     Usuario usuario = new Usuario();
                     string claveEncrypt = usuarioActualizarClaveDto.Clave.Encrypt();
                     usuario = _mapper.Map<Usuario>(usuarioActualizarClaveDto);
-                    Usuario usuarioTemporal = await _service.GetUsuarioByGuidOrNombreUsuario(usuario.Guid, null, null);
+                    Usuario usuarioTemporal = await _service.GetUsuarioByGuidOrNombreUsuario(usuario.Guid, null, null, null);
 
                     if(usuarioTemporal.Email == null)
                     {
@@ -184,7 +189,7 @@ namespace genmed_api.Controllers
                 {
                     Usuario usuario = new Usuario();
                     usuario = _mapper.Map<Usuario>(usuarioActualizarDto);
-                    Usuario usuarioTemporal = (await _service.GetUsuarioByGuidOrNombreUsuario(usuario.Guid, null, null));
+                    Usuario usuarioTemporal = await _service.GetUsuarioByGuidOrNombreUsuario(usuario.Guid, null, null, null);
                     
                     if (usuarioTemporal.Email == null || !usuarioTemporal.Email.Equals(usuario.Email))
                     {
@@ -266,7 +271,7 @@ namespace genmed_api.Controllers
             bool usuarioActivated = false;
             try
             {
-                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null);
+                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null, null);
 
                 if (usuario != null)
                 {
@@ -295,7 +300,7 @@ namespace genmed_api.Controllers
             bool usuarioDeactivated = true;
             try
             {
-                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null);
+                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null, null);
 
                 if (usuario != null)
                 {
@@ -326,7 +331,7 @@ namespace genmed_api.Controllers
             bool usuarioAsignado = false;
             try
             {
-                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null);
+                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null, null);
 
                 if (usuario != null)
                 {
@@ -355,7 +360,7 @@ namespace genmed_api.Controllers
             bool usuarioAsignado = false;
             try
             {
-                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null);
+                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null, null);
 
                 if (usuario != null)
                 {

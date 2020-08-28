@@ -103,9 +103,9 @@
                 >
                 <template #status="{item}">
                     <td>
-                    <CBadge :color="getBadge(item.activo)">
-                        {{item.activo ? 'Activo' : 'Desactivado'}}
-                    </CBadge>
+                        <CBadge :color="getBadge(item.activo)">
+                            {{item.activo ? 'Activo' : 'Desactivado'}}
+                        </CBadge>
                     </td>
                 </template>
                 <template #editarUsuario="{item}">

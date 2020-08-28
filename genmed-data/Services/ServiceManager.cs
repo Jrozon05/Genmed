@@ -25,7 +25,7 @@ namespace genmed_data.Services
 
         public async Task<Usuario> Login(string nombreUsuario, string clave)
         {
-            var usuario = await GetUsuarioByGuidOrNombreUsuario(null, nombreUsuario, null);
+            var usuario = await GetUsuarioByGuidOrNombreUsuario(null, nombreUsuario, null, null);
 
             if (usuario == null || usuario.ClaveHash == null && usuario.ClaveSalt == null)
                 return null;
@@ -54,7 +54,7 @@ namespace genmed_data.Services
                 if (usuario == null || usuarioCreated == null)
                     return updated;
 
-                usuario = await GetUsuarioByGuidOrNombreUsuario(usuarioCreated.Guid, null, null);
+                usuario = await GetUsuarioByGuidOrNombreUsuario(usuarioCreated.Guid, null, null, null);
                 if (usuario != null)
                     updated = true;
             }
@@ -80,7 +80,7 @@ namespace genmed_data.Services
                 if (usuario == null || usuarioCreated == null)
                     return null;
 
-                usuario = await GetUsuarioByGuidOrNombreUsuario(usuarioCreated.Guid, null);
+                usuario = await GetUsuarioByGuidOrNombreUsuario(usuarioCreated.Guid, null, null, null);
             }
             catch (Exception ex)
             {
@@ -93,9 +93,9 @@ namespace genmed_data.Services
             return usuario;
         }
 
-        public async Task<Usuario> GetUsuarioByGuidOrNombreUsuario(Guid? guid = null, string nombreUsuario = null, int? usuarioId = null)
+        public async Task<Usuario> GetUsuarioByGuidOrNombreUsuario(Guid? guid = null, string nombreUsuario = null, int? usuarioId = null, string email = null)
         {
-            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuario(guid, nombreUsuario, usuarioId); });
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuario(guid, nombreUsuario, usuarioId, email); });
         }
 
         public async Task<bool> ActivateUsuario(Usuario usuario)

@@ -9,7 +9,7 @@ namespace genmed_data.Database
     public interface IDatabase
     {
         #region Usuario
-        Usuario GetUsuario(Guid? guid = null, string nombreUsuario = null, int? usuarioId = null);
+        Usuario GetUsuario(Guid? guid = null, string nombreUsuario = null, int? usuarioId = null, string email = null);
 
         List<Usuario> GetUsuarios();
 
