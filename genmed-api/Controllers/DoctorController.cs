@@ -4,11 +4,11 @@ using AutoMapper;
 using genmed_api.Dtos.Doctor;
 using genmed_data.Database;
 using genmed_data.Services;
+using genmed_api.Utils.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Reumed.Data.BusinessObjects;
 
 namespace genmed_api.Controllers
@@ -72,6 +72,15 @@ namespace genmed_api.Controllers
                     Doctor doctor = new Doctor();
                     doctor = _mapper.Map<Doctor>(doctorRegistrarDto);
 
+                    if( !doctorRegistrarDto.Nombre.validarNombreApellido() || 
+                        !doctorRegistrarDto.Apellido.validarNombreApellido() || 
+                        !doctorRegistrarDto.Posicion.validarPosicion())
+                        {
+                            return BadRequest(new
+                            {
+                                error = errMsg
+                            });
+                        }
                     doctorCreated = await _service.CreateUpdateDoctor(doctor, doctorRegistrarDto.UsuarioId);
                     Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorRegistrarDto.UsuarioId);
                     await _service.AsignarUsuario(usuario);
@@ -96,9 +105,11 @@ namespace genmed_api.Controllers
             var doctorTemp = await _service.GetDoctorByGuid(doctorActualizarDto.Guid);
             Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorTemp.Usuario.UsuarioId);
             
-            if(doctorTemp == null || usuario == null) 
+            if(doctorTemp == null || usuario == null)
+            {
                 return NotFound();
-
+            }
+            
             await _service.DesasignarUsuario(usuario);
 
             if(ModelState.IsValid)
@@ -107,6 +118,16 @@ namespace genmed_api.Controllers
                 {
                     Doctor doctor = new Doctor();
                     doctor = _mapper.Map<Doctor>(doctorActualizarDto);
+
+                    if( !doctorActualizarDto.Nombre.validarNombreApellido() || 
+                        !doctorActualizarDto.Apellido.validarNombreApellido() || 
+                        !doctorActualizarDto.Posicion.validarPosicion())
+                    {
+                        return BadRequest(new
+                        {
+                            error = errMsg
+                        });
+                    }
 
                     doctorUpdated = await _service.CreateUpdateDoctor(doctor, doctorActualizarDto.UsuarioId);
                     usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorActualizarDto.UsuarioId);
@@ -121,7 +142,7 @@ namespace genmed_api.Controllers
                 }
             }
             return Ok(doctorUpdated);
-        } 
+        }
 
         [HttpPost("activar/{guid}")]
         public async Task<IActionResult> ActivateDoctor(Guid guid) 
@@ -181,5 +202,6 @@ namespace genmed_api.Controllers
                 flag = doctorDeactivated
             });
         }
+    
     }
 }

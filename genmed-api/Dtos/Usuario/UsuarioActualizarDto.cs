@@ -21,6 +21,6 @@ namespace genmed_api.Dtos.Usuario
         [Required(ErrorMessage = "El rol es un campo requerido.", AllowEmptyStrings = false)]
         public int RolId { get; set; }
 
-        public bool Activo {get; set;} = true;
+        public bool Activo {get; set;}
     }
 }

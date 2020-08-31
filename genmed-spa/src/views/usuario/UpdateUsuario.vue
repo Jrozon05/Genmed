@@ -150,7 +150,8 @@ export default {
             guid: this.usuario.guid,
             nombreUsuario: this.usuario.nombreUsuario,
             email: this.usuario.email,
-            rolId: parseInt(this.usuario.rolId)
+            rolId: parseInt(this.usuario.rolId),
+            activo: this.isActive
         }
 
         UsuarioService.UpdateUsuario(usuarioData).then(

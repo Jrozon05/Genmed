@@ -2,6 +2,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using genmed_api.Dtos.Usuario;
@@ -98,6 +99,13 @@ namespace genmed_api.Controllers
                     Usuario usuario = new Usuario();
                     usuarioRegistrarDto.NombreUsuario = usuarioRegistrarDto.NombreUsuario.ToLower();
                     usuario = _mapper.Map<Usuario>(usuarioRegistrarDto);
+                    
+                    if(!usuarioRegistrarDto.NombreUsuario.validarUserName() || !usuarioRegistrarDto.Email.validarEmail())
+                    {
+                        return BadRequest(new {
+                            error = errMsg
+                        });
+                    }
 
                     var usuarioExiste = await _service.GetUsuarioByGuidOrNombreUsuario(null, usuarioRegistrarDto.NombreUsuario, null);
 
@@ -113,6 +121,7 @@ namespace genmed_api.Controllers
                     var createClave = _mapper.Map<UsuarioActualizarClaveDto>(usuarioCreated);
                     createClave.Clave = usuarioRegistrarDto.Clave;
                     createClave.ConfirmarClave = usuarioRegistrarDto.ConfirmarClave;
+
                     await UpdateClaveUsuario(createClave);
                 }
                 catch (Exception ex)
@@ -131,7 +140,6 @@ namespace genmed_api.Controllers
         public async Task<IActionResult> UpdateClaveUsuario(UsuarioActualizarClaveDto usuarioActualizarClaveDto)
         {
             string errMsg = $"{nameof(UpdateUsuario)} un error producido mientras se actualiza la clave del usuario";
-            Usuario usuarioUpdated = new Usuario();
 
             var result = false;
 
@@ -144,6 +152,14 @@ namespace genmed_api.Controllers
                     usuario = _mapper.Map<Usuario>(usuarioActualizarClaveDto);
                     Usuario usuarioTemporal = await _service.GetUsuarioByGuidOrNombreUsuario(usuario.Guid, null, null);
 
+                    if(!usuarioActualizarClaveDto.Clave.validarClave())
+                    {
+                        return BadRequest( new
+                        {
+                            error = errMsg
+                        });
+                    }
+
                     if(usuarioTemporal.Email == null)
                     {
                         return BadRequest(new
@@ -152,10 +168,23 @@ namespace genmed_api.Controllers
                         });
                     }
 
-                    if (usuarioActualizarClaveDto.Clave.Equals(usuarioActualizarClaveDto.ConfirmarClave))
+                    if (!usuarioActualizarClaveDto.Clave.Equals(usuarioActualizarClaveDto.ConfirmarClave))
                     {
-                        result = await _service.UpdateClaveUsuario(usuario, claveEncrypt);
+                        return BadRequest(new
+                        {
+                            error = errMsg
+                        });
                     }
+
+                    if(usuarioTemporal.Clave.Equals(usuarioActualizarClaveDto.Clave.Encrypt()))
+                    {
+                        return BadRequest(new
+                        {
+                            error = errMsg
+                        });
+                    }
+
+                    result = await _service.UpdateClaveUsuario(usuario, claveEncrypt);
 
                 }
                 catch (Exception ex)
@@ -185,7 +214,7 @@ namespace genmed_api.Controllers
                     Usuario usuario = new Usuario();
                     usuario = _mapper.Map<Usuario>(usuarioActualizarDto);
                     Usuario usuarioTemporal = (await _service.GetUsuarioByGuidOrNombreUsuario(usuario.Guid, null, null));
-                    
+
                     if (usuarioTemporal.Email == null || !usuarioTemporal.Email.Equals(usuario.Email))
                     {
                         return BadRequest(new
@@ -195,8 +224,15 @@ namespace genmed_api.Controllers
                         );
                     }
                     
-                    usuarioUpdated = await _service.CreateUpdateUsuario(usuario, usuarioActualizarDto.RolId);
+                    if(!usuarioActualizarDto.NombreUsuario.validarUserName() || !usuarioActualizarDto.Email.validarEmail())
+                    {
+                        return BadRequest(new {
+                            error = errMsg
+                        });
+                    }
 
+                    usuarioUpdated = await _service.CreateUpdateUsuario(usuario, usuarioActualizarDto.RolId);
+                    
                 }
                 catch (Exception ex)
                 {
@@ -214,8 +250,8 @@ namespace genmed_api.Controllers
         {
             Usuario usuario = null;
 
-            string claveEncrypt = usuarioLoginDto.Clave;
-            usuario = await _service.Login(usuarioLoginDto.NombreUsuario, claveEncrypt.Encrypt());
+            string claveEncrypt = usuarioLoginDto.Clave.Encrypt();
+            usuario = await _service.Login(usuarioLoginDto.NombreUsuario, claveEncrypt);
 
             if (usuario == null)
                 return Unauthorized(new
@@ -374,5 +410,6 @@ namespace genmed_api.Controllers
                 flag = usuarioAsignado
             });
         }
+
     }
 }

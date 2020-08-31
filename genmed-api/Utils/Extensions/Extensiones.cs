@@ -1,7 +1,9 @@
 using System;
 using System.IO;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace genmed_api.Utils.Extensions
 {
@@ -51,6 +53,73 @@ namespace genmed_api.Utils.Extensions
             }
             return cipherText;
         }
+        
+        public static bool validarUserName(this string nombreUsuario)
+        {
+            string pattern = @"(?=[A-Za-z0-9])(?!._-]{1})[A-Za-z0-9._-]{3,15}$";
+            Match m = Regex.Match(nombreUsuario, pattern, RegexOptions.IgnoreCase);
+            
+            if(!m.Success)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool validarClave(this string clave)
+        {
+            string pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*)(?=.*[^a-zA-Z]).{5,15}$";;
+            Match m = Regex.Match(clave, pattern, RegexOptions.IgnoreCase);
+
+            if(!m.Success)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool validarEmail(this string email)
+        {
+            try
+            {
+                MailAddress m = new MailAddress(email);
+
+                return true;
+            }
+            catch (FormatException) 
+            {
+                return false;
+            }
+        }
+        
+        public static bool validarNombreApellido(this string nombreApellido)
+        {
+            string pattern = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+            Match m = Regex.Match(nombreApellido, pattern);
+            
+            if(!m.Success)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool validarPosicion(this string posicion)
+        {
+            string pattern = "[a-zA-Z]";
+            Match m = Regex.Match(posicion, pattern);
+            
+            if(!m.Success)
+            {
+                return false;
+            }
+
+            return true;
+        }
+    
         #endregion
     }
 }

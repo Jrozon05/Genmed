@@ -139,7 +139,7 @@ export default {
   },
   methods: {
     getUsuarios () {
-        UsuarioService.getUsuarios().then(
+        UsuarioService.getUsuariosNoAsignado().then(
             response => {
                 const data = response.data
                 for (const key in data) {
@@ -178,7 +178,8 @@ export default {
             nombre: this.doctor.nombre,
             apellido: this.doctor.apellido,
             posicion: this.doctor.posicion,
-            usuarioId: this.doctor.usuario.usuarioId
+            usuarioId: this.doctor.usuario.usuarioId,
+            activo: this.isActive
         }
 
         DoctorService.updateDoctor(doctorData).then(
