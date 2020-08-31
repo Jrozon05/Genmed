@@ -33,6 +33,7 @@ namespace genmed_data.Database
                                 doctor.Nombre = dr.GetString(dr.GetOrdinal("nombre"));
                                 doctor.Apellido = dr.GetString(dr.GetOrdinal("apellido"));
                                 doctor.Posicion = dr.GetString(dr.GetOrdinal("posicion"));
+                                doctor.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
                                 doctor.Usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
                                 resultados.Add(doctor);
                             }
