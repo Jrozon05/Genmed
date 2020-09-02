@@ -69,7 +69,7 @@ namespace genmed_api.Utils.Extensions
 
         public static bool validarClave(this string clave)
         {
-            string pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*)(?=.*[^a-zA-Z]).{5,15}$";;
+            string pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*)(?=.*[^a-zA-Z]).{5,15}$";
             Match m = Regex.Match(clave, pattern, RegexOptions.IgnoreCase);
 
             if(!m.Success)
