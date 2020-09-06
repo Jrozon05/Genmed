@@ -1,8 +1,8 @@
-**/bin/
-**/obj/
+**/bin/*
+**/obj/*
 
 *.cache
-**/node_modules
+**/node_modules/*
 *.dll
 *.pdb
-**/outputPublish/
+**/outputPublish/*

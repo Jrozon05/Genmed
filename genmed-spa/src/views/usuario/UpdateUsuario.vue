@@ -136,9 +136,9 @@ export default {
                 const data = response.data
                 const usuario = data
                 this.isActive = usuario.activo
-                this.usuario.nombreUsuario = usuario.nombreusuario
+                this.usuario.nombreUsuario = usuario.nombreUsuario
                 this.usuario.email = usuario.email
-                this.usuario.rolId = usuario.rol.rolid
+                this.usuario.rolId = usuario.rol.rolId
                 this.usuario.guid = usuario.guid
             }
         )
