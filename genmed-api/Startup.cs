@@ -48,15 +48,12 @@ namespace genmed_api
                             ValidateAudience = false
                         };
                     });
-<<<<<<< HEAD
-=======
             services.AddAuthorization(options =>
             {
                 options.FallbackPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .Build();
             });
->>>>>>> b4394ef9ae9b01474bb3381817ac93e6654ad105
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
