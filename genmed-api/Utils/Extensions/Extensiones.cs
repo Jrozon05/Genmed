@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net.Mail;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;

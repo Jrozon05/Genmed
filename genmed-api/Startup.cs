@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System;
 
 namespace genmed_api
 {
@@ -26,6 +27,13 @@ namespace genmed_api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+            services.AddDistributedMemoryCache();
+            services.AddMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             services.AddControllers();
             services.AddScoped<IService, ServiceManager>();
             services.AddAutoMapper(typeof(Startup));
@@ -57,14 +65,16 @@ namespace genmed_api
             }
 
             app.UseHttpsRedirection();
-
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             app.UseRouting();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

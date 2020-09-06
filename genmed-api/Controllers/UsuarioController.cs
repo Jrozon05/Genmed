@@ -9,9 +9,14 @@ using genmed_api.Dtos.Usuario;
 using genmed_api.Utils.Extensions;
 using genmed_data.Database;
 using genmed_data.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -27,8 +32,12 @@ namespace genmed_api.Controllers
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
 
-        public UsuarioController(IMapper mapper, IConfiguration config)
+        private const string USUARIO_SESION = "cUsuario";
+        private readonly IMemoryCache _memoryCache;
+
+        public UsuarioController(IMapper mapper, IConfiguration config, IMemoryCache memoryCache)
         {
+            _memoryCache = memoryCache;
             _config = config;
             _mapper = mapper;
             _service = Factory.GetService();
@@ -41,6 +50,8 @@ namespace genmed_api.Controllers
             string errMsg = $"{nameof(GetUsuarios)} un error se ha producido mientras se genera la lista de usuarios";
 
             var values = await _service.GetUsuarioAsync();
+
+            var usuario = _memoryCache.Get("cUsuario");
 
             if (values == null)
             {
@@ -106,7 +117,7 @@ namespace genmed_api.Controllers
 
                     var usuarioExiste = await _service.GetUsuarioByGuidOrNombreUsuario(null, usuarioRegistrarDto.NombreUsuario, null, usuarioRegistrarDto.Email);
 
-                    if (usuarioExiste != null) 
+                    if (usuarioExiste != null)
                     {
                         if (usuarioExiste.NombreUsuario != null && usuarioExiste.NombreUsuario.Equals(usuarioRegistrarDto.NombreUsuario))
                         {
@@ -151,12 +162,12 @@ namespace genmed_api.Controllers
                     usuario = _mapper.Map<Usuario>(usuarioActualizarClaveDto);
                     Usuario usuarioTemporal = await _service.GetUsuarioByGuidOrNombreUsuario(usuario.Guid, null, null, null);
 
-                    if(!usuarioActualizarClaveDto.Clave.validarClave())
+                    if (!usuarioActualizarClaveDto.Clave.validarClave())
                     {
                         return StatusCode(400, "La clave debe cumplir con el formato indicado.");
                     }
 
-                    if(usuarioTemporal.Email == null)
+                    if (usuarioTemporal.Email == null)
                     {
                         return StatusCode(400, "No existe usuario con el correo electronico indicado.");
                     }
@@ -166,7 +177,7 @@ namespace genmed_api.Controllers
                         return StatusCode(400, "Ambas claves deben ser iguales.");
                     }
 
-                    if(usuarioTemporal.Clave.Equals(usuarioActualizarClaveDto.Clave.Encrypt()))
+                    if (usuarioTemporal.Clave.Equals(usuarioActualizarClaveDto.Clave.Encrypt()))
                     {
                         return StatusCode(400, "Debes seleccionar una clave nueva.");
                     }
@@ -218,7 +229,7 @@ namespace genmed_api.Controllers
                     }
 
                     usuarioUpdated = await _service.CreateUpdateUsuario(usuario, usuarioActualizarDto.RolId);
-                    
+
                 }
 
                 catch (Exception ex)
@@ -243,9 +254,21 @@ namespace genmed_api.Controllers
             }
 
             if (!usuario.Activo)
-            {
-                return StatusCode(401, "El usuario ha sido desactivado");       
-            }
+                return Unauthorized(new
+                {
+                    error = "El usuario ha sido desactivado"
+                });
+
+            var cacheExpirationOptions =
+                new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpiration = DateTime.Now.AddMinutes(20),
+                    Priority = CacheItemPriority.Normal,
+                    SlidingExpiration = TimeSpan.FromMinutes(5)
+                };
+            
+            _memoryCache.Set("cUsuario", usuario, cacheExpirationOptions);
+            // IdentityExtension.SetObjetoSesion(HttpContext.Session, USUARIO_SESION, usuario);
 
             var claims = new[]
             {
@@ -257,9 +280,16 @@ namespace genmed_api.Controllers
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
+            var claimsIdentity = new ClaimsIdentity(claims);
+
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true
+            };
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(claims),
+                Subject = claimsIdentity,
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = creds
             };

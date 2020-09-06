@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Reumed.Data.BusinessObjects;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace genmed_api.Controllers
 {
@@ -20,18 +23,22 @@ namespace genmed_api.Controllers
         private readonly IService _service;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
+        private readonly IMemoryCache _memoryCache;
 
-        public DoctorController(IMapper mapper, IConfiguration config)
+        public DoctorController(IMapper mapper, IConfiguration config, IMemoryCache memoryCache)
         {
+            _memoryCache = memoryCache;
             _mapper = mapper;
             _config = config;
             _service = Factory.GetService();
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDoctores() 
+        public async Task<IActionResult> GetDoctores()
         {
             string errMsg = $"{nameof(GetDoctores)} un error se ha producido mientras se genera la lista de doctores";
+
+            var usuario = _memoryCache.Get("cUsuario");
 
             var doctores = await _service.GetDoctoresAsync();
 
@@ -61,12 +68,12 @@ namespace genmed_api.Controllers
         [HttpPost("registrar")]
         public async Task<IActionResult> CreateDoctor(DoctorRegistrarDto doctorRegistrarDto)
         {
-            string errMsg =  $"{nameof(CreateDoctor)} un error producido mientras la creacion de un nuevo doctor";
+            string errMsg = $"{nameof(CreateDoctor)} un error producido mientras la creacion de un nuevo doctor";
             Doctor doctorCreated = new Doctor();
-            
+
             if (ModelState.IsValid)
             {
-                try 
+                try
                 {
                     Doctor doctor = new Doctor();
                     doctor = _mapper.Map<Doctor>(doctorRegistrarDto);
@@ -90,7 +97,7 @@ namespace genmed_api.Controllers
                     Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorRegistrarDto.UsuarioId);
                     await _service.AsignarUsuario(usuario);
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     return StatusCode(400, errMsg + ex);
                 }
@@ -101,9 +108,9 @@ namespace genmed_api.Controllers
         [HttpPost("actualizar")]
         public async Task<IActionResult> UpdateDoctor(DoctorActualizarDto doctorActualizarDto)
         {
-            string errMsg =  $"{nameof(UpdateDoctor)} un error producido mientras se actualiza el doctor";
+            string errMsg = $"{nameof(UpdateDoctor)} un error producido mientras se actualiza el doctor";
             Doctor doctorUpdated = new Doctor();
-            
+
             var doctorTemp = await _service.GetDoctorByGuid(doctorActualizarDto.Guid);
             Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorTemp.Usuario.UsuarioId);
             
@@ -116,10 +123,10 @@ namespace genmed_api.Controllers
             {
                 return StatusCode(400, "Se ha intentado actualizar un doctor no registrado en el sistema.");
             }
-            
+
             await _service.DesasignarUsuario(usuario);
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -145,7 +152,7 @@ namespace genmed_api.Controllers
                     usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorActualizarDto.UsuarioId);
                     await _service.AsignarUsuario(usuario);
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     return StatusCode(400, errMsg + ex);
                 }
@@ -154,23 +161,24 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("activar/{guid}")]
-        public async Task<IActionResult> ActivateDoctor(Guid guid) 
+        public async Task<IActionResult> ActivateDoctor(Guid guid)
         {
             string errMsg = $"{nameof(ActivateDoctor)} un error se ha producido mientras se busca informaciones del doctor";
 
             Doctor doctor = new Doctor();
             bool doctorActivated = false;
-            try {
+            try
+            {
                 doctor = await _service.GetDoctorByGuid(guid);
 
                 if (doctor != null)
-                   {
+                {
                     doctorActivated = await _service.ActivateDoctor(doctor);
                     Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctor.Usuario.UsuarioId);
                     await _service.ActivateUsuario(usuario);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(400, errMsg + ex);
             }
@@ -178,13 +186,14 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("desactivar/{guid}")]
-        public async Task<IActionResult> DeactivateDoctor(Guid guid) 
+        public async Task<IActionResult> DeactivateDoctor(Guid guid)
         {
             string errMsg = $"{nameof(DeactivateDoctor)} un error se ha producido mientras se busca informaciones del doctor";
 
             Doctor doctor = new Doctor();
             bool doctorDeactivated = true;
-            try {
+            try
+            {
                 doctor = await _service.GetDoctorByGuid(guid);
 
                 if (doctor != null)
@@ -194,12 +203,12 @@ namespace genmed_api.Controllers
                     await _service.DeactivateUsuario(usuario);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(400, errMsg + ex);
             }
             return StatusCode(200, doctorDeactivated);
         }
-    
+
     }
 }
