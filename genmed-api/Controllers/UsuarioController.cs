@@ -43,8 +43,8 @@ namespace genmed_api.Controllers
             _service = Factory.GetService();
         }
 
-        [Authorize]
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetUsuarios()
         {
             string errMsg = $"{nameof(GetUsuarios)} un error se ha producido mientras se genera la lista de usuarios";
@@ -61,8 +61,8 @@ namespace genmed_api.Controllers
             return StatusCode(200, values);
         }
 
-        [Authorize]
         [HttpGet("usuarionoasignado")]
+        [Authorize]
         public async Task<IActionResult> GetUsuariosNoAsignado()
         {
             string errMsg = $"{nameof(GetUsuarios)} un error se ha producido mientras se genera la lista de usuarios";
@@ -77,8 +77,8 @@ namespace genmed_api.Controllers
             return StatusCode(200, values);
         }
 
-        [Authorize]
         [HttpGet("{guid}")]
+        [Authorize]
         public async Task<IActionResult> GetUsuarioByGuid(Guid guid)
         {
             string errMsg = $"{nameof(GetUsuarioByGuid)} un error se ha producido mientras se busca informaciones del usuario";
@@ -92,6 +92,7 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("registrar")]
+        [Authorize]
         public async Task<IActionResult> CreateUsuario(UsuarioRegistrarDto usuarioRegistrarDto)
         {
             string errMsg = $"{nameof(CreateUsuario)} un error producido mientras la creacion de un nuevo usuario";
@@ -147,6 +148,7 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("actualizarclave")]
+        [Authorize]
         public async Task<IActionResult> UpdateClaveUsuario(UsuarioActualizarClaveDto usuarioActualizarClaveDto)
         {
             string errMsg = $"{nameof(UpdateUsuario)} un error producido mientras se actualiza la clave del usuario";
@@ -195,6 +197,7 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("actualizar")]
+        [Authorize]
         public async Task<IActionResult> UpdateUsuario(UsuarioActualizarDto usuarioActualizarDto)
         {
             string errMsg = $"{nameof(UpdateUsuario)} un error producido mientras se actualiza el usuario";
@@ -250,11 +253,14 @@ namespace genmed_api.Controllers
 
             if (usuario == null)
             {
-                return StatusCode(401, "El nombre de usuario o la clave ha sido indicado de manera incorrecta");
+                return StatusCode(401, new 
+                { 
+                    error = "El nombre de usuario o la clave ha sido indicado de manera incorrecta"
+                });
             }
 
             if (!usuario.Activo)
-                return Unauthorized(new
+                return StatusCode(401, new
                 {
                     error = "El usuario ha sido desactivado"
                 });
@@ -305,6 +311,7 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("activar/{guid}")]
+        [Authorize]
         public async Task<IActionResult> ActivateUsuario(Guid guid)
         {
             string errMsg = $"{nameof(ActivateUsuario)} un error se ha producido mientras se busca informaciones del usuario";
@@ -328,6 +335,7 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("desactivar/{guid}")]
+        [Authorize]
         public async Task<IActionResult> DeactivateUsuario(Guid guid)
         {
             string errMsg = $"{nameof(DeactivateUsuario)} un error se ha producido mientras se busca informaciones del usuario";
@@ -353,6 +361,7 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("asignar/{guid}")]
+        [Authorize]
         public async Task<IActionResult> AsignarUsuario(Guid guid)
         {
             string errMsg = $"{nameof(AsignarUsuario)} un error se ha producido mientras se busca informaciones del usuario";
@@ -376,6 +385,7 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("desasignar/{guid}")]
+        [Authorize]
         public async Task<IActionResult> DeasignarUsuario(Guid guid)
         {
             string errMsg = $"{nameof(AsignarUsuario)} un error se ha producido mientras se busca informaciones del usuario";

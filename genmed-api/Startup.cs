@@ -47,13 +47,7 @@ namespace genmed_api
                             ValidateIssuer = false,
                             ValidateAudience = false
                         };
-                    }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => Configuration.Bind("CookieSettings", options));
-            services.AddAuthorization(options =>
-            {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build();
-            });
+                    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
