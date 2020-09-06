@@ -44,13 +44,10 @@ namespace genmed_api.Controllers
 
             if (doctores == null)
             {
-                return BadRequest(new
-                {
-                    error = errMsg
-                });
+                return StatusCode(400, errMsg);
             }
 
-            return Ok(doctores);
+            return StatusCode(200, doctores);
         }
 
         [HttpGet("{guid}")]
@@ -61,9 +58,11 @@ namespace genmed_api.Controllers
             var doctor = await _service.GetDoctorByGuid(guid);
 
             if (doctor == null)
-                return NotFound();
+            {
+                return StatusCode(400, errMsg);
+            }
 
-            return Ok(doctor);
+            return StatusCode(200, doctor);
         }
 
         [HttpPost("registrar")]
@@ -79,28 +78,31 @@ namespace genmed_api.Controllers
                     Doctor doctor = new Doctor();
                     doctor = _mapper.Map<Doctor>(doctorRegistrarDto);
 
-                    if (!doctorRegistrarDto.Nombre.validarNombreApellido() ||
-                        !doctorRegistrarDto.Apellido.validarNombreApellido() ||
-                        !doctorRegistrarDto.Posicion.validarPosicion())
+                    if( !doctorRegistrarDto.Nombre.validarNombreApellido())
                     {
-                        return BadRequest(new
-                        {
-                            error = errMsg
-                        });
+                        return StatusCode(400, "El nombre debe cumplir con el formato correcto.");
                     }
+
+                    if(!doctorRegistrarDto.Apellido.validarNombreApellido())
+                    {
+                        return StatusCode(400, "El apellido debe cumplir con el formato correcto.");
+                    }
+
+                    if(!doctorRegistrarDto.Posicion.validarPosicion())
+                    {
+                        return StatusCode(400, "La posicion debe cumplir con el formato correcto.");
+                    }
+
                     doctorCreated = await _service.CreateUpdateDoctor(doctor, doctorRegistrarDto.UsuarioId);
                     Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorRegistrarDto.UsuarioId);
                     await _service.AsignarUsuario(usuario);
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(new
-                    {
-                        error = errMsg + ex
-                    });
+                    return StatusCode(400, errMsg + ex);
                 }
             }
-            return Ok(doctorCreated);
+            return StatusCode(200, doctorCreated);
         }
 
         [HttpPost("actualizar")]
@@ -111,10 +113,15 @@ namespace genmed_api.Controllers
 
             var doctorTemp = await _service.GetDoctorByGuid(doctorActualizarDto.Guid);
             Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorTemp.Usuario.UsuarioId);
-
-            if (doctorTemp == null || usuario == null)
+            
+            if(usuario == null)
             {
-                return NotFound();
+                return StatusCode(400, "No se ha seleccionado un usuario de manera apropiada.");
+            }
+
+            if(doctorTemp == null)
+            {
+                return StatusCode(400, "Se ha intentado actualizar un doctor no registrado en el sistema.");
             }
 
             await _service.DesasignarUsuario(usuario);
@@ -126,14 +133,19 @@ namespace genmed_api.Controllers
                     Doctor doctor = new Doctor();
                     doctor = _mapper.Map<Doctor>(doctorActualizarDto);
 
-                    if (!doctorActualizarDto.Nombre.validarNombreApellido() ||
-                        !doctorActualizarDto.Apellido.validarNombreApellido() ||
-                        !doctorActualizarDto.Posicion.validarPosicion())
+                    if( !doctorActualizarDto.Nombre.validarNombreApellido())
                     {
-                        return BadRequest(new
-                        {
-                            error = errMsg
-                        });
+                        return StatusCode(400, "El nombre debe cumplir con el formato correcto.");
+                    }
+
+                    if(!doctorActualizarDto.Apellido.validarNombreApellido())
+                    {
+                        return StatusCode(400, "El apellido debe cumplir con el formato correcto.");
+                    }
+
+                    if( !doctorActualizarDto.Posicion.validarPosicion())
+                    {
+                        return StatusCode(400, "La posicion debe cumplir con el formato correcto.");
                     }
 
                     doctorUpdated = await _service.CreateUpdateDoctor(doctor, doctorActualizarDto.UsuarioId);
@@ -142,13 +154,10 @@ namespace genmed_api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(new
-                    {
-                        error = errMsg + ex
-                    });
+                    return StatusCode(400, errMsg + ex);
                 }
             }
-            return Ok(doctorUpdated);
+            return StatusCode(200, doctorUpdated);
         }
 
         [HttpPost("activar/{guid}")]
@@ -171,15 +180,9 @@ namespace genmed_api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    error = errMsg + ex
-                });
+                return StatusCode(400, errMsg + ex);
             }
-            return Ok(new
-            {
-                flag = doctorActivated
-            });
+            return StatusCode(200, doctorActivated);
         }
 
         [HttpPost("desactivar/{guid}")]
@@ -202,15 +205,9 @@ namespace genmed_api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    error = errMsg + ex
-                });
+                return StatusCode(400, errMsg + ex);
             }
-            return Ok(new
-            {
-                flag = doctorDeactivated
-            });
+            return StatusCode(200, doctorDeactivated);
         }
 
     }

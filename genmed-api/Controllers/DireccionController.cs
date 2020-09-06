@@ -26,13 +26,10 @@ namespace genmed_api.Controllers
 
             if (provincias == null)
             {
-                return NotFound(new
-                {
-                    error = errMsg
-                });
+                return StatusCode(400, errMsg);
             }
 
-            return Ok(provincias);
+            return StatusCode(200, provincias);
         }
 
         [HttpGet("ciudades/{provinciaid}")]
@@ -44,13 +41,10 @@ namespace genmed_api.Controllers
 
             if (ciudades == null)
             {
-                return NotFound(new
-                {
-                    error = errMsg
-                });
+                return StatusCode(400, errMsg);
             }
 
-            return Ok(ciudades);
+            return StatusCode(200, ciudades);
         }
 
         [HttpGet("sectores")]
@@ -62,13 +56,10 @@ namespace genmed_api.Controllers
 
             if (sectores == null)
             {
-                return NotFound(new
-                {
-                    error = errMsg
-                });
+                return StatusCode(400, errMsg);
             }
 
-            return Ok(sectores);
+            return StatusCode(200, sectores);
         }
     }
 }
