@@ -44,13 +44,10 @@ namespace genmed_api.Controllers
 
             if (values == null)
             {
-                return BadRequest(new
-                {
-                    error = errMsg
-                });
+                return StatusCode(202, errMsg);
             }
 
-            return Ok(values);
+            return StatusCode(200, values);
         }
 
         [Authorize]
@@ -63,13 +60,10 @@ namespace genmed_api.Controllers
 
             if (values == null)
             {
-                return BadRequest(new
-                {
-                    error = errMsg
-                });
+                return StatusCode(202, errMsg);
             }
 
-            return Ok(values);
+            return StatusCode(200, values);
         }
 
         [Authorize]
@@ -81,9 +75,9 @@ namespace genmed_api.Controllers
             var usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null, null);
 
             if (usuario == null)
-                return NotFound();
+                return StatusCode(202, errMsg);
 
-            return Ok(JsonConvert.SerializeObject(usuario, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            return StatusCode(200, usuario);
         }
 
         [HttpPost("registrar")]
@@ -100,11 +94,14 @@ namespace genmed_api.Controllers
                     usuarioRegistrarDto.NombreUsuario = usuarioRegistrarDto.NombreUsuario.ToLower();
                     usuario = _mapper.Map<Usuario>(usuarioRegistrarDto);
                     
-                    if(!usuarioRegistrarDto.NombreUsuario.validarUserName() || !usuarioRegistrarDto.Email.validarEmail())
+                    if(!usuarioRegistrarDto.NombreUsuario.validarUserName())
                     {
-                        return BadRequest(new {
-                            error = errMsg
-                        });
+                        return StatusCode(202, new { Error = "No se ha indicado un nombre usuario, debe intentarlo nuevamente."});
+                    }
+
+                    if(!usuarioRegistrarDto.Email.validarEmail())
+                    {
+                        return StatusCode(202, new { Error = "No se ha indicado un correo electronico, debe intentarlo nuevamente."});
                     }
 
                     var usuarioExiste = await _service.GetUsuarioByGuidOrNombreUsuario(null, usuarioRegistrarDto.NombreUsuario, null, usuarioRegistrarDto.Email);
@@ -113,12 +110,12 @@ namespace genmed_api.Controllers
                     {
                         if (usuarioExiste.NombreUsuario != null && usuarioExiste.NombreUsuario.Equals(usuarioRegistrarDto.NombreUsuario))
                         {
-                            return Ok(new { Error = "El nombre usuario: " + usuario.NombreUsuario + " actualmente existe." });
+                            return StatusCode(202, new { Error = "El nombre usuario: " + usuario.NombreUsuario + " actualmente existe." });
                         }
 
                         if (usuarioExiste.Email != null && usuarioExiste.Email.Equals(usuarioRegistrarDto.Email))
                         {
-                            return Ok(new { Error = "El correo electronico: " + usuario.Email + " actualmente existe." });
+                            return StatusCode(202, new { Error = "El correo electronico: " + usuario.Email + " actualmente existe." });
                         }
                     }
 
@@ -159,34 +156,22 @@ namespace genmed_api.Controllers
 
                     if(!usuarioActualizarClaveDto.Clave.validarClave())
                     {
-                        return BadRequest( new
-                        {
-                            error = errMsg
-                        });
+                        return StatusCode(400, "La clave debe cumplir con el formato indicado.");
                     }
 
                     if(usuarioTemporal.Email == null)
                     {
-                        return BadRequest(new
-                        {
-                            error = errMsg
-                        });
+                        return StatusCode(400, "No existe usuario con el correo electronico indicado.");
                     }
 
                     if (!usuarioActualizarClaveDto.Clave.Equals(usuarioActualizarClaveDto.ConfirmarClave))
                     {
-                        return BadRequest(new
-                        {
-                            error = errMsg
-                        });
+                        return StatusCode(400, "Ambas claves deben ser iguales.");
                     }
 
                     if(usuarioTemporal.Clave.Equals(usuarioActualizarClaveDto.Clave.Encrypt()))
                     {
-                        return BadRequest(new
-                        {
-                            error = errMsg
-                        });
+                        return StatusCode(400, "Debes seleccionar una clave nueva.");
                     }
 
                     result = await _service.UpdateClaveUsuario(usuario, claveEncrypt);
@@ -194,16 +179,15 @@ namespace genmed_api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(new
-                    {
-                        error = errMsg + ex
-                    });
+                    return StatusCode(400, errMsg + ex);
                 }
             }
-            return Ok(new
-            {
-                flag = result
-            });
+
+            return StatusCode(200, result);
+            // return Ok(new
+            // {
+            //     flag = result
+            // });
         }
 
         [HttpPost("actualizar")]
@@ -220,34 +204,36 @@ namespace genmed_api.Controllers
                     usuario = _mapper.Map<Usuario>(usuarioActualizarDto);
                     Usuario usuarioTemporal = await _service.GetUsuarioByGuidOrNombreUsuario(usuario.Guid, null, null, null);
                     
-                    if (usuarioTemporal.Email == null || !usuarioTemporal.Email.Equals(usuario.Email))
+                    if (usuarioTemporal.Email == null)
                     {
-                        return BadRequest(new
-                            {
-                                error = errMsg
-                            }
-                        );
+                        return StatusCode(400, "El correo electronico indicado es nulo.");
                     }
                     
-                    if(!usuarioActualizarDto.NombreUsuario.validarUserName() || !usuarioActualizarDto.Email.validarEmail())
+                    if(!usuarioTemporal.Email.Equals(usuario.Email))
                     {
-                        return BadRequest(new {
-                            error = errMsg
-                        });
+                        return StatusCode(400, "Se ha intentado modificar el correo electronico para el usuario indicado.");
+                    }
+
+                    if(!usuarioActualizarDto.NombreUsuario.validarUserName())
+                    {
+                        return StatusCode(400, "El nombre de usuario debe cumplir con el patron correcto.");
+                    }
+
+                    if(!usuarioActualizarDto.Email.validarEmail())
+                    {
+                        return StatusCode(400, "El correo electronico debe cumplir con el patron correcto.");
                     }
 
                     usuarioUpdated = await _service.CreateUpdateUsuario(usuario, usuarioActualizarDto.RolId);
                     
                 }
+
                 catch (Exception ex)
                 {
-                    return BadRequest(new
-                    {
-                        error = errMsg + ex
-                    });
+                    return StatusCode(400, errMsg + ex);
                 }
             }
-            return Ok(usuarioUpdated);
+            return StatusCode(200, usuarioUpdated);
         }
 
         [HttpPost("login")]
@@ -316,15 +302,9 @@ namespace genmed_api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    error = errMsg + ex
-                });
+                return StatusCode(400, errMsg + ex);
             }
-            return Ok(new
-            {
-                flag = usuarioActivated
-            });
+            return StatusCode(200, usuarioActivated);
         }
 
         [HttpPost("desactivar/{guid}")]
@@ -346,16 +326,10 @@ namespace genmed_api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    error = errMsg + ex
-                });
+                return StatusCode(400, errMsg + ex);
             }
             
-            return Ok(new
-            {
-                flag = usuarioDeactivated
-            });
+            return StatusCode(200, usuarioDeactivated);
         }
 
         [HttpPost("asignar/{guid}")]
@@ -376,15 +350,9 @@ namespace genmed_api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    error = errMsg + ex
-                });
+                return StatusCode(400, errMsg + ex);
             }
-            return Ok(new
-            {
-                flag = usuarioAsignado
-            });
+            return StatusCode(200, usuarioAsignado);
         }
 
         [HttpPost("desasignar/{guid}")]
@@ -405,15 +373,9 @@ namespace genmed_api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    error = errMsg + ex
-                });
+                return StatusCode(400, errMsg + ex);
             }
-            return Ok(new
-            {
-                flag = usuarioAsignado
-            });
+            return StatusCode(200, usuarioAsignado);
         }
 
     }
