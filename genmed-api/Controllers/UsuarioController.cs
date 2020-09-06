@@ -128,14 +128,11 @@ namespace genmed_api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(new
-                    {
-                        error = errMsg + ex
-                    });
+                    return StatusCode(400, errMsg + ex);
                 }
             }
 
-            return Ok(usuarioCreated);
+            return StatusCode(200, usuarioCreated);
         }
 
         [HttpPost("actualizarclave")]
@@ -184,10 +181,6 @@ namespace genmed_api.Controllers
             }
 
             return StatusCode(200, result);
-            // return Ok(new
-            // {
-            //     flag = result
-            // });
         }
 
         [HttpPost("actualizar")]
