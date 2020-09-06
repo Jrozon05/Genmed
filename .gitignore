@@ -1,7 +1,8 @@
-genmed-api/bin/
-genmed-api/obj/
-genmed-data/bin/
-genmed-data/obj/
+**/bin/
+**/obj/
 
-*.dll
 *.cache
+**/node_modules
+*.dll
+*.pdb
+**/outputPublish/
