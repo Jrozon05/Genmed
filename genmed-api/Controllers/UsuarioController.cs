@@ -245,16 +245,14 @@ namespace genmed_api.Controllers
             usuario = await _service.Login(usuarioLoginDto.NombreUsuario, claveEncrypt);
 
             if (usuario == null)
-                return Unauthorized(new
-                {
-                    error = "El nombre de usuario o la clave esta incorrecta"
-                });
+            {
+                return StatusCode(401, "El nombre de usuario o la clave ha sido indicado de manera incorrecta");
+            }
 
             if (!usuario.Activo)
-                return Unauthorized(new
-                {
-                    error = "El usuario ha sido desactivado"
-                });       
+            {
+                return StatusCode(401, "El usuario ha sido desactivado");       
+            }
 
             var claims = new[]
             {
@@ -277,7 +275,7 @@ namespace genmed_api.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new
+            return StatusCode(200, new
             {
                 token = tokenHandler.WriteToken(token),
                 usuario
