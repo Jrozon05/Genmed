@@ -16,11 +16,7 @@ class UsuarioService {
 
   CreateUsuario (usuarioToCreate) {
       var data = JSON.stringify(usuarioToCreate)
-      return axios.post('/usuario/registrar', data, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+      return axios.post('/usuario/registrar', data, { headers: authHeader() })
   }
 
   UpdateUsuario (usuarioToUpdate) {

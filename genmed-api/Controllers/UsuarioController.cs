@@ -244,6 +244,7 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(UsuarioLoginDto usuarioLoginDto)
         {
             Usuario usuario = null;
@@ -253,10 +254,14 @@ namespace genmed_api.Controllers
 
             if (usuario == null)
             {
+<<<<<<< HEAD
                 return StatusCode(401, new 
                 { 
                     error = "El nombre de usuario o la clave ha sido indicado de manera incorrecta"
                 });
+=======
+                return StatusCode(401, new { error = "El nombre de usuario o la clave ha sido indicado de manera incorrecta" });
+>>>>>>> b4394ef9ae9b01474bb3381817ac93e6654ad105
             }
 
             if (!usuario.Activo)
