@@ -34,15 +34,11 @@ class UsuarioService {
   }
 
   DeactivateUsuario (guid) {
-    return axios.post('/usuario/desactivar/' + guid, {
-      headers: authHeader()
-    })
+    return axios.post('/usuario/desactivar/' + guid, null, { headers: authHeader() })
   }
 
   ActivateUsuario (guid) {
-    return axios.post('/usuario/activar/' + guid, {
-      headers: authHeader()
-    })
+    return axios.post('/usuario/activar/' + guid, null, { headers: authHeader() })
   }
 }
 

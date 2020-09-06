@@ -182,7 +182,7 @@ namespace genmed_api.Controllers
             {
                 return StatusCode(400, errMsg + ex);
             }
-            return StatusCode(200, doctorActivated);
+            return StatusCode(200, new { flag = doctorActivated });
         }
 
         [HttpPost("desactivar/{guid}")]
@@ -207,7 +207,7 @@ namespace genmed_api.Controllers
             {
                 return StatusCode(400, errMsg + ex);
             }
-            return StatusCode(200, doctorDeactivated);
+            return StatusCode(200, new { flag = doctorDeactivated });
         }
 
     }

@@ -2,24 +2,18 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using genmed_api.Dtos.Usuario;
 using genmed_api.Utils.Extensions;
 using genmed_data.Database;
 using genmed_data.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using Reumed.Data.BusinessObjects;
 
 namespace genmed_api.Controllers
@@ -279,11 +273,6 @@ namespace genmed_api.Controllers
 
             var claimsIdentity = new ClaimsIdentity(claims);
 
-            var authProperties = new AuthenticationProperties
-            {
-                IsPersistent = true
-            };
-
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claimsIdentity,
@@ -303,6 +292,7 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("activar/{guid}")]
+        [Authorize]
         public async Task<IActionResult> ActivateUsuario(Guid guid)
         {
             string errMsg = $"{nameof(ActivateUsuario)} un error se ha producido mientras se busca informaciones del usuario";
@@ -322,10 +312,11 @@ namespace genmed_api.Controllers
             {
                 return StatusCode(400, errMsg + ex);
             }
-            return StatusCode(200, usuarioActivated);
+            return StatusCode(200, new { flag = usuarioActivated });
         }
 
         [HttpPost("desactivar/{guid}")]
+        [Authorize]
         public async Task<IActionResult> DeactivateUsuario(Guid guid)
         {
             string errMsg = $"{nameof(DeactivateUsuario)} un error se ha producido mientras se busca informaciones del usuario";
@@ -347,7 +338,7 @@ namespace genmed_api.Controllers
                 return StatusCode(400, errMsg + ex);
             }
             
-            return StatusCode(200, usuarioDeactivated);
+            return StatusCode(200, new { flag = usuarioDeactivated });
         }
 
         [HttpPost("asignar/{guid}")]

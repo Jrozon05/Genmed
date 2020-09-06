@@ -25,13 +25,13 @@ class DoctorService {
   }
 
   deactivateDoctor (guid) {
-    return axios.post('/doctor/desactivar/' + guid, {
+    return axios.post('/doctor/desactivar/' + guid, null, {
       headers: authHeader()
     })
   }
 
   activateDoctor (guid) {
-    return axios.post('/doctor/activar/' + guid, {
+    return axios.post('/doctor/activar/' + guid, null, {
       headers: authHeader()
     })
   }
