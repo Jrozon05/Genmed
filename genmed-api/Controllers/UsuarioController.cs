@@ -2,24 +2,18 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using genmed_api.Dtos.Usuario;
 using genmed_api.Utils.Extensions;
 using genmed_data.Database;
 using genmed_data.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using Reumed.Data.BusinessObjects;
 
 namespace genmed_api.Controllers
@@ -341,11 +335,6 @@ namespace genmed_api.Controllers
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var claimsIdentity = new ClaimsIdentity(claims);
-
-            var authProperties = new AuthenticationProperties
-            {
-                IsPersistent = true
-            };
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
