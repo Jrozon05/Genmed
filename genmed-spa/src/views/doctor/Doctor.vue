@@ -21,7 +21,7 @@
                         placeholder="Introduzca su nombre(s)"
                         v-model="doctor.nombre"
                         @input="$v.doctor.nombre.$touch()"
-                        invalid-feedback="El nombre es un campo requerido"
+                        :invalid-feedback="!$v.doctor.nombre.isNombreValido ? 'El nombre solo acepta letras' : 'El nombre es un campo requerido'"
                         :is-valid="!$v.doctor.nombre.$error ? null : false"
                         />
                     </CCol>
@@ -33,7 +33,7 @@
                         placeholder="Introduzca su apellido(s)"
                         v-model="doctor.apellido"
                         @input="$v.doctor.apellido.$touch()"
-                        invalid-feedback="El apellido es un campo requerido"
+                        :invalid-feedback="!$v.doctor.apellido.isApellidoValido ? 'El apellido solo acepta letras' : 'El apellido es un campo requerido'"
                         :is-valid="!$v.doctor.apellido.$error ? null : false"
                         />
                     </CCol>
@@ -45,7 +45,7 @@
                         placeholder="Introduzca su posición"
                         v-model="doctor.posicion"
                         @input="$v.doctor.posicion.$touch()"
-                        invalid-feedback="La posicion es un campo requerido"
+                        :invalid-feedback="!$v.doctor.posicion.isPosicionValido ? 'La posición solo acepta letras' : 'La posición es un campo requerido'"
                         :is-valid="!$v.doctor.posicion.$error ? null : false"
                         />
                     </CCol>
@@ -121,7 +121,11 @@ import DoctorService from '../../services/doctor-service'
 import UsuarioService from '../../services/usuario-service'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
-import { required, requiredUnless } from 'vuelidate/lib/validators'
+import { required, requiredUnless, helpers } from 'vuelidate/lib/validators'
+
+const isNombreValido = helpers.regex('nombre', /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)
+const isApellidoValido = helpers.regex('apellido', /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)
+const isPosicionValido = helpers.regex('posicion', /[a-zA-Z]/)
 
 const fields = [
     { key: 'nombre' },
@@ -155,9 +159,9 @@ export default {
     },
     validations: {
         doctor: {
-            nombre: { required },
-            apellido: { required },
-            posicion: { required },
+            nombre: { required, isNombreValido },
+            apellido: { required, isApellidoValido },
+            posicion: { required, isPosicionValido },
             usuarioId: {
                 required: requiredUnless(vm => {
                     return vm.usuarioId.$model === 0

@@ -24,7 +24,7 @@
                         placeholder="Introduzca su nombre de usuario"
                         @input="$v.usuario.nombreUsuario.$touch()"
                         v-model="usuario.nombreUsuario"
-                        invalid-feedback="El nombre de usuario es un campo requerido"
+                        :invalid-feedback="!$v.usuario.nombreUsuario.isNombreUsuarioValido ? 'El nombre de usuario solo acepta letras y número' : 'El nombre de usuario es un campo requerido'"
                         :is-valid="!$v.usuario.nombreUsuario.$error ? null : false"
                         />
                     </CCol>
@@ -73,8 +73,10 @@
 
 <script>
 import UsuarioService from '../../services/usuario-service'
-import { required, email, requiredUnless } from 'vuelidate/lib/validators'
+import { required, email, requiredUnless, helpers } from 'vuelidate/lib/validators'
 import UpdateClave from './UpdateClave'
+
+const isNombreUsuarioValido = helpers.regex('nombreUsuario', /(?=[A-Za-z0-9])(?!._-]{1})[A-Za-z0-9._-]{3,15}$/)
 
 export default {
   name: 'Table',
@@ -99,7 +101,10 @@ export default {
   },
   validations: {
       usuario: {
-          nombreUsuario: { required },
+          nombreUsuario: {
+              required,
+              isNombreUsuarioValido
+            },
           email: {
               required,
               email

@@ -21,7 +21,7 @@
                         placeholder="Introduzca su nombre de usuario"
                         @input="$v.usuario.nombreUsuario.$touch()"
                         v-model="usuario.nombreUsuario"
-                        invalid-feedback="El nombre de usuario es un campo requerido"
+                        :invalid-feedback="!$v.usuario.nombreUsuario.isNombreUsuarioValido ? 'El nombre de usuario solo acepta letras y número' : 'El nombre de usuario es un campo requerido'"
                         :is-valid="!$v.usuario.nombreUsuario.$error ? null : false"
                         />
                     </CCol>
@@ -46,7 +46,7 @@
                         type="password"
                         v-model="usuario.clave"
                         @input="$v.usuario.clave.$touch()"
-                        :invalid-feedback="!$v.usuario.clave.minLength ? 'La clave debe tener al menos 6 letras.' : 'La clave es un campo requerido'"
+                        :invalid-feedback="!$v.usuario.clave.isClaveValido ? 'La clave debe tener al menos 6 letras (solo acepta letras y números).' : 'La clave es un campo requerido'"
                         :is-valid="!$v.usuario.clave.$error ? null : false"
                         />
                     </CCol>
@@ -59,7 +59,7 @@
                         type="password"
                         v-model="usuario.confirmarClave"
                         @input="$v.usuario.confirmarClave.$touch()"
-                        :invalid-feedback="!$v.usuario.confirmarClave.sameAsClave ? 'Las contraseñas deben ser idénticas' : 'la confirmación de contraseña es un campo requerido'"
+                        :invalid-feedback="!$v.usuario.confirmarClave.sameAsClave ? 'Las contraseñas deben ser idénticas' : 'la confirmación de contraseña es un campo requerido (solo acepta letras y números)'"
                         :is-valid="!$v.usuario.confirmarClave.$error ? null : false"
                         />
                     </CCol>
@@ -131,7 +131,7 @@
 
 <script>
 import UsuarioService from '../../services/usuario-service'
-import { required, email, minLength, sameAs, requiredUnless } from 'vuelidate/lib/validators'
+import { required, email, sameAs, requiredUnless, helpers } from 'vuelidate/lib/validators'
 
 const fields = [
     { key: 'nombreUsuario', _style: 'width:15%' },
@@ -141,6 +141,10 @@ const fields = [
     { key: 'status' },
     { key: 'editarUsuario', label: 'Editar', _style: 'width:1%', sorter: false, filter: false }
 ]
+
+// REGREX
+const isNombreUsuarioValido = helpers.regex('nombreUsuario', /(?=[A-Za-z0-9])(?!._-]{1})[A-Za-z0-9._-]{3,15}$/)
+const isClaveValido = helpers.regex('clave', /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/)
 
 export default {
   name: 'Table',
@@ -162,18 +166,22 @@ export default {
   },
   validations: {
       usuario: {
-          nombreUsuario: { required },
+          nombreUsuario: {
+              required,
+              isNombreUsuarioValido
+            },
           email: {
               required,
               email
           },
           clave: {
               required,
-              minLength: minLength(6)
+              isClaveValido
           },
           confirmarClave: {
               required,
-              sameAsClave: sameAs('clave')
+              sameAsClave: sameAs('clave'),
+              isClaveValido
           },
           rolId: {
               required: requiredUnless(vm => {
