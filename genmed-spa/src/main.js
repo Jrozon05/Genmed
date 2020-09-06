@@ -17,6 +17,7 @@ import VueAlertify from 'vue-alertify'
 
 axios.defaults.baseURL = 'http://localhost:5000/api'
 // axios.defaults.baseURL = 'https://server.genmedrd.com/api'
+// axios.defaults.baseURL = 'https://devserver.genmedrd.com/api'
 
 Vue.use(CoreuiVue)
 Vue.use(Vuelidate)

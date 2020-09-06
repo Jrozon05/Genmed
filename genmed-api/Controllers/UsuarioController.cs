@@ -43,7 +43,6 @@ namespace genmed_api.Controllers
             _service = Factory.GetService();
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetUsuarios()
         {
@@ -61,7 +60,6 @@ namespace genmed_api.Controllers
             return StatusCode(200, values);
         }
 
-        [Authorize]
         [HttpGet("usuarionoasignado")]
         public async Task<IActionResult> GetUsuariosNoAsignado()
         {
@@ -77,7 +75,6 @@ namespace genmed_api.Controllers
             return StatusCode(200, values);
         }
 
-        [Authorize]
         [HttpGet("{guid}")]
         public async Task<IActionResult> GetUsuarioByGuid(Guid guid)
         {
@@ -241,6 +238,7 @@ namespace genmed_api.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(UsuarioLoginDto usuarioLoginDto)
         {
             Usuario usuario = null;
@@ -250,7 +248,7 @@ namespace genmed_api.Controllers
 
             if (usuario == null)
             {
-                return StatusCode(401, "El nombre de usuario o la clave ha sido indicado de manera incorrecta");
+                return StatusCode(401, new { error = "El nombre de usuario o la clave ha sido indicado de manera incorrecta" });
             }
 
             if (!usuario.Activo)
