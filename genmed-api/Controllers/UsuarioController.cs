@@ -195,10 +195,6 @@ namespace genmed_api.Controllers
             }
 
             return StatusCode(200, result);
-            // return Ok(new
-            // {
-            //     flag = result
-            // });
         }
 
         [HttpPost("actualizar")]
@@ -275,7 +271,6 @@ namespace genmed_api.Controllers
                 };
             
             _memoryCache.Set("cUsuario", usuario, cacheExpirationOptions);
-            // IdentityExtension.SetObjetoSesion(HttpContext.Session, USUARIO_SESION, usuario);
 
             var claims = new[]
             {
