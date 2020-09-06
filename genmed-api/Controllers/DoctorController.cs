@@ -44,7 +44,10 @@ namespace genmed_api.Controllers
 
             if (doctores == null)
             {
-                return StatusCode(400, errMsg);
+                return StatusCode(400, new 
+                { 
+                    error = errMsg
+                });
             }
 
             return StatusCode(200, doctores);
@@ -59,7 +62,10 @@ namespace genmed_api.Controllers
 
             if (doctor == null)
             {
-                return StatusCode(400, errMsg);
+                return StatusCode(400, new 
+                { 
+                    error = errMsg
+                });
             }
 
             return StatusCode(200, doctor);
@@ -80,17 +86,26 @@ namespace genmed_api.Controllers
 
                     if( !doctorRegistrarDto.Nombre.validarNombreApellido())
                     {
-                        return StatusCode(400, "El nombre debe cumplir con el formato correcto.");
+                        return StatusCode(400, new 
+                        { 
+                            error = "El nombre debe cumplir con el formato correcto."
+                        });
                     }
 
                     if(!doctorRegistrarDto.Apellido.validarNombreApellido())
                     {
-                        return StatusCode(400, "El apellido debe cumplir con el formato correcto.");
+                        return StatusCode(400, new 
+                        { 
+                            error = "El apellido debe cumplir con el formato correcto."
+                        });
                     }
 
                     if(!doctorRegistrarDto.Posicion.validarPosicion())
                     {
-                        return StatusCode(400, "La posicion debe cumplir con el formato correcto.");
+                        return StatusCode(400, new 
+                        { 
+                            error = "La posicion debe cumplir con el formato correcto."
+                        });
                     }
 
                     doctorCreated = await _service.CreateUpdateDoctor(doctor, doctorRegistrarDto.UsuarioId);
@@ -99,7 +114,10 @@ namespace genmed_api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(400, errMsg + ex);
+                    return StatusCode(400, new 
+                    { 
+                        error = errMsg + ex
+                    });
                 }
             }
             return StatusCode(200, doctorCreated);
@@ -116,12 +134,18 @@ namespace genmed_api.Controllers
             
             if(usuario == null)
             {
-                return StatusCode(400, "No se ha seleccionado un usuario de manera apropiada.");
+                return StatusCode(400, new 
+                { 
+                    error = "No se ha seleccionado un usuario de manera apropiada."
+                });
             }
 
             if(doctorTemp == null)
             {
-                return StatusCode(400, "Se ha intentado actualizar un doctor no registrado en el sistema.");
+                return StatusCode(400, new 
+                { 
+                    error = "Se ha intentado actualizar un doctor no registrado en el sistema."
+                });
             }
 
             await _service.DesasignarUsuario(usuario);
@@ -135,17 +159,26 @@ namespace genmed_api.Controllers
 
                     if( !doctorActualizarDto.Nombre.validarNombreApellido())
                     {
-                        return StatusCode(400, "El nombre debe cumplir con el formato correcto.");
+                        return StatusCode(400, new 
+                        { 
+                            error = "El nombre debe cumplir con el formato correcto."
+                        });
                     }
 
                     if(!doctorActualizarDto.Apellido.validarNombreApellido())
                     {
-                        return StatusCode(400, "El apellido debe cumplir con el formato correcto.");
+                        return StatusCode(400, new 
+                        { 
+                            error = "El apellido debe cumplir con el formato correcto."
+                        });
                     }
 
                     if( !doctorActualizarDto.Posicion.validarPosicion())
                     {
-                        return StatusCode(400, "La posicion debe cumplir con el formato correcto.");
+                        return StatusCode(400, new 
+                        { 
+                            error = "La posicion debe cumplir con el formato correcto."
+                        });
                     }
 
                     doctorUpdated = await _service.CreateUpdateDoctor(doctor, doctorActualizarDto.UsuarioId);
@@ -154,7 +187,10 @@ namespace genmed_api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(400, errMsg + ex);
+                    return StatusCode(400, new 
+                { 
+                    error = errMsg + ex
+                });
                 }
             }
             return StatusCode(200, doctorUpdated);
@@ -180,9 +216,15 @@ namespace genmed_api.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(400, errMsg + ex);
+                return StatusCode(400, new 
+                { 
+                    error = errMsg + ex
+                });
             }
-            return StatusCode(200, doctorActivated);
+            return StatusCode(200, new 
+                { 
+                    flag = doctorActivated
+                });
         }
 
         [HttpPost("desactivar/{guid}")]
@@ -205,9 +247,15 @@ namespace genmed_api.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(400, errMsg + ex);
+                return StatusCode(400, new 
+                { 
+                    error = errMsg + ex
+                });
             }
-            return StatusCode(200, doctorDeactivated);
+            return StatusCode(200, new 
+                { 
+                    flag = doctorDeactivated
+                });
         }
 
     }

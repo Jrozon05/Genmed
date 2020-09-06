@@ -26,7 +26,9 @@ namespace genmed_api.Controllers
 
             if (provincias == null)
             {
-                return StatusCode(400, errMsg);
+                return StatusCode(400, new {
+                    error = errMsg
+                });
             }
 
             return StatusCode(200, provincias);
@@ -41,7 +43,9 @@ namespace genmed_api.Controllers
 
             if (ciudades == null)
             {
-                return StatusCode(400, errMsg);
+                return StatusCode(400, new {
+                    error = errMsg
+                });
             }
 
             return StatusCode(200, ciudades);
@@ -56,7 +60,9 @@ namespace genmed_api.Controllers
 
             if (sectores == null)
             {
-                return StatusCode(400, errMsg);
+                return StatusCode(400, new {
+                    error = errMsg
+                });
             }
 
             return StatusCode(200, sectores);
