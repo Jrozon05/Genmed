@@ -93,7 +93,6 @@ export default {
         UsuarioService.UpdateClave(usuarioData).then(
             response => {
                 const data = response.data
-                
                 if (data.error) {
                 this.alert = true
                 this.message = data.error
