@@ -109,7 +109,7 @@ namespace genmed_api.Controllers
                     }
 
                     doctorCreated = await _service.CreateUpdateDoctor(doctor, doctorRegistrarDto.UsuarioId);
-                    Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorRegistrarDto.UsuarioId);
+                    Usuario usuario = await _service.GetUsuarioByUsuarioId(doctorRegistrarDto.UsuarioId);
                     await _service.AsignarUsuario(usuario);
                 }
                 catch (Exception ex)
@@ -130,7 +130,7 @@ namespace genmed_api.Controllers
             Doctor doctorUpdated = new Doctor();
 
             var doctorTemp = await _service.GetDoctorByGuid(doctorActualizarDto.Guid);
-            Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorTemp.Usuario.UsuarioId);
+            Usuario usuario = await _service.GetUsuarioByUsuarioId(doctorTemp.Usuario.UsuarioId);
             
             if(usuario == null)
             {
@@ -182,7 +182,7 @@ namespace genmed_api.Controllers
                     }
 
                     doctorUpdated = await _service.CreateUpdateDoctor(doctor, doctorActualizarDto.UsuarioId);
-                    usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctorActualizarDto.UsuarioId);
+                    usuario = await _service.GetUsuarioByUsuarioId(doctorActualizarDto.UsuarioId);
                     await _service.AsignarUsuario(usuario);
                 }
                 catch (Exception ex)
@@ -210,8 +210,9 @@ namespace genmed_api.Controllers
                 if (doctor != null)
                 {
                     doctorActivated = await _service.ActivateDoctor(doctor);
-                    Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctor.Usuario.UsuarioId);
+                    Usuario usuario = await _service.GetUsuarioByUsuarioId(doctor.Usuario.UsuarioId);
                     await _service.ActivateUsuario(usuario);
+                    await _service.AsignarUsuario(usuario);
                 }
             }
             catch (Exception ex)
@@ -241,7 +242,7 @@ namespace genmed_api.Controllers
                 if (doctor != null)
                 {
                     doctorDeactivated = await _service.DeactivateDoctor(doctor);
-                    Usuario usuario = await _service.GetUsuarioByGuidOrNombreUsuario(null, null, doctor.Usuario.UsuarioId);
+                    Usuario usuario = await _service.GetUsuarioByUsuarioId(doctor.Usuario.UsuarioId);
                     await _service.DeactivateUsuario(usuario);
                 }
             }

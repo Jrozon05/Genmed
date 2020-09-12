@@ -83,7 +83,7 @@ namespace genmed_api.Controllers
         {
             string errMsg = $"{nameof(GetUsuarioByGuid)} un error se ha producido mientras se busca informaciones del usuario";
 
-            var usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null, null);
+            var usuario = await _service.GetUsuarioByGuid(guid);
 
             if (usuario == null)
                 return StatusCode(202, new 
@@ -111,6 +111,8 @@ namespace genmed_api.Controllers
                     
                     if(!usuarioRegistrarDto.NombreUsuario.validarUserName())
                     {
+                        // return CustomeStatusCode( variableStatusCode, NombreUsuario)
+
                         return StatusCode(202, new 
                         { 
                             error = "No se ha indicado un nombre usuario, debe intentarlo nuevamente."
@@ -125,7 +127,12 @@ namespace genmed_api.Controllers
                         });
                     }
 
-                    var usuarioExiste = await _service.GetUsuarioByGuidOrNombreUsuario(null, usuarioRegistrarDto.NombreUsuario, null, usuarioRegistrarDto.Email);
+                    var usuarioExiste = await _service.GetUsuarioByNombreUsuario(usuarioRegistrarDto.NombreUsuario);
+                    
+                    if(usuarioExiste == null)
+                    {
+                        usuarioExiste = await _service.GetUsuarioByEmail(usuarioRegistrarDto.Email);
+                    }
 
                     if (usuarioExiste != null)
                     {
@@ -177,11 +184,11 @@ namespace genmed_api.Controllers
                     Usuario usuario = new Usuario();
                     string claveEncrypt = usuarioActualizarClaveDto.Clave.Encrypt();
                     usuario = _mapper.Map<Usuario>(usuarioActualizarClaveDto);
-                    Usuario usuarioTemporal = await _service.GetUsuarioByGuidOrNombreUsuario(usuario.Guid, null, null, null);
+                    Usuario usuarioTemporal = await _service.GetUsuarioByGuid(usuario.Guid);
 
                     if (!usuarioActualizarClaveDto.Clave.validarClave())
                     {
-                        return StatusCode(400,  new 
+                        return StatusCode(202,  new 
                         { 
                             error = "La clave debe cumplir con el formato indicado."
                         });
@@ -189,7 +196,7 @@ namespace genmed_api.Controllers
 
                     if (usuarioTemporal.Email == null)
                     {
-                        return StatusCode(400,  new 
+                        return StatusCode(202,  new 
                         { 
                             error = "No existe usuario con el correo electronico indicado."
                         });
@@ -197,7 +204,7 @@ namespace genmed_api.Controllers
 
                     if (!usuarioActualizarClaveDto.Clave.Equals(usuarioActualizarClaveDto.ConfirmarClave))
                     {
-                        return StatusCode(400,  new 
+                        return StatusCode(202,  new 
                         { 
                             error = "Ambas claves deben ser iguales."
                         });
@@ -205,7 +212,7 @@ namespace genmed_api.Controllers
 
                     if (usuarioTemporal.Clave.Equals(usuarioActualizarClaveDto.Clave.Encrypt()))
                     {
-                        return StatusCode(400, new 
+                        return StatusCode(202, new 
                         { 
                             error = "Debes seleccionar una clave nueva."
                         });
@@ -242,7 +249,7 @@ namespace genmed_api.Controllers
                 {
                     Usuario usuario = new Usuario();
                     usuario = _mapper.Map<Usuario>(usuarioActualizarDto);
-                    Usuario usuarioTemporal = await _service.GetUsuarioByGuidOrNombreUsuario(usuario.Guid, null, null, null);
+                    Usuario usuarioTemporal = await _service.GetUsuarioByGuid(usuario.Guid);
                     
                     if (usuarioTemporal.Email == null)
                     {
@@ -302,14 +309,14 @@ namespace genmed_api.Controllers
 
             if (usuario == null)
             {
-                return StatusCode(401, new 
+                return StatusCode(202, new 
                 { 
                     error = "El nombre de usuario o la clave ha sido indicado de manera incorrecta" 
                 });
             }
 
             if (!usuario.Activo)
-                return StatusCode(401, new
+                return StatusCode(202, new
                 {
                     error = "El usuario ha sido desactivado"
                 });
@@ -364,7 +371,7 @@ namespace genmed_api.Controllers
             bool usuarioActivated = false;
             try
             {
-                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null, null);
+                usuario = await _service.GetUsuarioByGuid(guid);
 
                 if (usuario != null)
                 {
@@ -394,7 +401,7 @@ namespace genmed_api.Controllers
             bool usuarioDeactivated = true;
             try
             {
-                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null, null);
+                usuario = await _service.GetUsuarioByGuid(guid);
 
                 if (usuario != null)
                 {
@@ -426,7 +433,7 @@ namespace genmed_api.Controllers
             bool usuarioAsignado = false;
             try
             {
-                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null, null);
+                usuario = await _service.GetUsuarioByGuid(guid);
 
                 if (usuario != null)
                 {
@@ -457,7 +464,7 @@ namespace genmed_api.Controllers
             bool usuarioAsignado = false;
             try
             {
-                usuario = await _service.GetUsuarioByGuidOrNombreUsuario(guid, null, null, null);
+                usuario = await _service.GetUsuarioByGuid(guid);
 
                 if (usuario != null)
                 {
