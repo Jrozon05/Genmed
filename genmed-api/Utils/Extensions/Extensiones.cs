@@ -124,14 +124,13 @@ namespace genmed_api.Utils.Extensions
 
         public static bool verificarDisponibilidadUsuario(this Usuario usuario)
         {
+            bool isUsuarioAsignado = false;
+
             if (usuario.Activo)
             {
-                if(!usuario.Asignado)
-                {
-                    return true;
-                }
+                return usuario.Asignado;
             }
-            return false;
+            return isUsuarioAsignado;
         }
         #endregion
     }

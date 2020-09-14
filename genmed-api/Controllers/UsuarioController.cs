@@ -443,7 +443,7 @@ namespace genmed_api.Controllers
                     }
                     return StatusCode(200, new 
                     {
-                        error = $"El usuario{usuario.NombreUsuario} no esta disponible, por favor intente con otro."
+                        error = $"El usuario {usuario.NombreUsuario} no esta disponible, por favor intente con otro."
                     });
                 }
             }
