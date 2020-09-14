@@ -437,7 +437,14 @@ namespace genmed_api.Controllers
 
                 if (usuario != null)
                 {
-                    usuarioAsignado = await _service.AsignarUsuario(usuario);
+                    if(usuario.verificarDisponibilidadUsuario())
+                    {
+                        usuarioAsignado = await _service.AsignarUsuario(usuario);
+                    }
+                    return StatusCode(200, new 
+                    {
+                        error = $"El usuario{usuario.NombreUsuario} no esta disponible, por favor intente con otro."
+                    });
                 }
             }
             catch (Exception ex)
@@ -454,6 +461,11 @@ namespace genmed_api.Controllers
             });
         }
 
+        /*
+        TODO:
+            Elavuar si es necesario este metodo ya que los usuarios desactivados 
+            no son desasignados
+        */
         [HttpPost("desasignar/{guid}")]
         [Authorize]
         public async Task<IActionResult> DeasignarUsuario(Guid guid)
