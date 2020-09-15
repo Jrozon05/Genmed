@@ -10,7 +10,13 @@ namespace genmed_data.Services
     {
         #region Usuario
 
-        Task<Usuario> GetUsuarioByGuidOrNombreUsuario(Guid? guid = null, string nombreUsuario = null, int? usuarioId = null, string email = null);
+        Task<Usuario> GetUsuarioByGuid(Guid guid);
+
+        Task<Usuario> GetUsuarioByNombreUsuario(string nombreUsuario);
+
+        Task<Usuario> GetUsuarioByEmail(string email);
+
+        Task<Usuario> GetUsuarioByUsuarioId(int usuarioId);
 
         Task<List<Usuario>> GetUsuarioAsync();
 

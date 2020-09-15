@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using Reumed.Data.BusinessObjects;
 
 namespace genmed_api.Utils.Extensions
 {
@@ -120,7 +121,17 @@ namespace genmed_api.Utils.Extensions
 
             return true;
         }
-    
+
+        public static bool verificarDisponibilidadUsuario(this Usuario usuario)
+        {
+            bool isUsuarioAsignado = false;
+
+            if (usuario.Activo)
+            {
+                return usuario.Asignado;
+            }
+            return isUsuarioAsignado;
+        }
         #endregion
     }
 }

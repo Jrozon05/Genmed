@@ -10,7 +10,7 @@ namespace genmed_data.Database
 {
     internal partial class SQLDatabase
     {
-        public Usuario GetUsuario(Guid? guid = null, string nombreUsuario = null, int? usuarioId = null, string email = null)
+        public Usuario GetUsuarioByGuid(Guid guid)
         {
             var usuario = new Usuario();
 
@@ -23,7 +23,7 @@ namespace genmed_data.Database
                     using (IDbCommand cmd = connection.CreateCommand())
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.CommandText = "usp_GetUsuarioByGuidOrNombreUsuario";
+                        cmd.CommandText = "usp_GetUsuarioByGuid";
 
                         IDbDataParameter p = cmd.CreateParameter();
                         p.DbType = DbType.Guid;
@@ -31,22 +31,190 @@ namespace genmed_data.Database
                         p.Value = guid;
                         cmd.Parameters.Add(p);
 
-                        p = cmd.CreateParameter();
-                        p.DbType = DbType.Int32;
-                        p.ParameterName = "UsuarioId";
-                        p.Value = usuarioId;
-                        cmd.Parameters.Add(p);
+                        using (IDataReader dr = cmd.ExecuteReader())
+                        {
+                            usuario = null;
+                            while (dr.Read())
+                            {
+                                usuario = new Usuario();
+                                usuario.Rol = new Rol();
+                                usuario.Guid = dr.GetGuid(dr.GetOrdinal("guid"));
+                                usuario.UsuarioId = dr.GetInt32(dr.GetOrdinal("usuarioid"));
+                                usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
+                                usuario.Email = dr.GetString(dr.GetOrdinal("email"));
+                                usuario.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
+                                usuario.Rol.RolId = dr.GetInt32(dr.GetOrdinal("rolid"));
+                                usuario.Rol.Nombre = dr.GetString(dr.GetOrdinal("nombrerol"));
+                                usuario.Clave = dr.IsDBNull(dr.GetOrdinal("clave")) ? "" : dr.GetString(dr.GetOrdinal("clave"));
+                                if (!Convert.IsDBNull(dr["clavehash"]))
+                                    usuario.ClaveHash = (byte[])dr["clavehash"];
+                                else
+                                    usuario.ClaveHash = new byte[0];
+                                if (!Convert.IsDBNull(dr["clavesalt"]))
+                                    usuario.ClaveSalt = (byte[])dr["clavesalt"];
+                                else
+                                    usuario.ClaveSalt = new byte[0];
+                            }
 
+                            dr.Close();
+                        }
+                    }
+
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return usuario;
+        }
+
+        public Usuario GetUsuarioByNombreUsuario(string nombreUsuario = null)
+        {
+            var usuario = new Usuario();
+
+            try
+            {
+                using (IDbConnection connection = GetConfigurationConnection())
+                {
+                    connection.Open();
+
+                    using (IDbCommand cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "usp_GetUsuarioByNombreUsuario";
+
+                        IDbDataParameter p = cmd.CreateParameter();
                         p = cmd.CreateParameter();
                         p.DbType = DbType.String;
                         p.ParameterName = "NombreUsuario";
                         p.Value = nombreUsuario;
                         cmd.Parameters.Add(p);
 
+                        using (IDataReader dr = cmd.ExecuteReader())
+                        {
+                            usuario = null;
+                            while (dr.Read())
+                            {
+                                usuario = new Usuario();
+                                usuario.Rol = new Rol();
+                                usuario.Guid = dr.GetGuid(dr.GetOrdinal("guid"));
+                                usuario.UsuarioId = dr.GetInt32(dr.GetOrdinal("usuarioid"));
+                                usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
+                                usuario.Email = dr.GetString(dr.GetOrdinal("email"));
+                                usuario.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
+                                usuario.Rol.RolId = dr.GetInt32(dr.GetOrdinal("rolid"));
+                                usuario.Rol.Nombre = dr.GetString(dr.GetOrdinal("nombrerol"));
+                                usuario.Clave = dr.IsDBNull(dr.GetOrdinal("clave")) ? "" : dr.GetString(dr.GetOrdinal("clave"));
+                                if (!Convert.IsDBNull(dr["clavehash"]))
+                                    usuario.ClaveHash = (byte[])dr["clavehash"];
+                                else
+                                    usuario.ClaveHash = new byte[0];
+                                if (!Convert.IsDBNull(dr["clavesalt"]))
+                                    usuario.ClaveSalt = (byte[])dr["clavesalt"];
+                                else
+                                    usuario.ClaveSalt = new byte[0];
+                            }
+
+                            dr.Close();
+                        }
+                    }
+
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return usuario;
+        }
+
+        public Usuario GetUsuarioByEmail(string email = null)
+        {
+            var usuario = new Usuario();
+
+            try
+            {
+                using (IDbConnection connection = GetConfigurationConnection())
+                {
+                    connection.Open();
+
+                    using (IDbCommand cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "usp_GetUsuarioByEmail";
+
+                        IDbDataParameter p = cmd.CreateParameter();
                         p = cmd.CreateParameter();
                         p.DbType = DbType.String;
                         p.ParameterName = "Email";
                         p.Value = email;
+                        cmd.Parameters.Add(p);
+
+                        using (IDataReader dr = cmd.ExecuteReader())
+                        {
+                            usuario = null;
+                            while (dr.Read())
+                            {
+                                usuario = new Usuario();
+                                usuario.Rol = new Rol();
+                                usuario.Guid = dr.GetGuid(dr.GetOrdinal("guid"));
+                                usuario.UsuarioId = dr.GetInt32(dr.GetOrdinal("usuarioid"));
+                                usuario.NombreUsuario = dr.GetString(dr.GetOrdinal("nombreusuario"));
+                                usuario.Email = dr.GetString(dr.GetOrdinal("email"));
+                                usuario.Activo = dr.GetBoolean(dr.GetOrdinal("activo"));
+                                usuario.Rol.RolId = dr.GetInt32(dr.GetOrdinal("rolid"));
+                                usuario.Rol.Nombre = dr.GetString(dr.GetOrdinal("nombrerol"));
+                                usuario.Clave = dr.IsDBNull(dr.GetOrdinal("clave")) ? "" : dr.GetString(dr.GetOrdinal("clave"));
+                                if (!Convert.IsDBNull(dr["clavehash"]))
+                                    usuario.ClaveHash = (byte[])dr["clavehash"];
+                                else
+                                    usuario.ClaveHash = new byte[0];
+                                if (!Convert.IsDBNull(dr["clavesalt"]))
+                                    usuario.ClaveSalt = (byte[])dr["clavesalt"];
+                                else
+                                    usuario.ClaveSalt = new byte[0];
+                            }
+
+                            dr.Close();
+                        }
+                    }
+
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return usuario;
+        }
+
+        public Usuario GetUsuarioByUsuarioId(int usuarioId)
+        {
+            var usuario = new Usuario();
+
+            try
+            {
+                using (IDbConnection connection = GetConfigurationConnection())
+                {
+                    connection.Open();
+
+                    using (IDbCommand cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "usp_GetUsuarioByUsuarioId";
+
+                        IDbDataParameter p = cmd.CreateParameter();
+                        p = cmd.CreateParameter();
+                        p.DbType = DbType.Int32;
+                        p.ParameterName = "UsuarioId";
+                        p.Value = usuarioId;
                         cmd.Parameters.Add(p);
 
                         using (IDataReader dr = cmd.ExecuteReader())

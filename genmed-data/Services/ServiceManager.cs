@@ -25,7 +25,7 @@ namespace genmed_data.Services
 
         public async Task<Usuario> Login(string nombreUsuario, string clave)
         {
-            var usuario = await GetUsuarioByGuidOrNombreUsuario(null, nombreUsuario, null, null);
+            var usuario = await GetUsuarioByNombreUsuario(nombreUsuario);
 
             if (usuario == null || usuario.ClaveHash == null && usuario.ClaveSalt == null)
                 return null;
@@ -54,7 +54,7 @@ namespace genmed_data.Services
                 if (usuario == null || usuarioCreated == null)
                     return updated;
 
-                usuario = await GetUsuarioByGuidOrNombreUsuario(usuarioCreated.Guid, null, null, null);
+                usuario = await GetUsuarioByGuid(usuarioCreated.Guid);
                 if (usuario != null)
                     updated = true;
             }
@@ -80,7 +80,7 @@ namespace genmed_data.Services
                 if (usuario == null || usuarioCreated == null)
                     return null;
 
-                usuario = await GetUsuarioByGuidOrNombreUsuario(usuarioCreated.Guid, null, null, null);
+                usuario = await GetUsuarioByGuid(usuarioCreated.Guid);
             }
             catch (Exception ex)
             {
@@ -93,9 +93,24 @@ namespace genmed_data.Services
             return usuario;
         }
 
-        public async Task<Usuario> GetUsuarioByGuidOrNombreUsuario(Guid? guid = null, string nombreUsuario = null, int? usuarioId = null, string email = null)
+        public async Task<Usuario> GetUsuarioByGuid(Guid guid)
         {
-            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuario(guid, nombreUsuario, usuarioId, email); });
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuarioByGuid(guid); });
+        }
+
+        public async Task<Usuario> GetUsuarioByNombreUsuario(string nombreUsuario)
+        {
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuarioByNombreUsuario(nombreUsuario); });
+        }
+
+        public async Task<Usuario> GetUsuarioByEmail(string email)
+        {
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuarioByEmail(email); });
+        }
+
+        public async Task<Usuario> GetUsuarioByUsuarioId(int usuarioId)
+        {
+            return await Task.Factory.StartNew(() => { return Factory.GetDatabase().GetUsuarioByUsuarioId(usuarioId); });
         }
 
         public async Task<bool> ActivateUsuario(Usuario usuario)

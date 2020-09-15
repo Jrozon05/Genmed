@@ -5,11 +5,11 @@ export const usuario = {
     },
     actions: {
         setUsuarioGuid ({ commit }, guid) {
-            commit('getUsuarioGuid', guid)
+            commit('getUsuarioByGuid', guid)
         }
     },
     mutations: {
-        getUsuarioGuid (state, guid) {
+        getUsuarioByGuid (state, guid) {
             state.usuarioGuid = guid
         }
     },
