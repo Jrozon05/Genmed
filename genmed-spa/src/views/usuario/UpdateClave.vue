@@ -102,7 +102,7 @@ export default {
                 if (data.flag) {
                     this.$alertify.success('Clave Salvado...')
                 } else {
-                    this.$alertify.warning('Error en salvar clave')
+                    this.$alertify.warning('Error salvando la clave')
                 }
             }
         )
