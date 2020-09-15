@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using genmed_api.Entidad;
 using genmed_data.Database;
 using genmed_data.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -26,12 +27,12 @@ namespace genmed_api.Controllers
 
             if (provincias == null)
             {
-                return StatusCode(400, new {
+                return StatusCode(Status.BadRequest, new {
                     error = errMsg
                 });
             }
 
-            return StatusCode(200, provincias);
+            return StatusCode(Status.OK, provincias);
         }
 
         [HttpGet("ciudades/{provinciaid}")]
@@ -43,12 +44,12 @@ namespace genmed_api.Controllers
 
             if (ciudades == null)
             {
-                return StatusCode(400, new {
+                return StatusCode(Status.BadRequest, new {
                     error = errMsg
                 });
             }
 
-            return StatusCode(200, ciudades);
+            return StatusCode(Status.OK, ciudades);
         }
 
         [HttpGet("sectores")]
@@ -60,12 +61,12 @@ namespace genmed_api.Controllers
 
             if (sectores == null)
             {
-                return StatusCode(400, new {
+                return StatusCode(Status.BadRequest, new {
                     error = errMsg
                 });
             }
 
-            return StatusCode(200, sectores);
+            return StatusCode(Status.OK, sectores);
         }
     }
 }

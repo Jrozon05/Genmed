@@ -13,6 +13,7 @@ using Reumed.Data.BusinessObjects;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Caching.Memory;
+using genmed_api.Entidad;
 
 namespace genmed_api.Controllers
 {
@@ -44,13 +45,13 @@ namespace genmed_api.Controllers
 
             if (doctores == null)
             {
-                return StatusCode(400, new 
+                return StatusCode(Status.BadRequest, new 
                 { 
                     error = errMsg
                 });
             }
 
-            return StatusCode(200, doctores);
+            return StatusCode(Status.OK, doctores);
         }
 
         [HttpGet("{guid}")]
@@ -62,13 +63,13 @@ namespace genmed_api.Controllers
 
             if (doctor == null)
             {
-                return StatusCode(400, new 
+                return StatusCode(Status.BadRequest, new 
                 { 
                     error = errMsg
                 });
             }
 
-            return StatusCode(200, doctor);
+            return StatusCode(Status.OK, doctor);
         }
 
         [HttpPost("registrar")]
@@ -86,7 +87,7 @@ namespace genmed_api.Controllers
 
                     if( !doctorRegistrarDto.Nombre.validarNombreApellido())
                     {
-                        return StatusCode(400, new 
+                        return StatusCode(Status.BadRequest, new 
                         { 
                             error = "El nombre debe cumplir con el formato correcto."
                         });
@@ -94,7 +95,7 @@ namespace genmed_api.Controllers
 
                     if(!doctorRegistrarDto.Apellido.validarNombreApellido())
                     {
-                        return StatusCode(400, new 
+                        return StatusCode(Status.BadRequest, new 
                         { 
                             error = "El apellido debe cumplir con el formato correcto."
                         });
@@ -102,7 +103,7 @@ namespace genmed_api.Controllers
 
                     if(!doctorRegistrarDto.Posicion.validarPosicion())
                     {
-                        return StatusCode(400, new 
+                        return StatusCode(Status.BadRequest, new 
                         { 
                             error = "La posicion debe cumplir con el formato correcto."
                         });
@@ -114,13 +115,13 @@ namespace genmed_api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(400, new 
+                    return StatusCode(Status.BadRequest, new 
                     { 
                         error = errMsg + ex
                     });
                 }
             }
-            return StatusCode(200, doctorCreated);
+            return StatusCode(Status.OK, doctorCreated);
         }
 
         [HttpPost("actualizar")]
@@ -134,7 +135,7 @@ namespace genmed_api.Controllers
             
             if(usuario == null)
             {
-                return StatusCode(400, new 
+                return StatusCode(Status.BadRequest, new 
                 { 
                     error = "No se ha seleccionado un usuario de manera apropiada."
                 });
@@ -142,7 +143,7 @@ namespace genmed_api.Controllers
 
             if(doctorTemp == null)
             {
-                return StatusCode(400, new 
+                return StatusCode(Status.BadRequest, new 
                 { 
                     error = "Se ha intentado actualizar un doctor no registrado en el sistema."
                 });
@@ -159,7 +160,7 @@ namespace genmed_api.Controllers
 
                     if( !doctorActualizarDto.Nombre.validarNombreApellido())
                     {
-                        return StatusCode(400, new 
+                        return StatusCode(Status.BadRequest, new 
                         { 
                             error = "El nombre debe cumplir con el formato correcto."
                         });
@@ -167,7 +168,7 @@ namespace genmed_api.Controllers
 
                     if(!doctorActualizarDto.Apellido.validarNombreApellido())
                     {
-                        return StatusCode(400, new 
+                        return StatusCode(Status.BadRequest, new 
                         { 
                             error = "El apellido debe cumplir con el formato correcto."
                         });
@@ -175,7 +176,7 @@ namespace genmed_api.Controllers
 
                     if( !doctorActualizarDto.Posicion.validarPosicion())
                     {
-                        return StatusCode(400, new 
+                        return StatusCode(Status.BadRequest, new 
                         { 
                             error = "La posicion debe cumplir con el formato correcto."
                         });
@@ -187,13 +188,13 @@ namespace genmed_api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(400, new 
+                    return StatusCode(Status.BadRequest, new 
                 { 
                     error = errMsg + ex
                 });
                 }
             }
-            return StatusCode(200, doctorUpdated);
+            return StatusCode(Status.OK, doctorUpdated);
         }
 
         [HttpPost("activar/{guid}")]
@@ -216,12 +217,12 @@ namespace genmed_api.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(400, new 
+                return StatusCode(Status.BadRequest, new 
                 { 
                     error = errMsg + ex
                 });
             }
-            return StatusCode(200, new 
+            return StatusCode(Status.OK, new 
                 { 
                     flag = doctorActivated
                 });
@@ -247,12 +248,12 @@ namespace genmed_api.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(400, new 
+                return StatusCode(Status.BadRequest, new 
                 { 
                     error = errMsg + ex
                 });
             }
-            return StatusCode(200, new 
+            return StatusCode(Status.OK, new 
                 { 
                     flag = doctorDeactivated
                 });
