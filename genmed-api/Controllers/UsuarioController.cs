@@ -185,7 +185,7 @@ namespace genmed_api.Controllers
 
                     if (!usuarioActualizarClaveDto.Clave.validarClave())
                     {
-                        return StatusCode(Status.BadRequest,  new 
+                        return StatusCode(Status.Accepted,  new 
                         { 
                             error = "La clave debe cumplir con el formato indicado."
                         });
@@ -193,7 +193,7 @@ namespace genmed_api.Controllers
 
                     if (usuarioTemporal.Email == null)
                     {
-                        return StatusCode(Status.BadRequest,  new 
+                        return StatusCode(Status.Accepted,  new 
                         { 
                             error = "No existe usuario con el correo electronico indicado."
                         });
@@ -201,7 +201,7 @@ namespace genmed_api.Controllers
 
                     if (!usuarioActualizarClaveDto.Clave.Equals(usuarioActualizarClaveDto.ConfirmarClave))
                     {
-                        return StatusCode(Status.BadRequest,  new 
+                        return StatusCode(Status.Accepted,  new 
                         { 
                             error = "Ambas claves deben ser iguales."
                         });
@@ -209,7 +209,7 @@ namespace genmed_api.Controllers
 
                     if (usuarioTemporal.Clave.Equals(usuarioActualizarClaveDto.Clave.Encrypt()))
                     {
-                        return StatusCode(Status.BadRequest, new 
+                        return StatusCode(Status.Accepted, new 
                         { 
                             error = "Debes seleccionar una clave nueva."
                         });
@@ -250,7 +250,7 @@ namespace genmed_api.Controllers
                     
                     if (usuarioTemporal.Email == null)
                     {
-                        return StatusCode(Status.BadRequest,  new 
+                        return StatusCode(Status.Accepted,  new 
                         { 
                             error = "El correo electronico indicado es nulo."
                         });
@@ -258,7 +258,7 @@ namespace genmed_api.Controllers
                     
                     if(!usuarioTemporal.Email.Equals(usuario.Email))
                     {
-                        return StatusCode(Status.BadRequest,  new 
+                        return StatusCode(Status.Accepted,  new 
                         { 
                             error = "Se ha intentado modificar el correo electronico para el usuario indicado."
                         });
@@ -266,7 +266,7 @@ namespace genmed_api.Controllers
 
                     if(!usuarioActualizarDto.NombreUsuario.validarUserName())
                     {
-                        return StatusCode(Status.BadRequest,  new 
+                        return StatusCode(Status.Accepted,  new 
                         { 
                             error = "El nombre de usuario debe cumplir con el patron correcto."
                         });
@@ -274,7 +274,7 @@ namespace genmed_api.Controllers
 
                     if(!usuarioActualizarDto.Email.validarEmail())
                     {
-                        return StatusCode(Status.BadRequest,  new 
+                        return StatusCode(Status.Accepted,  new 
                         { 
                             error = "El correo electronico debe cumplir con el patron correcto."
                         });
@@ -286,7 +286,7 @@ namespace genmed_api.Controllers
 
                 catch (Exception ex)
                 {
-                    return StatusCode(Status.BadRequest, new 
+                    return StatusCode(Status.Accepted, new 
                     { 
                         error = errMsg + ex
                     });

@@ -27,7 +27,7 @@ namespace genmed_api.Controllers
 
             if (provincias == null)
             {
-                return StatusCode(Status.BadRequest, new {
+                return StatusCode(Status.NoContent, new {
                     error = errMsg
                 });
             }
@@ -44,7 +44,7 @@ namespace genmed_api.Controllers
 
             if (ciudades == null)
             {
-                return StatusCode(Status.BadRequest, new {
+                return StatusCode(Status.NoContent, new {
                     error = errMsg
                 });
             }
@@ -61,7 +61,7 @@ namespace genmed_api.Controllers
 
             if (sectores == null)
             {
-                return StatusCode(Status.BadRequest, new {
+                return StatusCode(Status.NoContent, new {
                     error = errMsg
                 });
             }

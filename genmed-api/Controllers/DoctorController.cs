@@ -45,7 +45,7 @@ namespace genmed_api.Controllers
 
             if (doctores == null)
             {
-                return StatusCode(Status.BadRequest, new 
+                return StatusCode(Status.NoContent, new 
                 { 
                     error = errMsg
                 });
@@ -63,7 +63,7 @@ namespace genmed_api.Controllers
 
             if (doctor == null)
             {
-                return StatusCode(Status.BadRequest, new 
+                return StatusCode(Status.NoContent, new 
                 { 
                     error = errMsg
                 });
@@ -87,7 +87,7 @@ namespace genmed_api.Controllers
 
                     if( !doctorRegistrarDto.Nombre.validarNombreApellido())
                     {
-                        return StatusCode(Status.BadRequest, new 
+                        return StatusCode(Status.Accepted, new 
                         { 
                             error = "El nombre debe cumplir con el formato correcto."
                         });
@@ -95,7 +95,7 @@ namespace genmed_api.Controllers
 
                     if(!doctorRegistrarDto.Apellido.validarNombreApellido())
                     {
-                        return StatusCode(Status.BadRequest, new 
+                        return StatusCode(Status.Accepted, new 
                         { 
                             error = "El apellido debe cumplir con el formato correcto."
                         });
@@ -103,7 +103,7 @@ namespace genmed_api.Controllers
 
                     if(!doctorRegistrarDto.Posicion.validarPosicion())
                     {
-                        return StatusCode(Status.BadRequest, new 
+                        return StatusCode(Status.Accepted, new 
                         { 
                             error = "La posicion debe cumplir con el formato correcto."
                         });
@@ -135,7 +135,7 @@ namespace genmed_api.Controllers
             
             if(usuario == null)
             {
-                return StatusCode(Status.BadRequest, new 
+                return StatusCode(Status.Accepted, new 
                 { 
                     error = "No se ha seleccionado un usuario de manera apropiada."
                 });
@@ -143,7 +143,7 @@ namespace genmed_api.Controllers
 
             if(doctorTemp == null)
             {
-                return StatusCode(Status.BadRequest, new 
+                return StatusCode(Status.Accepted, new 
                 { 
                     error = "Se ha intentado actualizar un doctor no registrado en el sistema."
                 });
@@ -160,7 +160,7 @@ namespace genmed_api.Controllers
 
                     if( !doctorActualizarDto.Nombre.validarNombreApellido())
                     {
-                        return StatusCode(Status.BadRequest, new 
+                        return StatusCode(Status.Accepted, new 
                         { 
                             error = "El nombre debe cumplir con el formato correcto."
                         });
@@ -168,7 +168,7 @@ namespace genmed_api.Controllers
 
                     if(!doctorActualizarDto.Apellido.validarNombreApellido())
                     {
-                        return StatusCode(Status.BadRequest, new 
+                        return StatusCode(Status.Accepted, new 
                         { 
                             error = "El apellido debe cumplir con el formato correcto."
                         });
@@ -176,7 +176,7 @@ namespace genmed_api.Controllers
 
                     if( !doctorActualizarDto.Posicion.validarPosicion())
                     {
-                        return StatusCode(Status.BadRequest, new 
+                        return StatusCode(Status.Accepted, new 
                         { 
                             error = "La posicion debe cumplir con el formato correcto."
                         });

@@ -93,12 +93,13 @@ export default {
         UsuarioService.UpdateClave(usuarioData).then(
             response => {
                 const data = response.data
+                
                 if (data.error) {
-                this.alert = true
-                this.message = data.error
-                return this.message
-            }
-            this.alert = false
+                  this.alert = true
+                  this.message = data.error
+                  return this.message
+                }
+                this.alert = false
                 if (data.flag) {
                     this.$alertify.success('Clave Salvado...')
                 } else {
